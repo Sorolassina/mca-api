@@ -1,14 +1,15 @@
-from pydantic import BaseModel, validator
+from pydantic import BaseModel, validator, Field
 
 # Définition du modèle de requête avec Pydantic
 class HTMLInput(BaseModel):
-    html_content: str
-
+    html_content: str = Field(..., title="Contenu HTML à convertir en PDF")
+    filename: str = Field("document.pdf", title="Nom du fichier PDF généré")
 
 class HTMLFileInput(BaseModel):
     content: str
-    filename: str
+    filename: str = Field("document.pdf", title="Nom du fichier PDF généré")
 
+    
 
     @validator("filename")
     def validate_filename(cls, v):
