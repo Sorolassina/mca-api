@@ -12,6 +12,14 @@ FICHIERS_DIR = os.path.join(BASE_DIR, "..", "fichiers")
 # 📌 S'assurer que le dossier existe
 os.makedirs(FICHIERS_DIR, exist_ok=True)
 
+
+# Dossiers pour stocker les cartes et images
+STATIC_MAPS_DIR = "app/static/maps/"
+STATIC_IMAGES_DIR = "app/static/images/"
+# Créer les dossiers s'ils n'existent pas
+os.makedirs(STATIC_MAPS_DIR, exist_ok=True)
+os.makedirs(STATIC_IMAGES_DIR, exist_ok=True)
+
 def get_pdf_path(filename: str) -> str:
     """ Retourne le chemin absolu d'un fichier PDF dans le dossier fichiers/ """
     return os.path.join(FICHIERS_DIR, filename)

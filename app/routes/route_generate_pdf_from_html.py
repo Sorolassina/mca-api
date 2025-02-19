@@ -26,7 +26,6 @@ def generate_pdf(data: HTMLInput):
         headers={"Content-Disposition": "attachment; filename=generated.pdf"}
     )  # ✅ Retourne correctement le fichier PDF
 
-
 @router.post("/generate-pdf-from-file", response_class=FileResponse)
 async def generate_pdf_from_html_file(file: UploadFile = File(...)):
 
