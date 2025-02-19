@@ -9,3 +9,6 @@ __pycache__/
 .env
 
 fichiers/*.pdf
+
+app/static/images/*.png
+app/static/maps/*.html
