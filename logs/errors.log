@@ -1,0 +1,321 @@
+2025-02-20 14:56:27 - INFO - \U0001f30d GET http://127.0.0.1:8000/api-mca/v1/documentation - 200 - 0.00s
+2025-02-20 14:56:27 - INFO - \U0001f30d GET http://127.0.0.1:8000/api-mca/v1/mycreo.json - 200 - 0.01s
+2025-02-20 14:58:31 - INFO - \U0001f30d GET http://127.0.0.1:8000/api-mca/v1/mycreo.json - 200 - 0.00s
+2025-02-20 21:37:35 - INFO - select pg_catalog.version()
+2025-02-20 21:37:35 - INFO - [raw sql] ()
+2025-02-20 21:37:35 - INFO - select current_schema()
+2025-02-20 21:37:35 - INFO - [raw sql] ()
+2025-02-20 21:37:35 - INFO - show standard_conforming_strings
+2025-02-20 21:37:35 - INFO - [raw sql] ()
+2025-02-20 21:37:35 - INFO - BEGIN (implicit)
+2025-02-20 21:37:35 - INFO - SELECT users.id, users.username, users.email, users.hashed_password, users.is_active, users.is_superuser, users.token 
+FROM users 
+WHERE users.username = $1::VARCHAR
+2025-02-20 21:37:35 - INFO - [generated in 0.00083s] ('admin',)
+2025-02-20 21:37:35 - INFO - ROLLBACK
+2025-02-20 21:38:19 - INFO - BEGIN (implicit)
+2025-02-20 21:38:19 - INFO - SELECT users.id, users.username, users.email, users.hashed_password, users.is_active, users.is_superuser, users.token 
+FROM users 
+WHERE users.username = $1::VARCHAR
+2025-02-20 21:38:19 - INFO - [cached since 44.31s ago] ('admin',)
+2025-02-20 21:38:19 - INFO - ROLLBACK
+2025-02-20 21:46:31 - INFO - select pg_catalog.version()
+2025-02-20 21:46:31 - INFO - [raw sql] ()
+2025-02-20 21:46:31 - INFO - select current_schema()
+2025-02-20 21:46:31 - INFO - [raw sql] ()
+2025-02-20 21:46:31 - INFO - show standard_conforming_strings
+2025-02-20 21:46:31 - INFO - [raw sql] ()
+2025-02-20 21:46:31 - INFO - BEGIN (implicit)
+2025-02-20 21:46:31 - INFO - SELECT users.id, users.username, users.email, users.hashed_password, users.is_active, users.is_superuser, users.token 
+FROM users 
+WHERE users.username = $1::VARCHAR
+2025-02-20 21:46:31 - INFO - [generated in 0.00059s] ('admin',)
+2025-02-20 21:46:31 - INFO - ROLLBACK
+2025-02-21 09:56:11 - INFO - \U0001f30d GET http://127.0.0.1:8000/ - 307 - 0.00s
+2025-02-21 09:56:11 - INFO - \U0001f30d GET http://127.0.0.1:8000/api-mca/v1/documentation - 200 - 0.00s
+2025-02-21 09:56:11 - INFO - \U0001f30d GET http://127.0.0.1:8000/api-mca/v1/mycreo.json - 200 - 0.01s
+2025-02-21 10:01:21 - INFO - select pg_catalog.version()
+2025-02-21 10:01:21 - INFO - [raw sql] ()
+2025-02-21 10:01:21 - INFO - select current_schema()
+2025-02-21 10:01:21 - INFO - [raw sql] ()
+2025-02-21 10:01:21 - INFO - show standard_conforming_strings
+2025-02-21 10:01:21 - INFO - [raw sql] ()
+2025-02-21 10:01:21 - INFO - BEGIN (implicit)
+2025-02-21 10:01:21 - INFO - SELECT users.id, users.username, users.email, users.hashed_password, users.is_active, users.is_superuser, users.token 
+FROM users 
+WHERE users.username = $1::VARCHAR
+2025-02-21 10:01:21 - INFO - [generated in 0.00074s] ('admin',)
+2025-02-21 10:01:22 - INFO - \U0001f30d POST http://127.0.0.1:8000/api-mca/v1/token - 422 - 0.01s
+2025-02-21 10:01:22 - INFO - ROLLBACK
+2025-02-21 10:01:52 - INFO - BEGIN (implicit)
+2025-02-21 10:01:52 - INFO - SELECT users.id, users.username, users.email, users.hashed_password, users.is_active, users.is_superuser, users.token 
+FROM users 
+WHERE users.username = $1::VARCHAR
+2025-02-21 10:01:52 - INFO - [cached since 30.55s ago] ('admin',)
+2025-02-21 10:01:52 - INFO - \U0001f30d POST http://127.0.0.1:8000/api-mca/v1/token - 422 - 0.00s
+2025-02-21 10:01:52 - INFO - ROLLBACK
+2025-02-21 10:04:41 - INFO - BEGIN (implicit)
+2025-02-21 10:04:41 - INFO - SELECT users.id, users.username, users.email, users.hashed_password, users.is_active, users.is_superuser, users.token 
+FROM users 
+WHERE users.username = $1::VARCHAR
+2025-02-21 10:04:41 - INFO - [cached since 199.6s ago] ('admin',)
+2025-02-21 10:04:41 - CRITICAL - \U0001f525 CRITICAL ERROR: POST http://127.0.0.1:8000/api-mca/v1/token 
+Traceback (most recent call last):
+  File "C:\Users\SOROLASSINA\OneDrive\Bureau\5.PYTHON FORMATION\MonAPI\FASTAPI\env\Lib\site-packages\anyio\streams\memory.py", line 111, in receive
+    return self.receive_nowait()
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\SOROLASSINA\OneDrive\Bureau\5.PYTHON FORMATION\MonAPI\FASTAPI\env\Lib\site-packages\anyio\streams\memory.py", line 106, in receive_nowait
+    raise WouldBlock
+anyio.WouldBlock
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\SOROLASSINA\OneDrive\Bureau\5.PYTHON FORMATION\MonAPI\FASTAPI\env\Lib\site-packages\anyio\streams\memory.py", line 124, in receive
+    return receiver.item
+           ^^^^^^^^^^^^^
+AttributeError: 'MemoryObjectItemReceiver' object has no attribute 'item'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\SOROLASSINA\OneDrive\Bureau\5.PYTHON FORMATION\MonAPI\FASTAPI\env\Lib\site-packages\starlette\middleware\base.py", line 148, in call_next
+    message = await recv_stream.receive()
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\SOROLASSINA\OneDrive\Bureau\5.PYTHON FORMATION\MonAPI\FASTAPI\env\Lib\site-packages\anyio\streams\memory.py", line 126, in receive
+    raise EndOfStream
+anyio.EndOfStream
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\SOROLASSINA\OneDrive\Bureau\5.PYTHON FORMATION\MonAPI\FASTAPI\middlewares.py", line 76, in error_handling_middleware
+    response = await call_next(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\SOROLASSINA\OneDrive\Bureau\5.PYTHON FORMATION\MonAPI\FASTAPI\env\Lib\site-packages\starlette\middleware\base.py", line 154, in call_next
+    raise app_exc
+  File "C:\Users\SOROLASSINA\OneDrive\Bureau\5.PYTHON FORMATION\MonAPI\FASTAPI\env\Lib\site-packages\starlette\middleware\base.py", line 141, in coro
+    await self.app(scope, receive_or_disconnect, send_no_error)
+  File "C:\Users\SOROLASSINA\OneDrive\Bureau\5.PYTHON FORMATION\MonAPI\FASTAPI\env\Lib\site-packages\starlette\middleware\base.py", line 177, in __call__
+    with recv_stream, send_stream, collapse_excgroups():
+  File "C:\Users\SOROLASSINA\AppData\Local\Programs\Python\Python312\Lib\contextlib.py", line 158, in __exit__
+    self.gen.throw(value)
+  File "C:\Users\SOROLASSINA\OneDrive\Bureau\5.PYTHON FORMATION\MonAPI\FASTAPI\env\Lib\site-packages\starlette\_utils.py", line 82, in collapse_excgroups
+    raise exc
+  File "C:\Users\SOROLASSINA\OneDrive\Bureau\5.PYTHON FORMATION\MonAPI\FASTAPI\env\Lib\site-packages\starlette\middleware\base.py", line 179, in __call__
+    response = await self.dispatch_func(request, call_next)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\SOROLASSINA\OneDrive\Bureau\5.PYTHON FORMATION\MonAPI\FASTAPI\middlewares.py", line 64, in request_logger_middleware
+    response = await call_next(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\SOROLASSINA\OneDrive\Bureau\5.PYTHON FORMATION\MonAPI\FASTAPI\env\Lib\site-packages\starlette\middleware\base.py", line 154, in call_next
+    raise app_exc
+  File "C:\Users\SOROLASSINA\OneDrive\Bureau\5.PYTHON FORMATION\MonAPI\FASTAPI\env\Lib\site-packages\starlette\middleware\base.py", line 141, in coro
+    await self.app(scope, receive_or_disconnect, send_no_error)
+  File "C:\Users\SOROLASSINA\OneDrive\Bureau\5.PYTHON FORMATION\MonAPI\FASTAPI\env\Lib\site-packages\starlette\middleware\exceptions.py", line 62, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "C:\Users\SOROLASSINA\OneDrive\Bureau\5.PYTHON FORMATION\MonAPI\FASTAPI\env\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "C:\Users\SOROLASSINA\OneDrive\Bureau\5.PYTHON FORMATION\MonAPI\FASTAPI\env\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "C:\Users\SOROLASSINA\OneDrive\Bureau\5.PYTHON FORMATION\MonAPI\FASTAPI\env\Lib\site-packages\starlette\routing.py", line 715, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "C:\Users\SOROLASSINA\OneDrive\Bureau\5.PYTHON FORMATION\MonAPI\FASTAPI\env\Lib\site-packages\starlette\routing.py", line 735, in app
+    await route.handle(scope, receive, send)
+  File "C:\Users\SOROLASSINA\OneDrive\Bureau\5.PYTHON FORMATION\MonAPI\FASTAPI\env\Lib\site-packages\starlette\routing.py", line 288, in handle
+    await self.app(scope, receive, send)
+  File "C:\Users\SOROLASSINA\OneDrive\Bureau\5.PYTHON FORMATION\MonAPI\FASTAPI\env\Lib\site-packages\starlette\routing.py", line 76, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "C:\Users\SOROLASSINA\OneDrive\Bureau\5.PYTHON FORMATION\MonAPI\FASTAPI\env\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "C:\Users\SOROLASSINA\OneDrive\Bureau\5.PYTHON FORMATION\MonAPI\FASTAPI\env\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "C:\Users\SOROLASSINA\OneDrive\Bureau\5.PYTHON FORMATION\MonAPI\FASTAPI\env\Lib\site-packages\starlette\routing.py", line 73, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "C:\Users\SOROLASSINA\OneDrive\Bureau\5.PYTHON FORMATION\MonAPI\FASTAPI\env\Lib\site-packages\fastapi\routing.py", line 301, in app
+    raw_response = await run_endpoint_function(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\SOROLASSINA\OneDrive\Bureau\5.PYTHON FORMATION\MonAPI\FASTAPI\env\Lib\site-packages\fastapi\routing.py", line 212, in run_endpoint_function
+    return await dependant.call(**values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\SOROLASSINA\OneDrive\Bureau\5.PYTHON FORMATION\MonAPI\FASTAPI\app\security\auth.py", line 72, in login_or_register
+    if not verify_password(form_data.password, user.hashed_password):
+                                               ^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'coroutine' object has no attribute 'hashed_password'
+
+2025-02-21 10:04:41 - INFO - ROLLBACK
+2025-02-21 10:13:33 - INFO - select pg_catalog.version()
+2025-02-21 10:13:33 - INFO - [raw sql] ()
+2025-02-21 10:13:33 - INFO - select current_schema()
+2025-02-21 10:13:33 - INFO - [raw sql] ()
+2025-02-21 10:13:33 - INFO - show standard_conforming_strings
+2025-02-21 10:13:34 - INFO - [raw sql] ()
+2025-02-21 10:13:34 - INFO - BEGIN (implicit)
+2025-02-21 10:13:34 - INFO - SELECT users.id, users.username, users.email, users.hashed_password, users.is_active, users.is_superuser, users.token 
+FROM users 
+WHERE users.username = $1::VARCHAR
+2025-02-21 10:13:34 - INFO - [generated in 0.00269s] ('admin',)
+2025-02-21 10:13:34 - INFO - SELECT users.id, users.username, users.email, users.hashed_password, users.is_active, users.is_superuser, users.token 
+FROM users 
+WHERE users.username = $1::VARCHAR
+2025-02-21 10:13:34 - INFO - [cached since 0.0171s ago] ('admin',)
+2025-02-21 10:13:34 - INFO - ROLLBACK
+2025-02-21 10:42:59 - INFO - select pg_catalog.version()
+2025-02-21 10:42:59 - INFO - [raw sql] ()
+2025-02-21 10:42:59 - INFO - select current_schema()
+2025-02-21 10:42:59 - INFO - [raw sql] ()
+2025-02-21 10:42:59 - INFO - show standard_conforming_strings
+2025-02-21 10:42:59 - INFO - [raw sql] ()
+2025-02-21 10:42:59 - INFO - BEGIN (implicit)
+2025-02-21 10:42:59 - INFO - SELECT users.id, users.username, users.email, users.hashed_password, users.is_active, users.is_superuser, users.token 
+FROM users 
+WHERE users.username = $1::VARCHAR
+2025-02-21 10:42:59 - INFO - [generated in 0.00051s] ('admin',)
+2025-02-21 10:42:59 - INFO - SELECT users.id, users.username, users.email, users.hashed_password, users.is_active, users.is_superuser, users.token 
+FROM users 
+WHERE users.username = $1::VARCHAR
+2025-02-21 10:42:59 - INFO - [cached since 0.01371s ago] ('admin',)
+2025-02-21 10:42:59 - INFO - ROLLBACK
+2025-02-21 10:43:02 - INFO - BEGIN (implicit)
+2025-02-21 10:43:02 - INFO - SELECT users.id, users.username, users.email, users.hashed_password, users.is_active, users.is_superuser, users.token 
+FROM users 
+WHERE users.username = $1::VARCHAR
+2025-02-21 10:43:02 - INFO - [cached since 2.582s ago] ('admin',)
+2025-02-21 10:43:02 - INFO - SELECT users.id, users.username, users.email, users.hashed_password, users.is_active, users.is_superuser, users.token 
+FROM users 
+WHERE users.username = $1::VARCHAR
+2025-02-21 10:43:02 - INFO - [cached since 2.588s ago] ('admin',)
+2025-02-21 10:43:02 - INFO - ROLLBACK
+2025-02-21 10:44:07 - INFO - select pg_catalog.version()
+2025-02-21 10:44:07 - INFO - [raw sql] ()
+2025-02-21 10:44:07 - INFO - select current_schema()
+2025-02-21 10:44:07 - INFO - [raw sql] ()
+2025-02-21 10:44:07 - INFO - show standard_conforming_strings
+2025-02-21 10:44:07 - INFO - [raw sql] ()
+2025-02-21 10:44:07 - INFO - BEGIN (implicit)
+2025-02-21 10:44:07 - INFO - SELECT users.id, users.username, users.email, users.hashed_password, users.is_active, users.is_superuser, users.token 
+FROM users 
+WHERE users.username = $1::VARCHAR
+2025-02-21 10:44:07 - INFO - [generated in 0.00152s] ('admin',)
+2025-02-21 10:44:07 - INFO - SELECT users.id, users.username, users.email, users.hashed_password, users.is_active, users.is_superuser, users.token 
+FROM users 
+WHERE users.username = $1::VARCHAR
+2025-02-21 10:44:07 - INFO - [cached since 0.01986s ago] ('admin',)
+2025-02-21 10:44:07 - INFO - ROLLBACK
+2025-02-21 10:44:10 - INFO - BEGIN (implicit)
+2025-02-21 10:44:10 - INFO - SELECT users.id, users.username, users.email, users.hashed_password, users.is_active, users.is_superuser, users.token 
+FROM users 
+WHERE users.username = $1::VARCHAR
+2025-02-21 10:44:10 - INFO - [cached since 3.374s ago] ('admin',)
+2025-02-21 10:44:10 - INFO - SELECT users.id, users.username, users.email, users.hashed_password, users.is_active, users.is_superuser, users.token 
+FROM users 
+WHERE users.username = $1::VARCHAR
+2025-02-21 10:44:10 - INFO - [cached since 3.379s ago] ('admin',)
+2025-02-21 10:44:10 - INFO - ROLLBACK
+2025-02-21 10:48:41 - INFO - select pg_catalog.version()
+2025-02-21 10:48:41 - INFO - [raw sql] ()
+2025-02-21 10:48:41 - INFO - select current_schema()
+2025-02-21 10:48:41 - INFO - [raw sql] ()
+2025-02-21 10:48:41 - INFO - show standard_conforming_strings
+2025-02-21 10:48:41 - INFO - [raw sql] ()
+2025-02-21 10:48:41 - INFO - BEGIN (implicit)
+2025-02-21 10:48:41 - INFO - SELECT users.id, users.username, users.email, users.hashed_password, users.is_active, users.is_superuser, users.token 
+FROM users 
+WHERE users.username = $1::VARCHAR
+2025-02-21 10:48:41 - INFO - [generated in 0.00087s] ('admin',)
+2025-02-21 10:48:41 - INFO - SELECT users.id, users.username, users.email, users.hashed_password, users.is_active, users.is_superuser, users.token 
+FROM users 
+WHERE users.username = $1::VARCHAR
+2025-02-21 10:48:41 - INFO - [cached since 0.0137s ago] ('admin',)
+2025-02-21 10:48:41 - INFO - ROLLBACK
+2025-02-21 10:48:45 - INFO - select pg_catalog.version()
+2025-02-21 10:48:45 - INFO - [raw sql] ()
+2025-02-21 10:48:45 - INFO - select current_schema()
+2025-02-21 10:48:45 - INFO - [raw sql] ()
+2025-02-21 10:48:45 - INFO - show standard_conforming_strings
+2025-02-21 10:48:45 - INFO - [raw sql] ()
+2025-02-21 10:48:45 - INFO - BEGIN (implicit)
+2025-02-21 10:48:45 - INFO - SELECT users.id, users.username, users.email, users.hashed_password, users.is_active, users.is_superuser, users.token 
+FROM users 
+WHERE users.username = $1::VARCHAR
+2025-02-21 10:48:45 - INFO - [generated in 0.00156s] ('admin',)
+2025-02-21 10:48:45 - INFO - SELECT users.id, users.username, users.email, users.hashed_password, users.is_active, users.is_superuser, users.token 
+FROM users 
+WHERE users.username = $1::VARCHAR
+2025-02-21 10:48:45 - INFO - [cached since 0.02282s ago] ('admin',)
+2025-02-21 10:48:45 - INFO - ROLLBACK
+2025-02-21 10:54:24 - INFO - select pg_catalog.version()
+2025-02-21 10:54:24 - INFO - [raw sql] ()
+2025-02-21 10:54:24 - INFO - select current_schema()
+2025-02-21 10:54:24 - INFO - [raw sql] ()
+2025-02-21 10:54:24 - INFO - show standard_conforming_strings
+2025-02-21 10:54:24 - INFO - [raw sql] ()
+2025-02-21 10:54:24 - INFO - BEGIN (implicit)
+2025-02-21 10:54:24 - INFO - SELECT users.id, users.username, users.email, users.hashed_password, users.is_active, users.is_superuser, users.token 
+FROM users 
+WHERE users.username = $1::VARCHAR
+2025-02-21 10:54:24 - INFO - [generated in 0.00055s] ('testuser',)
+2025-02-21 10:54:24 - INFO - INSERT INTO users (username, email, hashed_password, is_active, is_superuser, token) VALUES ($1::VARCHAR, $2::VARCHAR, $3::VARCHAR, $4::BOOLEAN, $5::BOOLEAN, $6::VARCHAR) RETURNING users.id
+2025-02-21 10:54:24 - INFO - [generated in 0.00089s] ('testuser', 'testuser@example.com', '$2b$12$U/hxu8X6sZCQKYFqk8ljG.ppQ8Dd7R1wCr78s8qOpeFTAn9hJRjSK', True, False, None)
+2025-02-21 10:54:24 - INFO - COMMIT
+2025-02-21 10:54:24 - INFO - BEGIN (implicit)
+2025-02-21 10:54:24 - INFO - SELECT users.id, users.username, users.email, users.hashed_password, users.is_active, users.is_superuser, users.token 
+FROM users 
+WHERE users.id = $1::INTEGER
+2025-02-21 10:54:24 - INFO - [generated in 0.00070s] (1,)
+2025-02-21 10:54:24 - INFO - \U0001f195 Nouvel utilisateur testuser enregistré avec succès.
+2025-02-21 10:54:24 - INFO - ROLLBACK
+2025-02-21 10:54:24 - INFO - \U0001f30d POST http://127.0.0.1:8000/api-mca/v1/register - 200 - 0.69s
+2025-02-21 12:05:02 - INFO - \U0001f30d GET http://127.0.0.1:8000/api-mca/v1/documentation - 200 - 0.00s
+2025-02-21 12:05:02 - INFO - \U0001f30d GET http://127.0.0.1:8000/api-mca/v1/mycreo.json - 200 - 0.01s
+2025-02-21 12:13:53 - INFO - \U0001f30d GET http://127.0.0.1:8000/api-mca/v1/documentation - 200 - 0.00s
+2025-02-21 12:13:56 - INFO - \U0001f30d GET http://127.0.0.1:8000/api-mca/v1/mycreo.json - 200 - 0.01s
+2025-02-21 12:14:43 - INFO - \U0001f30d GET http://127.0.0.1:8000/api-mca/v1/documentation - 200 - 0.00s
+2025-02-21 12:14:46 - INFO - \U0001f30d GET http://127.0.0.1:8000/api-mca/v1/mycreo.json - 200 - 0.01s
+2025-02-21 12:15:12 - INFO - \U0001f30d GET http://127.0.0.1:8000/api-mca/v1/documentation - 200 - 0.00s
+2025-02-21 12:15:12 - INFO - \U0001f30d GET http://127.0.0.1:8000/api-mca/v1/mycreo.json - 200 - 0.00s
+2025-02-21 12:15:21 - INFO - \U0001f30d GET http://127.0.0.1:8000/api-mca/v1/documentation - 200 - 0.00s
+2025-02-21 12:15:21 - INFO - \U0001f30d GET http://127.0.0.1:8000/api-mca/v1/mycreo.json - 200 - 0.02s
+2025-02-21 12:20:30 - INFO - \U0001f30d GET http://127.0.0.1:8000/api-mca/v1/documentation - 200 - 0.00s
+2025-02-21 12:20:30 - INFO - \U0001f30d GET http://127.0.0.1:8000/api-mca/v1/mycreo.json - 200 - 0.01s
+2025-02-21 12:24:09 - INFO - \U0001f30d GET http://127.0.0.1:8000/api-mca/v1/documentation - 200 - 0.00s
+2025-02-21 12:24:12 - INFO - \U0001f30d GET http://127.0.0.1:8000/api-mca/v1/mycreo.json - 200 - 0.01s
+2025-02-21 12:25:29 - INFO - \U0001f30d GET http://127.0.0.1:8000/api-mca/v1/documentation - 200 - 0.00s
+2025-02-21 12:25:29 - INFO - \U0001f30d GET http://127.0.0.1:8000/api-mca/v1/mycreo.json - 200 - 0.00s
+2025-02-21 12:26:05 - INFO - \U0001f30d GET http://127.0.0.1:8000/api-mca/v1/documentation - 200 - 0.00s
+2025-02-21 12:26:05 - INFO - \U0001f30d GET http://127.0.0.1:8000/api-mca/v1/mycreo.json - 200 - 0.01s
+2025-02-21 12:26:30 - INFO - \U0001f30d GET http://127.0.0.1:8000/api-mca/v1/documentation - 200 - 0.00s
+2025-02-21 12:26:34 - INFO - \U0001f30d GET http://127.0.0.1:8000/api-mca/v1/mycreo.json - 200 - 0.01s
+2025-02-21 12:30:14 - INFO - \U0001f30d POST http://127.0.0.1:8000/api-mca/v1/register - 422 - 0.01s
+2025-02-21 12:32:15 - INFO - \U0001f30d GET http://127.0.0.1:8000/api-mca/v1/documentation - 200 - 0.00s
+2025-02-21 12:32:15 - INFO - \U0001f30d GET http://127.0.0.1:8000/api-mca/v1/mycreo.json - 200 - 0.00s
+2025-02-21 12:32:22 - INFO - \U0001f30d GET http://127.0.0.1:8000/api-mca/v1/documentation - 200 - 0.00s
+2025-02-21 12:32:22 - INFO - \U0001f30d GET http://127.0.0.1:8000/api-mca/v1/mycreo.json - 200 - 0.01s
+2025-02-21 12:32:54 - INFO - \U0001f30d POST http://127.0.0.1:8000/api-mca/v1/register - 422 - 0.00s
+2025-02-21 12:33:59 - INFO - \U0001f30d POST http://127.0.0.1:8000/api-mca/v1/register - 422 - 0.00s
+2025-02-21 12:34:00 - INFO - \U0001f30d POST http://127.0.0.1:8000/api-mca/v1/register - 422 - 0.00s
+2025-02-21 12:37:44 - INFO - \U0001f30d POST http://127.0.0.1:8000/api-mca/v1/register - 422 - 0.00s
+2025-02-21 12:44:16 - INFO - \U0001f30d POST http://127.0.0.1:8000/api-mca/v1/register - 422 - 0.00s
+2025-02-21 12:44:19 - INFO - select pg_catalog.version()
+2025-02-21 12:44:19 - INFO - [raw sql] ()
+2025-02-21 12:44:19 - INFO - select current_schema()
+2025-02-21 12:44:19 - INFO - [raw sql] ()
+2025-02-21 12:44:19 - INFO - show standard_conforming_strings
+2025-02-21 12:44:19 - INFO - [raw sql] ()
+2025-02-21 12:44:19 - INFO - BEGIN (implicit)
+2025-02-21 12:44:19 - INFO - SELECT users.id, users.username, users.name, users.firstname, users.email, users.hashed_password, users.is_active, users.is_superuser, users.token 
+FROM users 
+WHERE users.username = $1::VARCHAR
+2025-02-21 12:44:19 - INFO - [generated in 0.00067s] ('sorolassina',)
+2025-02-21 12:44:19 - INFO - INSERT INTO users (username, name, firstname, email, hashed_password, is_active, is_superuser, token) VALUES ($1::VARCHAR, $2::VARCHAR, $3::VARCHAR, $4::VARCHAR, $5::VARCHAR, $6::BOOLEAN, $7::BOOLEAN, $8::VARCHAR) RETURNING users.id
+2025-02-21 12:44:19 - INFO - [generated in 0.00099s] ('sorolassina', 'SORO', 'Wangboho Lassina', 'sorolassina@example.com', '$2b$12$XgL.h6X6rDm7eICoStLNBeN2aGhQ9kobiA4/.cAwcz.kQ1iYcg22K', True, False, 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJzb3JvbGFzc2luYSIsImV4cCI6MTc0MjczMDI1OX0.aG16oz-yhDVvYRvDwQeAPDQmjkq0foUE9AWi4I63J90')
+2025-02-21 12:44:19 - INFO - COMMIT
+2025-02-21 12:44:19 - INFO - BEGIN (implicit)
+2025-02-21 12:44:19 - INFO - SELECT users.id, users.username, users.name, users.firstname, users.email, users.hashed_password, users.is_active, users.is_superuser, users.token 
+FROM users 
+WHERE users.id = $1::INTEGER
+2025-02-21 12:44:19 - INFO - [generated in 0.00099s] (2,)
+2025-02-21 12:44:20 - INFO - \U0001f195 Nouvel utilisateur sorolassina enregistré avec succès.
+2025-02-21 12:44:20 - INFO - ROLLBACK
+2025-02-21 12:44:20 - INFO - \U0001f30d POST http://127.0.0.1:8000/api-mca/v1/register - 200 - 1.50s
