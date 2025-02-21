@@ -1,8 +1,8 @@
 import smtplib
 from email.mime.text import MIMEText
 from sqlalchemy.ext.asyncio import AsyncSession
-from app.schemas.user import User
-from app.models.model_user import UserInDB
+from app.models.model_user import User
+from app.schemas.schema_user import UserInDB
 from app.database import get_db
 from email.mime.multipart import MIMEMultipart
 from app.security.tokens import *

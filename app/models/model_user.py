@@ -1,11 +1,21 @@
-from pydantic import BaseModel, EmailStr, Field
+from sqlalchemy import Column, Integer, String, Boolean
+from sqlalchemy.ext.declarative import declarative_base
 
-class UserInDB(BaseModel):
-    username: str = Field(..., description="Nom d'utilisateur unique")
-    name: str = Field(..., description="Nom de famille")
-    firstname: str = Field(..., description="Prénom")
-    email: EmailStr = Field(..., description="Adresse email sur laquelle vous sera envoyé votre clé")
-    password: str = Field(..., min_length=6, description="Mot de passe sécurisé (6 caractères minimum)")
+Base = declarative_base()
 
-    class Config:
-        orm_mode = True  # ✅ Permet d'utiliser le modèle avec SQLAlchemy
+class User(Base):
+    """
+    Modèle SQLAlchemy pour la table `users`
+    """
+    __tablename__ = "users"
+
+    id = Column(Integer, primary_key=True, index=True)
+    username = Column(String, unique=True, nullable=False)
+    name = Column(String, nullable=False)
+    firstname = Column(String, nullable=False)
+    email = Column(String, unique=True, nullable=False)
+    hashed_password = Column(String, nullable=False)
+    is_active = Column(Boolean, default=True)
+    is_superuser = Column(Boolean, default=False)
+    token = Column(String, nullable=True)  # ✅ Stocker le token JWT si nécessaire
+

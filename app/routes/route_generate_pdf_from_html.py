@@ -1,6 +1,6 @@
 from fastapi import APIRouter, UploadFile, File, HTTPException
 from app.services.service_generate_pdf_from_file import generate_pdf_from_html, generate_pdf_from_file
-from app.models.model_Html import HTMLInput, HTMLFileInput
+from app.schemas.schema_Html import HTMLInput, HTMLFileInput
 from fastapi.responses import FileResponse
 import mimetypes
 import os

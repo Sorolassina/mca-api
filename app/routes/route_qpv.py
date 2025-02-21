@@ -1,7 +1,7 @@
 from fastapi import APIRouter, File, HTTPException
 from fastapi.responses import FileResponse
 
-from app.models.model_qpv import Adresse
+from app.schemas.schema_qpv import Adresse
 from app.services.service_qpv import verif_qpv
 
 router = APIRouter()

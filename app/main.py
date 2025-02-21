@@ -5,6 +5,8 @@ from fastapi.staticfiles import StaticFiles
 import os
 from fastapi.responses import RedirectResponse
 from middlewares import request_logger_middleware, error_handling_middleware, auth_middleware
+import uvicorn
+import asyncio  # ✅ Ajoute cette ligne au début du fichier
 
 #admin_route=route_administrateur.router
 
@@ -45,5 +47,10 @@ api_router.include_router(auth_router)
 # ✅ Ajouter toutes les routes sous "/api-mca/v1"
 app.include_router(api_router) 
 
+if __name__ == "__main__":
+    try:
+        asyncio.run(uvicorn.run("app.main:app", host="0.0.0.0", port=8000, reload=True))
+    except asyncio.CancelledError:
+        print("❌ Interruption détectée, arrêt propre du serveur...")
 #for route in app.router.routes:
     #print(f"➡️ {route.path} ({route.name})")

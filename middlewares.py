@@ -11,7 +11,7 @@ from app.security.auth import verify_token
 import os
 from sqlalchemy.orm import Session
 from app.database import get_db
-from app.schemas.user import User
+from app.models.model_user import User
 from sqlalchemy.future import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
