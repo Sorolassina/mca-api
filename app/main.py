@@ -1,10 +1,12 @@
 from fastapi import FastAPI,APIRouter, Depends, HTTPException
-from app.routes import route_generate_pdf_from_html, route_qpv, route_siret_pappers
-from app.security.auth import router as auth_router, oauth2_scheme, verify_token, get_user
+from app.routes import route_generate_pdf_from_html, route_qpv, route_siret_pappers, route_administrateur
+from app.security.auth import router as auth_router
 from fastapi.staticfiles import StaticFiles
 import os
 from fastapi.responses import RedirectResponse
+from middlewares import request_logger_middleware, error_handling_middleware, auth_middleware
 
+#admin_route=route_administrateur.router
 
 app = FastAPI(
     title="Mon API FastAPI 🚀", 
@@ -15,33 +17,19 @@ app = FastAPI(
     redoc_url="/api-mca/v1/documentation"  # Personnalise l'URL de ReDoc
     )
 
-# ✅ Vérification globale de l'authentification
-def get_current_user(token: str = Depends(oauth2_scheme)):
-    payload = verify_token(token)
-    if not payload:
-        raise HTTPException(
-            status_code=401,
-            detail="Token invalide ou expiré",
-            headers={"WWW-Authenticate": "Bearer"},
-        )
 
-    username = payload.get("sub")
-    user = get_user(username)
-    if not user:
-        raise HTTPException(status_code=404, detail="Utilisateur non trouvé")
-    
-    return user  # Retourne les infos de l'utilisateur
+# ✅ Ajouter les middlewares à l’application
+app.middleware("http")(request_logger_middleware)
+app.middleware("http")(error_handling_middleware)
+app.middleware("http")(auth_middleware)
 
 # ✅ Groupe de routes sécurisé
 api_router = APIRouter(
-    prefix="/api-mca/v1",
-    dependencies=[Depends(get_current_user)]  # 🔥 Sécurise tout le groupe !
+    prefix="/api-mca/v1" 
 )
 
 # Monter le dossier static pour que FastAPI puisse y accéder
 app.mount("/static", StaticFiles(directory=os.path.join(os.getcwd(), "app/static")), name="static")
-
-
 
 @app.get("", tags=["Root"])  # 🔥 Permet d'accéder sans "/" final
 @app.get("/", tags=["Root"])

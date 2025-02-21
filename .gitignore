@@ -2,13 +2,9 @@ env/
 __pycache__/
 *.pyc
 *.pyo
-*.sqlite3
-.DS_Store
 .vscode/
 .idea/
 .env
-
 fichiers/*.pdf
-
 app/static/images/*.png
 app/static/maps/*.html

@@ -7,11 +7,9 @@ from app.services.service_qpv import verif_qpv
 router = APIRouter()
 
 # On va dans un premier temps récupérer l'adresse géographique et le valider
-@router.post("/qpv-check/")
+@router.post("/qpv_check")
 def get_adresse(address:Adresse) :
+    print (address)
     recherche = verif_qpv(address.dict())
-
-    # Récupérer l'URL du fichier HTML
-    map_url = recherche.get("carte_url")
 
     return recherche

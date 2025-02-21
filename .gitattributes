@@ -1,0 +1,31 @@
+# Force tous les fichiers Python à LF
+*.py text eol=lf
+
+# Empêche la conversion automatique des fichiers de configuration
+*.ini text eol=lf
+*.conf text eol=lf
+*.sh text eol=lf
+
+# Forcer tous les fichiers texte en LF (recommandé pour un projet Python)
+* text=auto
+
+# Fichiers batch Windows (CMD, PowerShell) conservent CRLF
+*.bat text eol=crlf
+*.ps1 text eol=crlf
+
+# JSON, YAML, TOML doivent être en LF
+*.json text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.toml text eol=lf
+
+# Fichiers SQL en LF (évite des erreurs avec les bases de données)
+*.sql text eol=lf
+
+# Evite les conflits pour les fichiers binaires
+*.png binary
+*.jpg binary
+*.gif binary
+*.ico binary
+*.pdf binary
+*.zip binary

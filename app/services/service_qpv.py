@@ -118,7 +118,7 @@ def verif_qpv(address_coords):
 
         return {
             "address": address,
-            "nom_qp": etat_qpv,
+            "nom_qp": f'{etat_qpv}:{qpv_name}',
             "distance_m": distance_m,
             "carte": f"/static/maps/map_{lat}_{lon}.html",
             "image_url": f"/static/images/map_{lat}_{lon}.png"

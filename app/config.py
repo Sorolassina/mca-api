@@ -20,6 +20,14 @@ STATIC_IMAGES_DIR = "app/static/images/"
 os.makedirs(STATIC_MAPS_DIR, exist_ok=True)
 os.makedirs(STATIC_IMAGES_DIR, exist_ok=True)
 
+
+# ✅ Paramètres SMTP pour l'envoi des emails
+SMTP_SERVER = os.getenv("SMTP_SERVER", "smtp.gmail.com")
+SMTP_PORT = int(os.getenv("SMTP_PORT", 587))
+EMAIL_SENDER = os.getenv("EMAIL_SENDER", "sorolassina58@gmail.com")
+EMAIL_PASSWORD = os.getenv("EMAIL_PASSWORD")  # 🔥 Ne PAS mettre le mot de passe en dur !
+EMAIL_RECIPIENT = os.getenv("EMAIL_RECIPIENT", "lassina.soro.edu@groupe-gema.com")
+
 def get_pdf_path(filename: str) -> str:
     """ Retourne le chemin absolu d'un fichier PDF dans le dossier fichiers/ """
     return os.path.join(FICHIERS_DIR, filename)
