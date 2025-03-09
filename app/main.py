@@ -36,6 +36,7 @@ app.mount("/static", StaticFiles(directory=static_path), name="static")
 
 # ✅ Redirection de la racine vers la documentation
 @app.get("/", tags=["Root"])
+@app.head("/")  # Autoriser HEAD sur "/"
 def read_root():
     return RedirectResponse(url="/api-mca/v1/documentation", status_code=307)
 
