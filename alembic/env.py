@@ -1,16 +1,12 @@
 import sys
 import os
 
-
-
 # ✅ Ajoute le chemin de `app/` pour éviter l'import error
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 from sqlalchemy import create_engine
 from alembic import context
 from app.models.model_user import Base  # ✅ Assure-toi que `Base` est bien défini dans `models.py`
-
-
 
 import time
 
@@ -25,6 +21,7 @@ for i in range(MAX_RETRIES):
 
 if not DATABASE_URL:
     raise ValueError("❌ ERREUR : DATABASE_URL est toujours vide après plusieurs tentatives !")
+
 
 DATABASE_URL_SYNC = DATABASE_URL.replace("asyncpg", "psycopg2")
 
