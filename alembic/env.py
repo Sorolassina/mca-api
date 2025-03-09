@@ -10,11 +10,21 @@ from sqlalchemy import create_engine
 from alembic import context
 from app.models.model_user import Base  # ✅ Assure-toi que `Base` est bien défini dans `models.py`
 
-DATABASE_URL = os.getenv("DATABASE_URL")
 
-# ✅ Convertir `asyncpg` en `psycopg2` pour Alembic
+
+import time
+
+# Attendre jusqu'à ce que DATABASE_URL soit disponible
+MAX_RETRIES = 5
+for i in range(MAX_RETRIES):
+    DATABASE_URL = os.getenv("DATABASE_URL")
+    if DATABASE_URL:
+        break
+    print(f"⏳ [ATTENTE] DATABASE_URL indisponible, tentative {i+1}/{MAX_RETRIES}...")
+    time.sleep(2)
+
 if not DATABASE_URL:
-    raise ValueError("❌ ERREUR : La variable d'environnement DATABASE_URL est vide dans Alembic.")
+    raise ValueError("❌ ERREUR : DATABASE_URL est toujours vide après plusieurs tentatives !")
 
 DATABASE_URL_SYNC = DATABASE_URL.replace("asyncpg", "psycopg2")
 
