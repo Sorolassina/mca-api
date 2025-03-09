@@ -15,23 +15,8 @@ import time
 
 # 🔄 Teste si Render charge bien DATABASE_URL
 print(f"✅ [DEBUG] DATABASE_URL au démarrage : {os.getenv('DATABASE_URL')}")
-# 🔄 Essayer de récupérer DATABASE_URL plusieurs fois
-MAX_RETRIES = 5
-retry_count = 0
 
-DATABASE_URL = None
-while retry_count < MAX_RETRIES:
-    DATABASE_URL = os.getenv("DATABASE_URL")
-    if DATABASE_URL:
-        print(f"✅ [DEBUG] DATABASE_URL récupérée après {retry_count + 1} essais.")
-        break
-    print(f"⏳ [ATTENTE] DATABASE_URL indisponible, tentative {retry_count + 1}/{MAX_RETRIES}...")
-    time.sleep(3)
-    retry_count += 1
-
-if not DATABASE_URL:
-    raise ValueError("❌ ERREUR : DATABASE_URL est toujours vide après plusieurs tentatives !")
-
+DATABASE_URL=os.getenv('DATABASE_URL')
 
 DATABASE_URL_SYNC = DATABASE_URL.replace("asyncpg", "psycopg2")
 
