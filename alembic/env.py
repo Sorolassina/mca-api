@@ -1,6 +1,9 @@
 import sys
 import os
+from dotenv import load_dotenv
 
+# Charger le fichier .env
+load_dotenv()
 # ✅ Ajoute le chemin de `app/` pour éviter l'import error
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
@@ -10,6 +13,8 @@ from app.models.model_user import Base  # ✅ Assure-toi que `Base` est bien dé
 
 import time
 
+# 🔄 Teste si Render charge bien DATABASE_URL
+print(f"✅ [DEBUG] DATABASE_URL au démarrage : {os.getenv('DATABASE_URL')}")
 # 🔄 Essayer de récupérer DATABASE_URL plusieurs fois
 MAX_RETRIES = 5
 retry_count = 0
