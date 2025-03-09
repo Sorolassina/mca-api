@@ -44,7 +44,7 @@ def get_pdf_path(filename: str) -> str:
 POSTGRES_USER = os.getenv("POSTGRES_USER", "admin_api")
 POSTGRES_PASSWORD = urllib.parse.quote_plus(os.getenv("POSTGRES_PASSWORD", "2311SLSs@"))
 POSTGRES_DB = os.getenv("POSTGRES_DB", "api")
-DATABASE_URL = f"postgresql+asyncpg://{POSTGRES_USER}:{POSTGRES_PASSWORD}@localhost/{POSTGRES_DB}"
+DATABASE_URL =os.getenv("DATABASE_URL")  #f"postgresql+asyncpg://{POSTGRES_USER}:{POSTGRES_PASSWORD}@localhost/{POSTGRES_DB}"
 DEBUG_MODE = os.getenv("DEBUG_MODE", "True").lower() == "true"
 
 print(f"✅ [DEBUG] POSTGRES_USER = {POSTGRES_USER}")
