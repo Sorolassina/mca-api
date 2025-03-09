@@ -9,8 +9,6 @@ class HTMLFileInput(BaseModel):
     content: str
     filename: str = Field("document.pdf", title="Nom du fichier PDF généré")
 
-    
-
     @validator("filename")
     def validate_filename(cls, v):
 

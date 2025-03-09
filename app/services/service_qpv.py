@@ -15,15 +15,16 @@ from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from fastapi import Request
+from app.config import get_base_url
 
-
-
-
-def verif_qpv(address_coords):
+def verif_qpv(address_coords, request: Request):
+    base_url = get_base_url(request)  # Récupérer l'URL dynamique
+    print(f"✅ {base_url}")
     address = address_coords.get("address")
     lat = address_coords.get("latitude")
     lon = address_coords.get("longitude")
-
+    
     # ✅ Définir `m` au début pour éviter l'erreur
     point_coords = (lat, lon)
     m = folium.Map(location=point_coords, zoom_start=14)
@@ -123,12 +124,14 @@ def verif_qpv(address_coords):
         # Sauvegarde en image avec `selenium headless`
         save_map_as_image(map_file, image_file)
 
+        maps_url="/static/maps/map_{lat}_{lon}.html"
+        img_url="/static/images/map_{lat}_{lon}.png"
         return {
             "address": address,
             "nom_qp": f'{etat_qpv}:{qpv_name}',
             "distance_m": distance_m,
-            "carte": f"/static/maps/map_{lat}_{lon}.html",
-            "image_url": f"/static/images/map_{lat}_{lon}.png"
+            "carte": f"{base_url.strip()}{maps_url.strip()}",
+            "image_url": f"{base_url.strip()}{img_url.strip()}"
         }
     
     else:
@@ -175,12 +178,14 @@ def verif_qpv(address_coords):
         m.save(map_file)
         save_map_as_image(map_file, image_file)
 
+        maps_url="/static/maps/map_{lat}_{lon}.html"
+        img_url="/static/images/map_{lat}_{lon}.png"
         return {
             "address": address,
             "nom_qp": "Aucun QPV",
             "distance_m": "N/A",
-            "carte": f"/static/maps/map_{lat}_{lon}.html",
-            "image_url": f"/static/images/map_{lat}_{lon}.png"
+            "carte": f"{base_url.strip()}{maps_url.strip()}",
+            "image_url": f"{base_url.strip()}{img_url.strip()}"
         }
 
 def save_map_as_image(map_path, image_path):

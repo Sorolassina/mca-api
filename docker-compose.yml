@@ -5,8 +5,6 @@ services:
     container_name: fastapi_app
     ports:
       - "8000:8000"
-    depends_on:
-      - db
     env_file:
       - .env
     command: >
@@ -14,22 +12,3 @@ services:
     volumes:
       - .:/app  # ⬅️ Monte tout le projet dans le conteneur
 
-  db:
-    image: postgres:15
-    container_name: fastapi_db
-    restart: always
-    env_file:
-      - .env
-    environment:
-      POSTGRES_USER: admin_api
-      POSTGRES_PASSWORD: "2311SLSs@"
-      POSTGRES_DB: api
-      DATABASE_URL: postgresql+asyncpg://admin_api:2311SLSs@fastapi_db/api
-
-    ports:
-      - "5432:5432"
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-
-volumes:
-  postgres_data:

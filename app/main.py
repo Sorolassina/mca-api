@@ -5,11 +5,11 @@ import os
 import asyncio
 import webbrowser
 import uvicorn
-from fastapi.responses import FileResponse
+
 
 # Importation des routes
 from app.routes import route_generate_pdf_from_html, route_qpv, route_siret_pappers, route_digiformat
-from app.security.auth import router as auth_router
+
 from middlewares import request_logger_middleware, error_handling_middleware, auth_middleware
 
 # ✅ Création de l'application FastAPI
@@ -44,7 +44,6 @@ api_router.include_router(route_generate_pdf_from_html.router, tags=["Générati
 api_router.include_router(route_siret_pappers.router, tags=["Siret"])
 api_router.include_router(route_qpv.router, tags=["QPV"])
 api_router.include_router(route_digiformat.router, tags=["Digiformat"])
-api_router.include_router(auth_router)
 
 # ✅ Ajouter toutes les routes sous "/api-mca/v1"
 app.include_router(api_router)

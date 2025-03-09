@@ -7,12 +7,8 @@ from email.mime.multipart import MIMEMultipart
 from fastapi import Request, HTTPException
 from fastapi.responses import JSONResponse
 from app.config import SMTP_SERVER, SMTP_PORT, EMAIL_SENDER, EMAIL_PASSWORD, EMAIL_RECIPIENT
-from app.security.auth import verify_token
 import os
-from app.database import get_db
-from app.models.model_user import User
-from sqlalchemy.future import select
-from sqlalchemy.ext.asyncio import AsyncSession
+
 
 # ✅ Charger le mode DEBUG (activer ou désactiver l'envoi d'emails)
 DEBUG_MODE = os.getenv("DEBUG_MODE", "True").lower() == "true"
@@ -27,12 +23,6 @@ logging.basicConfig(
     format="%(asctime)s - %(levelname)s - %(message)s",
     datefmt="%Y-%m-%d %H:%M:%S"
 )
-async def get_user(db: AsyncSession,username:str):
-    stmt=select(User).where(User.username==username)
-    result = await db.execute(stmt)
-    user=result.scalar_one_or_none()
-    return user
-
 
 def send_error_email(subject, message):
     """
@@ -105,58 +95,9 @@ async def error_handling_middleware(request: Request, call_next):
         )
 
 async def auth_middleware(request: Request, call_next):
-    """
-    Middleware pour gérer l'authentification.
-    """
-    PUBLIC_ROUTES = [
-        "/api-mca/v1/mycreo.json",
-        "/api-mca/v1/recherche",
-        "/api-mca/v1/documentation",
-        "/api-mca/v1/register",
-        "/api-mca/v1/qpv_check",
-        "/api-mca/v1/siret",
-        "/api-mca/v1/digiforma",
-        "/api-mca/v1/generate-pdf",
-        "/api-mca/v1/generate-pdf-from-file",
-        "/",
-        "",
-        "/favicon.ico"
-    ]
 
      # 🔥 Autoriser l'accès aux fichiers statiques sans authentification
-    if request.url.path in PUBLIC_ROUTES or request.url.path.startswith("/static/") : 
-        return await call_next(request)  # ✅ Autorisation sans authentification
+    #if request.url.path in PUBLIC_ROUTES or request.url.path.startswith("/static/") : 
+    return await call_next(request)  # ✅ Autorisation sans authentification
 
-    # ✅ Utilisation correcte du générateur `get_db()` avec `async for`
-    async for db in get_db():
-        try:
-            # Vérification si l'utilisateur est admin et en local
-            if request.client.host in ["127.0.0.1", "localhost"]:
-                admin_user = await get_user(db, "admin")  # ✅ Appel correct de `get_user`
-                if admin_user and admin_user.is_superuser:
-                    request.state.user = admin_user
-                    return await call_next(request)
-
-            # ✅ Vérifier la présence du token dans les headers
-            token = request.headers.get("Authorization")
-            if not token:
-                raise HTTPException(status_code=401, detail="Token manquant", headers={"WWW-Authenticate": "Bearer"})
-
-            token = token.replace("Bearer ", "")
-            payload = verify_token(token)
-            print(payload)
-            if not payload:
-                raise HTTPException(status_code=401, detail="Token invalide ou expiré", headers={"WWW-Authenticate": "Bearer"})
-
-            # ✅ Récupérer l'utilisateur associé au token
-            username = payload.get("sub")
-            user = await get_user(db, username)
-            if not user:
-                raise HTTPException(status_code=404, detail="Utilisateur non trouvé")
-
-            request.state.user = user  # ✅ Ajout de l'utilisateur validé à la requête
-
-            return await call_next(request)
-
-        finally:
-            await db.close()  # ✅ Fermeture propre de la session après la requête
+    

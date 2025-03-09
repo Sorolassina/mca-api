@@ -2,12 +2,11 @@ from fastapi import APIRouter, HTTPException
 import requests
 from app.config import PAPPERS_API_KEY
 from app.services.service_siret_pappers import get_entreprise_process
-from app.models.model_siret import SiretRequest
 
 router = APIRouter()
 
 @router.post("/siret")
-def get_entreprise(request: SiretRequest):
+def get_entreprise(request):
 
     numero_siret=request.numero_siret
 

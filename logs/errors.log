@@ -7959,3 +7959,48 @@ Stacktrace:
 2025-03-09 07:51:14 - DEBUG - Took 0.002s to prune 'name'
 2025-03-09 07:51:14 - INFO - name pruned
 2025-03-09 07:51:14 - INFO - 🌍 POST http://localhost:8000/api-mca/v1/generate-pdf-from-file - 200 - 0.42s
+2025-03-09 17:33:18 - INFO - \U0001f30d GET http://127.0.0.1:8000/ - 307 - 0.00s
+2025-03-09 17:33:18 - INFO - \U0001f30d GET http://127.0.0.1:8000/api-mca/v1/documentation - 200 - 0.00s
+2025-03-09 17:33:20 - INFO - \U0001f30d GET http://127.0.0.1:8000/api-mca/v1/mycreo.json - 200 - 0.02s
+2025-03-09 19:36:36 - INFO - \U0001f30d GET http://127.0.0.1:8000/api-mca/v1/documentation - 200 - 0.01s
+2025-03-09 19:36:36 - INFO - \U0001f30d GET http://127.0.0.1:8000/api-mca/v1/mycreo.json - 200 - 0.02s
+2025-03-09 19:38:01 - INFO - ====== WebDriver manager ======
+2025-03-09 19:38:03 - INFO - Get LATEST chromedriver version for google-chrome
+2025-03-09 19:38:03 - INFO - Get LATEST chromedriver version for google-chrome
+2025-03-09 19:38:03 - INFO - There is no [win64] chromedriver "133.0.6943.141" for browser google-chrome "133.0.6943" in cache
+2025-03-09 19:38:03 - INFO - Get LATEST chromedriver version for google-chrome
+2025-03-09 19:38:04 - INFO - WebDriver version 133.0.6943.141 selected
+2025-03-09 19:38:04 - INFO - Modern chrome version https://storage.googleapis.com/chrome-for-testing-public/133.0.6943.141/win32/chromedriver-win32.zip
+2025-03-09 19:38:04 - INFO - About to download new driver from https://storage.googleapis.com/chrome-for-testing-public/133.0.6943.141/win32/chromedriver-win32.zip
+2025-03-09 19:38:04 - INFO - Driver downloading response is 200
+2025-03-09 19:38:12 - INFO - Get LATEST chromedriver version for google-chrome
+2025-03-09 19:38:14 - INFO - Driver has been saved in cache [C:\Users\SOROLASSINA\.wdm\drivers\chromedriver\win64\133.0.6943.141]
+2025-03-09 19:38:21 - INFO - \U0001f30d POST http://127.0.0.1:8000/api-mca/v1/qpv_check - 200 - 21.79s
+2025-03-09 19:39:20 - INFO - \U0001f30d GET http://127.0.0.1:8000/static/maps/map_48.999991_2.143991.html - 200 - 0.29s
+2025-03-09 20:05:36 - INFO - \U0001f30d GET http://127.0.0.1:8000/static/maps/map_48.999991_2.143991.html - 200 - 0.02s
+2025-03-09 20:07:16 - INFO - \U0001f30d GET http://127.0.0.1:8000/static/maps/ - 404 - 0.02s
+2025-03-09 20:07:17 - INFO - \U0001f30d GET http://127.0.0.1:8000/favicon.ico - 404 - 0.00s
+2025-03-09 20:15:32 - INFO - \U0001f30d GET http://127.0.0.1:8000/static/maps/map_48.999991_2.143991.html - 200 - 0.01s
+2025-03-09 21:20:22 - INFO - ====== WebDriver manager ======
+2025-03-09 21:20:24 - INFO - Get LATEST chromedriver version for google-chrome
+2025-03-09 21:20:25 - INFO - Get LATEST chromedriver version for google-chrome
+2025-03-09 21:20:25 - INFO - Driver [C:\Users\SOROLASSINA\.wdm\drivers\chromedriver\win64\133.0.6943.141\chromedriver-win32/chromedriver.exe] found in cache
+2025-03-09 21:20:32 - INFO - \U0001f30d POST http://127.0.0.1:8000/api-mca/v1/qpv_check - 200 - 11.56s
+2025-03-09 21:22:56 - INFO - \U0001f30d GET http://127.0.0.1:8000/static/maps/map_48.947277_2.510327.html - 200 - 0.00s
+2025-03-09 21:23:33 - INFO - \U0001f30d GET http://127.0.0.1:8000/static/maps/map_48.947277_2.510327.html - 200 - 0.01s
+2025-03-09 21:41:26 - INFO - ====== WebDriver manager ======
+2025-03-09 21:41:27 - INFO - Get LATEST chromedriver version for google-chrome
+2025-03-09 21:41:27 - INFO - Get LATEST chromedriver version for google-chrome
+2025-03-09 21:41:27 - INFO - Driver [C:\Users\SOROLASSINA\.wdm\drivers\chromedriver\win64\133.0.6943.141\chromedriver-win32/chromedriver.exe] found in cache
+2025-03-09 21:41:33 - INFO - \U0001f30d POST http://127.0.0.1:8000/api-mca/v1/qpv_check - 200 - 15.31s
+2025-03-09 21:49:21 - INFO - ====== WebDriver manager ======
+2025-03-09 21:49:23 - INFO - Get LATEST chromedriver version for google-chrome
+2025-03-09 21:49:23 - INFO - Get LATEST chromedriver version for google-chrome
+2025-03-09 21:49:23 - INFO - Driver [C:\Users\SOROLASSINA\.wdm\drivers\chromedriver\win64\133.0.6943.141\chromedriver-win32/chromedriver.exe] found in cache
+2025-03-09 21:49:30 - INFO - \U0001f30d POST http://127.0.0.1:8000/api-mca/v1/qpv_check - 200 - 12.99s
+2025-03-09 21:57:20 - INFO - ====== WebDriver manager ======
+2025-03-09 21:57:22 - INFO - Get LATEST chromedriver version for google-chrome
+2025-03-09 21:57:22 - INFO - Get LATEST chromedriver version for google-chrome
+2025-03-09 21:57:22 - INFO - Driver [C:\Users\SOROLASSINA\.wdm\drivers\chromedriver\win64\133.0.6943.141\chromedriver-win32/chromedriver.exe] found in cache
+2025-03-09 21:57:29 - INFO - \U0001f30d POST http://127.0.0.1:8000/api-mca/v1/qpv_check - 200 - 13.70s
+2025-03-09 21:58:03 - INFO - \U0001f30d GET http://127.0.0.1:8000/static/maps/map_48.947277_2.510327.html - 200 - 0.01s

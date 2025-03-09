@@ -25,8 +25,6 @@ RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key
     && apt-get update \
     && apt-get install -y google-chrome-stable
 
-# 6️⃣ Appliquer les migrations Alembic (si besoin)
-RUN alembic upgrade head || echo "Aucune migration trouvée."
 
 # 7️⃣ Lancer l'application FastAPI avec Uvicorn
 CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
