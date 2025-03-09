@@ -119,11 +119,12 @@ async def auth_middleware(request: Request, call_next):
         "/api-mca/v1/generate-pdf",
         "/api-mca/v1/generate-pdf-from-file",
         "/",
-        ""
+        "",
+        "/favicon.ico"
     ]
 
      # 🔥 Autoriser l'accès aux fichiers statiques sans authentification
-    if request.url.path in PUBLIC_ROUTES or request.url.path.startswith("/static/"): 
+    if request.url.path in PUBLIC_ROUTES or request.url.path.startswith("/static/") : 
         return await call_next(request)  # ✅ Autorisation sans authentification
 
     # ✅ Utilisation correcte du générateur `get_db()` avec `async for`
