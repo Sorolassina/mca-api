@@ -6,8 +6,8 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 from sqlalchemy import create_engine
 from alembic import context
-from app.database import DATABASE_URL
-from app.schemas.user import Base  # ✅ Assure-toi que `Base` est bien défini dans `models.py`
+from app.config import DATABASE_URL
+from app.models.model_user import Base  # ✅ Assure-toi que `Base` est bien défini dans `models.py`
 
 # ✅ Convertir `asyncpg` en `psycopg2` pour Alembic
 DATABASE_URL_SYNC = DATABASE_URL.replace("asyncpg", "psycopg2")

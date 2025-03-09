@@ -11,6 +11,13 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
 from PIL import Image
 from folium.features import DivIcon
+from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+
+
+
 
 def verif_qpv(address_coords):
     address = address_coords.get("address")
@@ -179,21 +186,26 @@ def verif_qpv(address_coords):
 def save_map_as_image(map_path, image_path):
     """Capture une image d'une page HTML avec Selenium headless."""
     
-    # Configurer Chrome headless
-    options = Options()
-    options.add_argument("--headless")  # Mode sans interface graphique
-    options.add_argument("--no-sandbox")
-    options.add_argument("--disable-dev-shm-usage")
-    options.add_argument("--window-size=800x600")  # Taille de la capture
+    options = webdriver.ChromeOptions()
+    options.add_argument("--headless")  # Exécution sans interface graphique
+    options.add_argument("--no-sandbox")  # Évite les erreurs de sandboxing
+    options.add_argument("--disable-dev-shm-usage")  # Évite les problèmes de mémoire dans Docker
+    options.add_argument("--window-size=800x600")  # Définit une taille fixe pour la capture
+    options.add_argument("--disable-gpu")  # Désactive l'accélération GPU
+    options.add_argument("--disable-software-rasterizer")  # Évite certains crashs graphiques
 
-    # Lancer Selenium avec Chrome headless
-    service = Service()  # Utilise directement Chrome installé sur le serveur
+    # Installer automatiquement le bon ChromeDriver
+    service = Service(ChromeDriverManager().install())
     driver = webdriver.Chrome(service=service, options=options)
 
     try:
         
         driver.get("file://" + os.path.abspath(map_path))  # Charger le fichier HTML
-        time.sleep(2)  # Attendre le rendu de la carte
+
+        # Attendre que le corps de la page soit chargé avant la capture
+        WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.TAG_NAME, "body")))
+
+        #time.sleep(2)  # Attendre le rendu de la carte
 
         # Capture d'écran et enregistrement
         driver.save_screenshot(image_path)

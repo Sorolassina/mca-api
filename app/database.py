@@ -3,12 +3,13 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 import os
 from dotenv import load_dotenv
+from app.config import DATABASE_URL
 
 # Charger les variables d'environnement depuis .env
 load_dotenv()
 
 # Charger l'URL de la base de données depuis .env
-DATABASE_URL = os.getenv("DATABASE_URL", "postgresql+asyncpg://admin_api:2311SLSs%40@localhost/api")
+#DATABASE_URL = os.getenv("DATABASE_URL", "postgresql+asyncpg://admin_api:2311SLSs%40@localhost/api")
 
 # ✅ Création du moteur asynchrone
 engine = create_async_engine(DATABASE_URL, echo=True)

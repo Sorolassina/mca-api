@@ -9,8 +9,6 @@ def generate_pdf_from_html(html_content: str, filename: str)-> str:
 
     """Génère un PDF et retourne le chemin du fichier."""
     try:
-    
-        #pdf_filename  = f"generated_{uuid.uuid4().hex}.pdf"  # ✅ Génère un fichier temporaire
         pdf_path = get_pdf_path(filename)  # 📌 Utiliser le bon chemin
         HTML(string=html_content).write_pdf(pdf_path)
         return pdf_path  # ✅ Retourne juste le chemin du fichier

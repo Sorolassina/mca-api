@@ -1,7 +1,12 @@
-  # Clé API Pappers (remplacez par la vôtre)
-PAPPERS_API_KEY = "5c779e5cf0e04a3e814422345db7a29dc311bee60061ebd0"
 
 import os
+import urllib.parse
+from dotenv import load_dotenv
+
+# Charger le fichier .env
+load_dotenv()
+
+print("✅ [DEBUG] Fichier config.py chargé !")
 
 # 📌 Définir le chemin absolu du projet
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -21,6 +26,10 @@ os.makedirs(STATIC_MAPS_DIR, exist_ok=True)
 os.makedirs(STATIC_IMAGES_DIR, exist_ok=True)
 
 
+# Clés API  
+PAPPERS_API_KEY = os.getenv("PAPPERS_API_KEY")
+DIGIFORMA_API_KEY  = os.getenv("DIGIFORMA_API_KEY")
+
 # ✅ Paramètres SMTP pour l'envoi des emails
 SMTP_SERVER = os.getenv("SMTP_SERVER", "smtp.gmail.com")
 SMTP_PORT = int(os.getenv("SMTP_PORT", 587))
@@ -31,3 +40,14 @@ EMAIL_RECIPIENT = os.getenv("EMAIL_RECIPIENT", "lassina.soro.edu@groupe-gema.com
 def get_pdf_path(filename: str) -> str:
     """ Retourne le chemin absolu d'un fichier PDF dans le dossier fichiers/ """
     return os.path.join(FICHIERS_DIR, filename)
+
+POSTGRES_USER = os.getenv("POSTGRES_USER", "admin_api")
+POSTGRES_PASSWORD = urllib.parse.quote_plus(os.getenv("POSTGRES_PASSWORD", "2311SLSs@"))
+POSTGRES_DB = os.getenv("POSTGRES_DB", "api")
+DATABASE_URL = f"postgresql+asyncpg://{POSTGRES_USER}:{POSTGRES_PASSWORD}@localhost/{POSTGRES_DB}"
+DEBUG_MODE = os.getenv("DEBUG_MODE", "True").lower() == "true"
+
+print(f"✅ [DEBUG] POSTGRES_USER = {POSTGRES_USER}")
+print(f"✅ [DEBUG] POSTGRES_PASSWORD = {POSTGRES_PASSWORD}")
+print(f"✅ [DEBUG] POSTGRES_DB = {POSTGRES_DB}")
+print(f"✅ [DEBUG] DATABASE_URL = {DATABASE_URL}")

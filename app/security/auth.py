@@ -7,7 +7,7 @@ from app.database import get_db
 from email.mime.multipart import MIMEMultipart
 from app.security.tokens import *
 from app.security.password import *
-from fastapi import Depends, APIRouter
+from fastapi import Depends, APIRouter, HTTPException
 from sqlalchemy import select
 from fastapi.security import OAuth2PasswordBearer
 from app.config import SMTP_SERVER, SMTP_PORT, EMAIL_SENDER, EMAIL_PASSWORD  # Assurez-vous d'avoir ces variables configurées
@@ -82,6 +82,8 @@ async def login_or_register(form_data: UserInDB, db: AsyncSession = Depends(get_
     # ✅ Créer un nouvel utilisateur
     new_user = User(
         username=form_data.username,
+        name=form_data.name,
+        firstname=form_data.firstname,
         email=form_data.email,
         hashed_password=hash_password(form_data.password),
         is_active=True,
@@ -90,6 +92,7 @@ async def login_or_register(form_data: UserInDB, db: AsyncSession = Depends(get_
 
     # ✅ Générer un token pour le nouvel utilisateur
     new_token = create_access_token({"sub": new_user.username})
+    new_user.token=new_token #On stock dans la base le token généré
     db.add(new_user)
     await db.commit()
     await db.refresh(new_user)
@@ -98,3 +101,27 @@ async def login_or_register(form_data: UserInDB, db: AsyncSession = Depends(get_
     await send_welcome_email(new_user.email, new_user.username, new_token)
 
     return {"message": "Utilisateur créé avec succès", "token": new_token}
+
+
+'''async def get_current_user(token: str = Depends(oauth2_scheme), db: AsyncSession = Depends(get_db)):
+    """
+    Vérifie l'authentification de l'utilisateur via le token.
+    Toutes les routes sécurisées doivent utiliser cette dépendance.
+    """
+
+    # ✅ Vérifier la validité du token JWT
+    payload = verify_token(token)
+    if not payload:
+        raise HTTPException(status_code=401, detail="Token invalide ou expiré")
+
+    username = payload.get("sub")  # Récupérer le username depuis le token
+    
+    # ✅ Vérifier que l'utilisateur existe et que son token correspond
+    stmt = select(User).where(User.username == username, User.token == token)
+    result = await db.execute(stmt)
+    user = result.scalar_one_or_none()
+
+    if not user:
+        raise HTTPException(status_code=401, detail="Utilisateur non trouvé ou token incorrect")
+
+    return user  # ✅ Retourne l'utilisateur pour qu'il puisse être utilisé dans les routes protégées'''

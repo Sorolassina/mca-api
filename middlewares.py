@@ -4,12 +4,11 @@ import smtplib
 import time
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
-from fastapi import Request, HTTPException, Depends
+from fastapi import Request, HTTPException
 from fastapi.responses import JSONResponse
 from app.config import SMTP_SERVER, SMTP_PORT, EMAIL_SENDER, EMAIL_PASSWORD, EMAIL_RECIPIENT
 from app.security.auth import verify_token
 import os
-from sqlalchemy.orm import Session
 from app.database import get_db
 from app.models.model_user import User
 from sqlalchemy.future import select
@@ -114,11 +113,17 @@ async def auth_middleware(request: Request, call_next):
         "/api-mca/v1/recherche",
         "/api-mca/v1/documentation",
         "/api-mca/v1/register",
+        "/api-mca/v1/qpv_check",
+        "/api-mca/v1/siret",
+        "/api-mca/v1/digiforma",
+        "/api-mca/v1/generate-pdf",
+        "/api-mca/v1/generate-pdf-from-file",
         "/",
         ""
     ]
 
-    if request.url.path in PUBLIC_ROUTES:
+     # 🔥 Autoriser l'accès aux fichiers statiques sans authentification
+    if request.url.path in PUBLIC_ROUTES or request.url.path.startswith("/static/"): 
         return await call_next(request)  # ✅ Autorisation sans authentification
 
     # ✅ Utilisation correcte du générateur `get_db()` avec `async for`

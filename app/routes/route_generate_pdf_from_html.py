@@ -1,11 +1,12 @@
-from fastapi import APIRouter, UploadFile, File, HTTPException
+from fastapi import APIRouter, UploadFile, File, HTTPException,Depends
 from app.services.service_generate_pdf_from_file import generate_pdf_from_html, generate_pdf_from_file
 from app.schemas.schema_Html import HTMLInput, HTMLFileInput
 from fastapi.responses import FileResponse
-import mimetypes
 import os
 
+
 router = APIRouter()
+
 
 @router.post("/generate-pdf", response_class=FileResponse)
 def generate_pdf(data: HTMLInput):
