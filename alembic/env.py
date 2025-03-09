@@ -1,15 +1,20 @@
 import sys
 import os
 
+
+
 # ✅ Ajoute le chemin de `app/` pour éviter l'import error
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 from sqlalchemy import create_engine
 from alembic import context
-from app.config import DATABASE_URL
 from app.models.model_user import Base  # ✅ Assure-toi que `Base` est bien défini dans `models.py`
 
+DATABASE_URL = os.getenv("DATABASE_URL")
 # ✅ Convertir `asyncpg` en `psycopg2` pour Alembic
+if not DATABASE_URL:
+    raise ValueError("❌ ERREUR : La variable d'environnement DATABASE_URL est vide dans Alembic.")
+
 DATABASE_URL_SYNC = DATABASE_URL.replace("asyncpg", "psycopg2")
 
 # ✅ Création d'un moteur de connexion synchrone pour Alembic
