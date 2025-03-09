@@ -9,7 +9,7 @@ from app.config import DATABASE_URL
 load_dotenv()
 
 # Charger l'URL de la base de données depuis .env
-#DATABASE_URL = os.getenv("DATABASE_URL", "postgresql+asyncpg://admin_api:2311SLSs%40@localhost/api")
+DATABASE_URL = DATABASE_URL
 
 # ✅ Création du moteur asynchrone
 engine = create_async_engine(DATABASE_URL, echo=True)
