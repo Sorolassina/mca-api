@@ -10,14 +10,19 @@ from app.models.model_user import Base  # ✅ Assure-toi que `Base` est bien dé
 
 import time
 
-# Attendre jusqu'à ce que DATABASE_URL soit disponible
+# 🔄 Essayer de récupérer DATABASE_URL plusieurs fois
 MAX_RETRIES = 5
-for i in range(MAX_RETRIES):
+retry_count = 0
+
+DATABASE_URL = None
+while retry_count < MAX_RETRIES:
     DATABASE_URL = os.getenv("DATABASE_URL")
     if DATABASE_URL:
+        print(f"✅ [DEBUG] DATABASE_URL récupérée après {retry_count + 1} essais.")
         break
-    print(f"⏳ [ATTENTE] DATABASE_URL indisponible, tentative {i+1}/{MAX_RETRIES}...")
-    time.sleep(2)
+    print(f"⏳ [ATTENTE] DATABASE_URL indisponible, tentative {retry_count + 1}/{MAX_RETRIES}...")
+    time.sleep(3)
+    retry_count += 1
 
 if not DATABASE_URL:
     raise ValueError("❌ ERREUR : DATABASE_URL est toujours vide après plusieurs tentatives !")
