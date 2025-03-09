@@ -5,6 +5,7 @@ import os
 import asyncio
 import webbrowser
 import uvicorn
+from fastapi.responses import FileResponse
 
 # Importation des routes
 from app.routes import route_generate_pdf_from_html, route_qpv, route_siret_pappers, route_digiformat
@@ -56,3 +57,7 @@ if __name__ == "__main__":
         asyncio.run(uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True))
     except asyncio.CancelledError:
         print("❌ Interruption détectée, arrêt propre du serveur...")
+
+@app.get("/favicon.ico", include_in_schema=False)
+async def favicon():
+    return FileResponse(os.path.join("static", "favicon.ico"))
