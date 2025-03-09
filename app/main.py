@@ -60,4 +60,17 @@ if __name__ == "__main__":
 
 @app.get("/favicon.ico", include_in_schema=False)
 async def favicon():
-    return FileResponse(os.path.join("static", "favicon.ico"))
+    favicon_path = os.path.join("static", "favicon.ico")
+    return FileResponse(favicon_path)
+
+#✅ Configurer Redoc pour charger un favicon personnalisé
+app.openapi_tags = [
+    {
+        "name": "Custom",
+        "description": "Personnalisation de la doc",
+        "externalDocs": {
+            "description": "Favicon personnalisé",
+            "url": "/static/favicon.ico"
+        },
+    }
+]
