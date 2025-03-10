@@ -20,7 +20,7 @@ from app.config import get_base_url
 
 def verif_qpv(address_coords, request: Request):
     base_url = get_base_url(request)  # Récupérer l'URL dynamique
-    print(f"✅ {base_url}")
+    
     address = address_coords.get("address")
     lat = address_coords.get("latitude")
     lon = address_coords.get("longitude")
