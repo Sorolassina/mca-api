@@ -124,8 +124,8 @@ def verif_qpv(address_coords, request: Request):
         # Sauvegarde en image avec `selenium headless`
         save_map_as_image(map_file, image_file)
 
-        maps_url="/static/maps/map_{lat}_{lon}.html"
-        img_url="/static/images/map_{lat}_{lon}.png"
+        maps_url=f"/static/maps/map_{lat}_{lon}.html"
+        img_url=f"/static/images/map_{lat}_{lon}.png"
         return {
             "address": address,
             "nom_qp": f'{etat_qpv}:{qpv_name}',
@@ -178,8 +178,8 @@ def verif_qpv(address_coords, request: Request):
         m.save(map_file)
         save_map_as_image(map_file, image_file)
 
-        maps_url="/static/maps/map_{lat}_{lon}.html"
-        img_url="/static/images/map_{lat}_{lon}.png"
+        maps_url=f"/static/maps/map_{lat}_{lon}.html"
+        img_url=f"/static/images/map_{lat}_{lon}.png"
         return {
             "address": address,
             "nom_qp": "Aucun QPV",
