@@ -40,6 +40,10 @@ app.mount("/static", StaticFiles(directory=static_path), name="static")
 def read_root():
     return RedirectResponse(url="/api-mca/v1/documentation", status_code=307)
 
+@app.get("/ping")
+async def ping():
+    return {"status": "ok"}  # Réponse minimale
+
 # ✅ Inclusion des routes dans l'API
 api_router.include_router(route_generate_pdf_from_html.router, tags=["Génération de PDF à partir de HTML"])
 api_router.include_router(route_siret_pappers.router, tags=["Siret"])
