@@ -6,7 +6,7 @@ router = APIRouter()
 
 DIGIFORMA_GRAPHQL_URL = "https://app.digiforma.com/api/v1/graphql"
 
-@router.post("/digiforma")
+@router.get("/digiforma")
 async def get_digiforma_sessions():
     
     """
