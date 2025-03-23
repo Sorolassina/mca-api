@@ -8,7 +8,6 @@ from app import config
 import time
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.chrome.options import Options
 from PIL import Image
 from folium.features import DivIcon
 from webdriver_manager.chrome import ChromeDriverManager
@@ -17,8 +16,11 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from fastapi import Request
 from app.config import get_base_url
+from app.utils.file_encoded import encode_file_to_base64
 
-def verif_qpv(address_coords, request: Request):
+
+    
+async def verif_qpv(address_coords, request: Request):
     base_url = get_base_url(request)  # Récupérer l'URL dynamique
     
     address = address_coords.get("address")
@@ -126,12 +128,20 @@ def verif_qpv(address_coords, request: Request):
 
         maps_url=f"/static/maps/map_{lat}_{lon}.html"
         img_url=f"/static/images/map_{lat}_{lon}.png"
+
+        # Vérifie si l’image existe avant d’essayer de l’encoder
+        if os.path.exists(image_file):
+            encoded_image = encode_file_to_base64(image_file)
+        else:
+            encoded_image = None  # Si l’image n’existe pas
+
         return {
             "address": address,
             "nom_qp": f'{etat_qpv}:{qpv_name}',
             "distance_m": distance_m,
             "carte": f"{base_url.strip()}{maps_url.strip()}",
-            "image_url": f"{base_url.strip()}{img_url.strip()}"
+            "image_url": f"{base_url.strip()}{img_url.strip()}",
+            "image_encoded": f"{encoded_image}"
         }
     
     else:
@@ -180,12 +190,21 @@ def verif_qpv(address_coords, request: Request):
 
         maps_url=f"/static/maps/map_{lat}_{lon}.html"
         img_url=f"/static/images/map_{lat}_{lon}.png"
+
+
+        # Vérifie si l’image existe avant d’essayer de l’encoder
+        if os.path.exists(image_file):
+            encoded_image = encode_file_to_base64(image_file)
+        else:
+            encoded_image = None  # Si l’image n’existe pas
+            
         return {
             "address": address,
             "nom_qp": "Aucun QPV",
             "distance_m": "N/A",
             "carte": f"{base_url.strip()}{maps_url.strip()}",
-            "image_url": f"{base_url.strip()}{img_url.strip()}"
+            "image_url": f"{base_url.strip()}{img_url.strip()}",
+            "image_encoded": f"{encoded_image}"
         }
 
 def save_map_as_image(map_path, image_path):
@@ -210,7 +229,7 @@ def save_map_as_image(map_path, image_path):
         # Attendre que le corps de la page soit chargé avant la capture
         WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.TAG_NAME, "body")))
 
-        #time.sleep(2)  # Attendre le rendu de la carte
+        time.sleep(2)  # Attendre le rendu de la carte
 
         # Capture d'écran et enregistrement
         driver.save_screenshot(image_path)

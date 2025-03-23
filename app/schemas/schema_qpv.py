@@ -1,4 +1,4 @@
-from pydantic import BaseModel, validator,root_validator, ValidationError, Field
+from pydantic import BaseModel,model_validator
 import requests
 
 class Adresse(BaseModel): #Modèle pydantic pour la validation de l'adresse transmise
@@ -6,7 +6,8 @@ class Adresse(BaseModel): #Modèle pydantic pour la validation de l'adresse tran
     latitude: float = None
     longitude: float = None
     
-    @root_validator(pre=True)
+    @model_validator(mode="after")
+    @classmethod
     def validate_address(cls, values):
         
         address=values.get("address")

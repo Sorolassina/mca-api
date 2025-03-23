@@ -20,6 +20,7 @@ os.makedirs(FICHIERS_DIR, exist_ok=True)
 
 # Dossiers pour stocker les cartes et images
 STATIC_MAPS_DIR = "app/static/maps/"
+
 STATIC_IMAGES_DIR = "app/static/images/"
 # Créer les dossiers s'ils n'existent pas
 os.makedirs(STATIC_MAPS_DIR, exist_ok=True)
@@ -45,13 +46,9 @@ def get_base_url(request: Request):
     base_url = str(request.base_url).rstrip("/")
     return base_url
 
-POSTGRES_USER = os.getenv("POSTGRES_USER", "admin_api")
+"""POSTGRES_USER = os.getenv("POSTGRES_USER", "admin_api")
 POSTGRES_PASSWORD = urllib.parse.quote_plus(os.getenv("POSTGRES_PASSWORD", "2311SLSs@"))
 POSTGRES_DB = os.getenv("POSTGRES_DB", "api")
 DATABASE_URL =os.getenv("DATABASE_URL")  #f"postgresql+asyncpg://{POSTGRES_USER}:{POSTGRES_PASSWORD}@localhost/{POSTGRES_DB}"
-DEBUG_MODE = os.getenv("DEBUG_MODE", "True").lower() == "true"
+DEBUG_MODE = os.getenv("DEBUG_MODE", "True").lower() == "true"""
 
-print(f"✅ [DEBUG] POSTGRES_USER = {POSTGRES_USER}")
-print(f"✅ [DEBUG] POSTGRES_PASSWORD = {POSTGRES_PASSWORD}")
-print(f"✅ [DEBUG] POSTGRES_DB = {POSTGRES_DB}")
-print(f"✅ [DEBUG] DATABASE_URL = {DATABASE_URL}")

@@ -11,8 +11,10 @@ COPY . .
 RUN pip install --no-cache-dir --upgrade pip && \
     pip install -r requirements.txt
 
-# 5️⃣ Exposer le port 8000
-EXPOSE 8000
+RUN python -c "from transformers import pipeline; pipeline('summarization', model='facebook/bart-large-cnn')"
+
+# 5️⃣ Exposer le port 8080
+EXPOSE 8080
 
 # Installer les dépendances nécessaires
 RUN apt-get update && apt-get install -y \
@@ -25,6 +27,5 @@ RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key
     && apt-get update \
     && apt-get install -y google-chrome-stable
 
-
 # 7️⃣ Lancer l'application FastAPI avec Uvicorn
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8080"]

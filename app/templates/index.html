@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MCA-API Services</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: black;
+            color: white;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+        *, *::before, *::after {
+        box-sizing: border-box;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+        .container {
+            width: 50%;
+            margin: auto;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        h1 {
+            color: #EDD213;
+        }
+        .logo {
+            width: 150px;
+            margin-top: 20px;
+        }
+        select, input, button, textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: none;
+        }
+        select, input {
+            background-color: white;
+            color: black;
+        }
+        button {
+            background-color: #EDD213;
+            color: black;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: white;
+            color: black;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #222;
+            border-radius: 10px;
+        }
+        a {
+            color: #EDD213;
+            font-weight: bold;
+        }
+        #html_upload_container {
+            display: none;
+        }
+        /* ⏳ Overlay de chargement */
+    #loading-overlay {
+      display: none;
+      position: fixed;
+      z-index: 9999;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.7);
+      backdrop-filter: blur(5px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      color: white;
+    }
+
+        .spinner {
+    margin: 20px auto;
+    border: 6px solid #f3f3f3;
+    border-top: 6px solid #EDD213;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+    </style>
+    <script src="/static/js/index.js"></script>
+</head>
+<body>
+
+    <!-- ✅ Overlay spinner -->
+    <div id="loading-overlay">
+        <div class="spinner"></div>
+        <div style="font-weight:bold; font-size:16px;">Chargement en cours...</div>
+    </div>
+
+    <div class="container">
+        <img src="/static/logo.png" alt="MCA-API Logo" class="logo">
+        <h1>Bienvenue sur MCA-API Services</h1>
+        <p><a href="/api-mca/v1/documentation">Cliquer pour voir la documentation.</a></p>
+        <p>Utilisez cette interface pour interagir avec nos services :</p>
+        <ul style="text-align: left;font-size: small;">
+            <ol>✅ Générer un PDF à partir d'un fichier HTML ou du code HTML</ol>
+            <ol>✅ Rechercher des informations d'une entreprise via SIRET</ol>
+            <ol>✅ Vérifier si une adresse appartient à une zone QPV</ol>
+            <ol>✅ Récupérer les informations depuis digiformat en fichier CSV</ol>
+            <ol>✅ Générer un rapport coaching ou une attestation de présence rdv</ol>
+        </ul>
+
+        <form action="{{ url_process }}" method="post" enctype="multipart/form-data">
+            <label for="service">Services</label>
+            <select name="service" id="service" onchange="toggleHtmlInput()">
+                <option value="place_holder">Merci de sélectionner un service....</option>
+                <option value="company_info">Rechercher une entreprise (SIRET)</option>
+                <option value="pdf_from_html">Générer un PDF</option>
+                <option value="check_qpv">Vérifier une adresse QPV</option>
+                <option value="digiformat_data">Extraire les données bénéficiaire depuis digiformat</option>
+            </select>
+
+            <div id="html_upload_container">
+                <label for="html_file">Charger un fichier HTML</label>
+                <input type="file" name="html_file" id="html_file" accept=".html">
+                <label for="html_content">Ou entrer du code HTML</label>
+                <textarea name="html_content" id="html_content" rows="6" placeholder="Collez votre code HTML ici..."></textarea>
+            </div>
+
+            <label for="input_data">Données</label>
+            <input type="text" name="input_data" id="input_data" placeholder="Entrez les informations..." required>
+
+            <button id="submitBtn" type="submit">Envoyer</button>
+            
+        </form>
+
+        {% if result %}
+            <div class="result">
+                <h2>Résultat :</h2>
+                <p>{{ result | safe }}</p>
+                {% if download_url %}
+                    <a href="{{ download_url }}" download>📥 Télécharger</a>
+                {% endif %}
+            </div>
+        {% endif %}
+    </div>
+
+</body>
+</html>

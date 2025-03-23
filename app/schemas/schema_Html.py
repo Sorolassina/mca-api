@@ -1,4 +1,4 @@
-from pydantic import BaseModel, validator, Field
+from pydantic import BaseModel,  Field, field_validator
 
 # Définition du modèle de requête avec Pydantic
 class HTMLInput(BaseModel):
@@ -9,7 +9,8 @@ class HTMLFileInput(BaseModel):
     content: str
     filename: str = Field("document.pdf", title="Nom du fichier PDF généré")
 
-    @validator("filename")
+    @field_validator("filename") 
+    @classmethod
     def validate_filename(cls, v):
 
         """Vérifie si le nom de fichier se termine par .html ou .htm."""
@@ -17,7 +18,9 @@ class HTMLFileInput(BaseModel):
             raise ValueError("Le fichier doit avoir une extension .html ou .htm.")
         return v
     
-    @validator("content")
+    
+    @field_validator("content") 
+    @classmethod
     def validate_html(cls, v):
         """
         Vérifie si le contenu contient bien des balises HTML.
