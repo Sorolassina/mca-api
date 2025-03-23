@@ -26,7 +26,6 @@ def digiforma_graphql_post(query: str, timeout: int = 50, debug: bool = False) -
         response = requests.post(DIGIFORMA_GRAPHQL_URL, json=payload, headers=headers, timeout=timeout)
         if debug:
             print(f"✅ [DEBUG] Digiforma response status: {response.status_code}")
-            print(f"✅ [DEBUG] Digiforma response content: {response.text}")
 
         response.raise_for_status()
         result = response.json()
@@ -65,11 +64,8 @@ async def extract_digiforma_data(data: DigiformaInput,request:Request):
                  }}
             }}"""
        
-
-        print(f"✅ [DEBUG] Requete query_all_Session envoyé")
         # ✅ Requête sessions
         dataSession = digiforma_graphql_post(query_all_Session, debug=True)
-        print(f"✅ [DEBUG] Requete query_all_Session retourné")
 
         # ✅ Vérification de la structure JSON
         if "trainingSessions" in dataSession:
@@ -110,11 +106,8 @@ async def extract_digiforma_data(data: DigiformaInput,request:Request):
                 }               
                 trainingSession { id name code }
             }}
-        """
-        print(f"✅ [DEBUG] Requete query_customer envoyé")
-        dataCustomers = digiforma_graphql_post(query_all_Trainee, debug=True)
-        print(f"✅ [DEBUG] Requete query_customer retourné")
-       
+        """   
+        dataCustomers = digiforma_graphql_post(query_all_Trainee, debug=True) 
 
         if "customers" in dataCustomers:
             customers = dataCustomers["customers"]

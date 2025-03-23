@@ -108,7 +108,7 @@ async def process_service(
             return RedirectResponse(url="/", status_code=303)
             
         elif service == "check_qpv":
-            print(f"DEBUG Je suis dans le check-qpv : {input_data}")
+            
             adresse = Adresse(address=input_data, latitude=latitude, longitude=longitude)
             qpv_data = await service_qpv.verif_qpv(adresse.model_dump(), request)
             map_url = qpv_data.get("carte", None)
