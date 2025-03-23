@@ -7,5 +7,5 @@ router = APIRouter()
 # On va dans un premier temps récupérer l'adresse géographique et le valider
 @router.post("/qpv_check")
 async def get_adresse(address:Adresse, request: Request) :
-    recherche = await verif_qpv(address.dict(), request)
+    recherche = await verif_qpv(address.model_dump(), request)
     return recherche

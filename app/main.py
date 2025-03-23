@@ -2,7 +2,6 @@ from fastapi import FastAPI, APIRouter, Request
 from fastapi.staticfiles import StaticFiles
 import os
 import asyncio
-import webbrowser
 import uvicorn
 from fastapi.templating import Jinja2Templates
 from app.config import BASE_DIR
@@ -74,8 +73,9 @@ app.include_router(api_router)
 if __name__ == "__main__":
     try:
         # Ouvrir automatiquement le navigateur sur l'API
-        webbrowser.open("http://localhost:8001/")
-        asyncio.run(uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True))
+        #webbrowser.open("http://localhost:8001/")
+        port = int(os.environ.get("PORT", 8080))  # 8080 si non défini
+        asyncio.run(uvicorn.run("main:app", host="0.0.0.0", port=port))
     except asyncio.CancelledError:
         print("❌ Interruption détectée, arrêt propre du serveur...")
 

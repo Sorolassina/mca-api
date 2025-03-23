@@ -1,10 +1,6 @@
 
 import os
-from fastapi import Request
-from weasyprint import HTML as WeasyHTML
-#from playwright.async_api import async_playwright
 import base64
-from app.config import get_base_url
 
 
 # 🔧 Exemple de fonction à adapter à ton projet

@@ -17,15 +17,23 @@ from selenium.webdriver.support import expected_conditions as EC
 from fastapi import Request
 from app.config import get_base_url
 from app.utils.file_encoded import encode_file_to_base64
-
-
+from app.schemas.schema_qpv import Adresse
     
 async def verif_qpv(address_coords, request: Request):
     base_url = get_base_url(request)  # Récupérer l'URL dynamique
     
-    address = address_coords.get("address")
-    lat = address_coords.get("latitude")
-    lon = address_coords.get("longitude")
+    print(f"DEBUG Nous sommes dans verif QPV : {address_coords}")
+    # 🔐 Protection : accepte Pydantic OU dict
+    if isinstance(address_coords, Adresse):
+        address_dict = address_coords.model_dump()
+    elif isinstance(address_coords, dict):
+        address_dict = address_coords
+    else:
+        raise ValueError("❌ Format non reconnu pour address_coords")
+
+    address = address_dict.get("address")
+    lat = address_dict.get("latitude")
+    lon = address_dict.get("longitude")
     
     # ✅ Définir `m` au début pour éviter l'erreur
     point_coords = (lat, lon)

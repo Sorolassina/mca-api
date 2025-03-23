@@ -9,9 +9,10 @@ COPY . .
 
 # 4️⃣ Installer les dépendances
 RUN pip install --no-cache-dir --upgrade pip && \
-    pip install -r requirements.txt
-
-RUN python -c "from transformers import pipeline; pipeline('summarization', model='facebook/bart-large-cnn')"
+    pip install -r requirements-light.txt
+    #pip install -r requirements.txt
+    
+#RUN python -c "from transformers import pipeline; pipeline('summarization', model='facebook/bart-large-cnn')"
 
 # 5️⃣ Exposer le port 8080
 EXPOSE 8080

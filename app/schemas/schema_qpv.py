@@ -6,11 +6,12 @@ class Adresse(BaseModel): #Modèle pydantic pour la validation de l'adresse tran
     latitude: float = None
     longitude: float = None
     
+    model_config = {"frozen": False}  # ✅ autorise la modification dans le validateur
     @model_validator(mode="after")
     @classmethod
     def validate_address(cls, values):
         
-        address=values.get("address")
+        address=values.address
         url = f"https://api-adresse.data.gouv.fr/search/?q={address.replace(' ', '+')}" 
 
         try:
@@ -22,8 +23,8 @@ class Adresse(BaseModel): #Modèle pydantic pour la validation de l'adresse tran
             if data.get("features") and data['features'][0]['properties'].get('score', 0)>0.8:
                 # Extraire les coordonnées GPS
                 coords = data["features"][0]["geometry"]["coordinates"]
-                values["latitude"] = coords[1]  # Latitude
-                values["longitude"] = coords[0]  # Longitude
+                values.latitude= coords[1]  # Latitude
+                values.longitude = coords[0]  # Longitude
                 
                 return values  # Retourne tout l'objet mis à jour
                 

@@ -1,8 +1,19 @@
+# Environnements virtuels et fichiers temporaires
 env/
 __pycache__/
 *.pyc
 *.pyo
+
+# Config éditeur
 .vscode/
 .idea/
+
+# Fichiers d'environnement
 .env
 
+
+# Ignorer toutes les images dans static/images/
+static/images/*
+
+# Garder le dossier vide dans le repo
+!static/images/.gitkeep
