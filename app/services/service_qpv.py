@@ -21,7 +21,7 @@ from app.schemas.schema_qpv import Adresse
     
 async def verif_qpv(address_coords, request: Request):
     base_url = get_base_url(request)  # Récupérer l'URL dynamique
-    
+    print("✅ Adresse validée au niveau du service :", address_coords)
     # 🔐 Protection : accepte Pydantic OU dict
     if isinstance(address_coords, Adresse):
         address_dict = address_coords.model_dump()
