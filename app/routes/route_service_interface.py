@@ -11,6 +11,12 @@ import os
 from fastapi.templating import Jinja2Templates
 from app.services import service_digiforma,service_qpv,service_generate_pdf_from_file,service_siret_pappers
 from app.utils.template import build_success_result_html
+from fastapi import UploadFile
+import tempfile
+import aiofiles
+from app.config import BASE_DIR
+from traiter_zip_excel import traiter_zip_entier  # ajuste selon ton arborescence
+import shutil
 
 # ✅ Monter le dossier "templates" pour qu'il soit accessible via "/templates/"
 templates_path = os.path.join(os.getcwd(), "app/templates")
@@ -23,10 +29,11 @@ async def process_service(
     request: Request,
     service: str = Form(...),
     input_data: str = Form(""),
-    latitude: float = Form(0.0),
-    longitude: float = Form(0.0),
     html_content:str=Form(""),
+    custom_file: UploadFile = File(...),
+    old_words: str = Form(""),
     filename: str = Form("file_genered.pdf"),
+    new_word: str = Form(""),
     html_file: UploadFile = File(None)  # Ajout pour gérer l'upload de fichier
 ):
     
@@ -44,8 +51,7 @@ async def process_service(
             return RedirectResponse(url="/", status_code=303)
         
         elif service == "pdf_from_html" and html_file is not None:
-            
-            
+                       
             # 🔹 Récupérer le nom de fichier sans son extension et ajouter `.pdf`
             base_filename = os.path.splitext(html_file.filename)[0]  # Extrait le nom sans l'extension
             filename = f"{base_filename}.pdf"  # Remplace l'extension
@@ -106,10 +112,54 @@ async def process_service(
             request.session["result"] = result
             request.session["download_url"] = download_url
             return RedirectResponse(url="/", status_code=303)
-            
+
+        elif service == "customize_folder":
+    
+            if not custom_file or not new_word or not old_words:
+                raise HTTPException(status_code=400, detail="Fichier, nouveau et anciens mots requis.")
+
+            old_words_list = [w.strip() for w in old_words.split(",") if w.strip()]
+            replacements = {word: new_word for word in old_words_list}
+
+            # Enregistrer temporairement le fichier reçu
+            temp_dir = tempfile.mkdtemp()
+            input_path = os.path.join(temp_dir, custom_file.filename)
+
+            async with aiofiles.open(input_path, "wb") as out_file:
+                content = await custom_file.read()
+                await out_file.write(content)
+
+            # ⚙️ Appel à la nouvelle fonction          
+            try:
+                final_zip, ignored = traiter_zip_entier(input_path, replacements)
+                 
+            except Exception as e:
+                msg = f"❌ Erreur pendant le traitement du fichier : {str(e)}"
+                request.session["result"] = get_result_template(msg, type_="error")
+                return RedirectResponse(url="/", status_code=303)
+
+            # 📁 Copier le fichier dans le dossier static
+            STATIC_FOLDER = os.path.join(BASE_DIR, "static", "fichiers")
+            os.makedirs(STATIC_FOLDER, exist_ok=True)
+
+            filename = os.path.basename(final_zip)
+            final_path = os.path.join(STATIC_FOLDER, filename)
+            shutil.copy(final_zip, final_path)
+            download_url = f"/static/fichiers/{filename}"
+
+            # ✅ Message HTML final
+            message = f"✅ Le fichier personnalisé <b>{filename}</b> est prêt au téléchargement."
+
+            # Tu peux ajouter ici la gestion des fichiers ignorés si tu veux
+            result = build_success_result_html(message=message, download_url=download_url, filename=filename)
+            request.session["result"] = result
+            request.session["download_url"] = download_url
+
+            return RedirectResponse(url="/", status_code=303)
+
         elif service == "check_qpv":
             
-            adresse = Adresse(address=input_data, latitude=latitude, longitude=longitude)
+            adresse = Adresse(address=input_data)
             qpv_data = await service_qpv.verif_qpv(adresse.model_dump(), request)
             map_url = qpv_data.get("carte", None)
             nom_qpv = qpv_data.get("nom_qp", None)
@@ -141,10 +191,47 @@ async def process_service(
             
             return RedirectResponse(url="/", status_code=303)
         
+        elif service == "check_groupeqpv" and html_file is not None:
+
+            # ✅ Vérification du type de fichier
+            ALLOWED_EXTENSIONS = [".xlsx", ".csv"]
+            filename = html_file.filename
+            if not any(filename.lower().endswith(ext) for ext in ALLOWED_EXTENSIONS):
+                msg = "❌ Erreur : Seuls les fichiers Excel (.xlsx) sont autorisés pour ce service."
+                request.session["result"] = get_result_template(msg, type_="error")
+                return RedirectResponse(url="/", status_code=303)
+    
+            # Enregistrer le fichier temporairement
+            temp_dir = tempfile.mkdtemp()
+            input_path = os.path.join(temp_dir, html_file.filename)
+
+            async with aiofiles.open(input_path, "wb") as f:
+                content = await html_file.read()
+                await f.write(content)
+
+            from app.services.service_QPV_QueryGroup import recherche_groupqpv
+
+            if filename.lower().endswith(".xlsx"):
+                output_path = os.path.join("app", "static", "fichiers", "resultats_qpv.xlsx")
+                type="xlsx"
+            else :
+                output_path = os.path.join("app", "static", "fichiers", "resultats_qpv.csv")
+                type="csv"
+
+            await recherche_groupqpv(input_path, output_path, type, request)
+
+            message = "✅ Le fichier avec les résultats QPV est prêt."
+            result = build_success_result_html(message, download_url="/static/fichiers/resultats_qpv.xlsx", filename="resultats_qpv.xlsx")
+            request.session["result"] = result
+            return RedirectResponse(url="/", status_code=303)
+        
     except ValidationError as ve:
         # Extraction des messages d'erreur Pydantic
         errors = ve.errors()
-        error_messages = "<br>".join([f"{err['loc'][0]} : {err['msg']}" for err in errors])
+        error_messages = "<br>".join([
+                f"{'.'.join(map(str, err.get('loc', [])))} : {err.get('msg', 'Erreur inconnue')}"
+                for err in errors
+            ])
         request.session["result"] = get_result_template(f"❌ Erreur de validation :<br>{error_messages}", type_="error")
 
     except TypeError as e:

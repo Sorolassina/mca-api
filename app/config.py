@@ -1,6 +1,5 @@
 
 import os
-import urllib.parse
 from dotenv import load_dotenv
 from fastapi import Request
 # Charger le fichier .env
@@ -46,9 +45,5 @@ def get_base_url(request: Request):
     base_url = str(request.base_url).rstrip("/")
     return base_url
 
-"""POSTGRES_USER = os.getenv("POSTGRES_USER", "admin_api")
-POSTGRES_PASSWORD = urllib.parse.quote_plus(os.getenv("POSTGRES_PASSWORD", "2311SLSs@"))
-POSTGRES_DB = os.getenv("POSTGRES_DB", "api")
-DATABASE_URL =os.getenv("DATABASE_URL")  #f"postgresql+asyncpg://{POSTGRES_USER}:{POSTGRES_PASSWORD}@localhost/{POSTGRES_DB}"
-DEBUG_MODE = os.getenv("DEBUG_MODE", "True").lower() == "true"""
+
 

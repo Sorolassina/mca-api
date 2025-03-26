@@ -116,30 +116,42 @@
         <img src="/static/logo.png" alt="MCA-API Logo" class="logo">
         <h1>Bienvenue sur MCA-API Services</h1>
         <p><a href="/api-mca/v1/documentation">Cliquer pour voir la documentation.</a></p>
-        <p>Utilisez cette interface pour interagir avec nos services :</p>
-        <ul style="text-align: left;font-size: small;">
-            <ol>✅ Générer un PDF à partir d'un fichier HTML ou du code HTML</ol>
-            <ol>✅ Rechercher des informations d'une entreprise via SIRET</ol>
-            <ol>✅ Vérifier si une adresse appartient à une zone QPV</ol>
-            <ol>✅ Récupérer les informations depuis digiformat en fichier CSV</ol>
-            <ol>✅ Générer un rapport coaching ou une attestation de présence rdv</ol>
-        </ul>
+        <p>Utilisez cette interface pour interagir avec nos services</p>
+        
 
         <form action="{{ url_process }}" method="post" enctype="multipart/form-data">
             <label for="service">Services</label>
             <select name="service" id="service" onchange="toggleHtmlInput()">
-                <option value="place_holder">Merci de sélectionner un service....</option>
-                <option value="company_info">Rechercher une entreprise (SIRET)</option>
-                <option value="pdf_from_html">Générer un PDF</option>
-                <option value="check_qpv">Vérifier une adresse QPV</option>
-                <option value="digiformat_data">Extraire les données bénéficiaire depuis digiformat</option>
+                <option value="place_holder">Veuillez sélectionner un service...</option>
+                <option value="company_info">🔍 Rechercher une entreprise via SIRET/SIREN</option>
+                <option value="pdf_from_html">📝 Générer un PDF à partir de contenu HTML</option>
+                <option value="check_qpv">🏘️ Vérifier si une adresse est en QPV</option>
+                <option value="check_groupeqpv">📄 Vérifier un lot d’adresses QPV (fichier)</option>
+                <option value="digiformat_data">📥 Extraire les données d’un bénéficiaire (Digiformat)</option>
+                <option value="customize_folder">🛠️ Personnaliser un fichier ou dossier (recherche/remplacement)</option>
             </select>
 
             <div id="html_upload_container">
-                <label for="html_file">Charger un fichier HTML</label>
-                <input type="file" name="html_file" id="html_file" accept=".html">
-                <label for="html_content">Ou entrer du code HTML</label>
-                <textarea name="html_content" id="html_content" rows="6" placeholder="Collez votre code HTML ici..."></textarea>
+                <div id="qpvblock_upload_container">
+                    <label for="html_file">Charger un fichier HTML</label>
+                    <input type="file" name="html_file" id="html_file" accept=".html">
+                </div>
+
+                <div id="html_content_container">
+                    <label for="html_content">Ou entrer du code HTML</label>
+                    <textarea name="html_content" id="html_content" rows="6" placeholder="Collez votre code HTML ici..."></textarea>
+                </div>
+            </div>
+
+            <div id="customize_container" style="display: none;">
+                <label for="custom_file">Charger un fichier ou un dossier zip</label>
+                <input type="file" name="custom_file" id="custom_file" required>
+            
+                <label for="old_words">Mots à remplacer (séparés par des virgules)</label>
+                <input type="text" name="old_words" id="old_words" placeholder="Ex: NOM_CLIENT, DATE, VILLE">
+            
+                <label for="new_word">Nouveau mot</label>
+                <input type="text" name="new_word" id="new_word" placeholder="Ex: Koroba S.A" required>
             </div>
 
             <label for="input_data">Données</label>
@@ -160,6 +172,21 @@
         {% endif %}
     </div>
 <script src="/static/js/index.js"></script>
+<script>
+    function toggleIgnored() {
+        const el = document.getElementById("ignoredList");
+        const icon = document.getElementById("toggleIcon");
+        const isOpen = el.style.maxHeight && el.style.maxHeight !== "0px";
+
+        if (isOpen) {
+            el.style.maxHeight = "0";
+            icon.innerText = "▼";
+        } else {
+            el.style.maxHeight = el.scrollHeight + "px";
+            icon.innerText = "▲";
+        }
+    }
+</script>
 </body>
 
 </html>

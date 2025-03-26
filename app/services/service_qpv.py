@@ -20,6 +20,7 @@ from app.utils.file_encoded import encode_file_to_base64
 from app.schemas.schema_qpv import Adresse
     
 async def verif_qpv(address_coords, request: Request):
+
     base_url = get_base_url(request)  # Récupérer l'URL dynamique
     print("✅ Adresse validée au niveau du service :", address_coords)
     # 🔐 Protection : accepte Pydantic OU dict
@@ -29,10 +30,28 @@ async def verif_qpv(address_coords, request: Request):
         address_dict = address_coords
     else:
         raise ValueError("❌ Format non reconnu pour address_coords")
+    
 
-    address = address_dict.get("address")
-    lat = address_dict.get("latitude")
-    lon = address_dict.get("longitude")
+    address=address_dict.get("address")
+    url = f"https://api-adresse.data.gouv.fr/search/?q={address.replace(' ', '+')}" 
+    
+    try:
+        response = requests.get(url)
+        response.raise_for_status()  # Lève une erreur si la requête échoue
+        data = response.json() # Vérifier si la réponse est bien un JSON
+    
+        # Vérifier si des résultats existent
+        if data.get("features") : 
+            # Extraire les coordonnées GPS
+            coords = data["features"][0]["geometry"]["coordinates"]
+            # ✅ on retourne une copie mise à jour
+           
+            address = address_dict.get("address")
+            lat = coords[1]
+            lon = coords[0]
+                                
+    except requests.exceptions.RequestException as e:
+        return {"error": f"Erreur API : {str(e)}"}
     
     # ✅ Définir `m` au début pour éviter l'erreur
     point_coords = (lat, lon)
@@ -66,8 +85,6 @@ async def verif_qpv(address_coords, request: Request):
         address_point = Point(point_coords[::-1])  # Shapely utilise (lon, lat)
         polygon = Polygon(coord_qpv)
         
-        
-
         # Générer la carte avec Folium
         folium.PolyLine([(y, x) for x, y in coord_qpv], color="blue", fill=True,fill_color="lightblue",
                         weight=2.5, fill_opacity=0.6).add_to(m)
