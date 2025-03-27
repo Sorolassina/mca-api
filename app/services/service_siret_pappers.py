@@ -2,7 +2,7 @@ from fastapi import Request
 import csv
 from app.config import get_base_url
 from app.utils.file_encoded import encode_file_to_base64
-from app import config
+from app.config import FICHIERS_DIR
 import os
 import requests
 from fastapi import HTTPException
@@ -27,7 +27,7 @@ async def get_entreprise_process(numero_siret: str, request: Request):
         raise HTTPException(status_code=500, detail=f"🚨 Erreur de connexion à Pappers : {str(e)}")
 
     base_url = get_base_url(request)  # Récupérer l'URL dynamique
-    csv_url = os.path.join(config.FICHIERS_DIR, "entreprise_data.csv")
+    csv_url = os.path.join(FICHIERS_DIR, "entreprise_data.csv")
     """ Générer et retourner les données JSON + CSV """
     try:
         

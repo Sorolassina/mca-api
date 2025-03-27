@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    
+        <script>
+            L_NO_TOUCH = false;
+            L_DISABLE_3D = false;
+        </script>
+    
+    <style>html, body {width: 100%;height: 100%;margin: 0;padding: 0;}</style>
+    <style>#map {position:absolute;top:0;bottom:0;right:0;left:0;}</style>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_e23c70dad46b1b1c1ee34011aca5107d {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+        
+</head>
+<body>
+    
+    
+            <div class="folium-map" id="map_e23c70dad46b1b1c1ee34011aca5107d" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_e23c70dad46b1b1c1ee34011aca5107d = L.map(
+                "map_e23c70dad46b1b1c1ee34011aca5107d",
+                {
+                    center: [48.87849, 2.182502],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 14,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_b3484bce5b7f616d09e11362619dc268 = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 19,
+  "maxNativeZoom": 19,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_b3484bce5b7f616d09e11362619dc268.addTo(map_e23c70dad46b1b1c1ee34011aca5107d);
+        
+    
+            var marker_44ae1364a64c1a78f06c4beca2be9015 = L.marker(
+                [48.87849, 2.182502],
+                {
+}
+            ).addTo(map_e23c70dad46b1b1c1ee34011aca5107d);
+        
+    
+            var icon_b93ea3c9bfe7f51d01a1ff7945f46fe8 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+            marker_44ae1364a64c1a78f06c4beca2be9015.setIcon(icon_b93ea3c9bfe7f51d01a1ff7945f46fe8);
+        
+    
+            var marker_92d5c7c977323983c72fa09eae32b021 = L.marker(
+                [48.87849, 2.182502],
+                {
+}
+            ).addTo(map_e23c70dad46b1b1c1ee34011aca5107d);
+        
+    
+            var div_icon_66fb5604def7d5a2165c8badcf714f33 = L.divIcon({
+  "html": "\n            \u003cdiv style=\"\n                background-color: rgba(255, 255, 255, 0.8);\n                padding: 10px;\n                border-radius: 5px;\n                font-size: 12px;\n                font-weight: bold;\n                text-align: left;\n                width: 400px;\"\u003e\n                \ud83d\udcc5 Aujourd\u0027hui : 26/03/2025\u003cbr\u003e\n                \ud83d\udccd \u003cb\u003e28 r Doct Zamenhof 92500 RUEIL MALMAISON\u003c/b\u003e\u003cbr\u003e\n                \ud83d\udeab Quartier Prioritaire : Aucun QPV trouv\u00e9 \u003cbr\u003e\n                \ud83d\udd17 \u003ca href=\"https://public.opendatasoft.com/api/explore/v2.1/console\" target=\"_blank\" style=\"color:blue; text-decoration:none;\"\u003e\n                    Source OpenDataSoft\n                    \u003c/a\u003e\n            \u003c/div\u003e\n        ",
+  "iconSize": [350, 50],
+  "iconAnchor": [0, 0],
+  "className": "empty",
+});
+            marker_92d5c7c977323983c72fa09eae32b021.setIcon(div_icon_66fb5604def7d5a2165c8badcf714f33);
+        
+</script>
+</html>

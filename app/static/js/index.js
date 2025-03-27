@@ -31,6 +31,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (selectedService === "pdf_from_html") {
             htmlContainer.style.display = "block";
+            htmlFile.setAttribute("accept", ".html");
             htmlContentContainer.style.display="block";
             inputData.style.display = "none";
             inputLabel.style.display = "none";
@@ -38,16 +39,19 @@ document.addEventListener("DOMContentLoaded", () => {
             
         } else if (selectedService === "customize_folder") {
             customizeContainer.style.display = "block";
+            htmlFile.setAttribute("accept", ".zip");
             document.getElementById("custom_file").setAttribute("required", "true");
             document.getElementById("new_word").setAttribute("required", "true");
         }
         else if (selectedService === "check_groupeqpv") {
             htmlContainer.style.display = "block";  // <--- manquant ! 
+            htmlFile.setAttribute("accept", ".csv, .xlsx");
             htmlContentContainer.style.display = "None";
             document.getElementById("html_file").setAttribute("required", "true");
         }
         else {
             htmlContainer.style.display = "none";
+            htmlFile.removeAttribute("accept"); // Optionnel : autorise tout
             inputData.style.display = "block";
             inputLabel.style.display = "block";
             inputData.setAttribute("required", "true");

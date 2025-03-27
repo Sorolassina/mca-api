@@ -15,7 +15,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from fastapi import Request
-from app.config import get_base_url
+from app.config import get_base_url,  STATIC_IMAGES_DIR, STATIC_MAPS_DIR
 from app.utils.file_encoded import encode_file_to_base64
 from app.schemas.schema_qpv import Adresse
     
@@ -40,15 +40,15 @@ async def verif_qpv(address_coords, request: Request):
         response.raise_for_status()  # Lève une erreur si la requête échoue
         data = response.json() # Vérifier si la réponse est bien un JSON
     
-        # Vérifier si des résultats existent
-        if data.get("features") : 
-            # Extraire les coordonnées GPS
-            coords = data["features"][0]["geometry"]["coordinates"]
-            # ✅ on retourne une copie mise à jour
-           
-            address = address_dict.get("address")
-            lat = coords[1]
-            lon = coords[0]
+        # Vérifier s'il y a des résultats
+        if not data.get("features"):
+            return {
+                "error": "❌ Aucune coordonnée GPS trouvée pour cette adresse. Vérifiez l'adresse saisie."
+            }
+
+        coords = data["features"][0]["geometry"]["coordinates"]
+        lat = coords[1]
+        lon = coords[0]
                                 
     except requests.exceptions.RequestException as e:
         return {"error": f"Erreur API : {str(e)}"}
@@ -142,8 +142,8 @@ async def verif_qpv(address_coords, request: Request):
         ).add_to(m)
            
         # Définir les chemins des fichiers
-        map_file = os.path.join(config.STATIC_MAPS_DIR, f"map_{lat}_{lon}.html")
-        image_file = os.path.join(config.STATIC_IMAGES_DIR, f"map_{lat}_{lon}.png")
+        map_file = os.path.join(STATIC_MAPS_DIR, f"map_{lat}_{lon}.html")
+        image_file = os.path.join(STATIC_IMAGES_DIR, f"map_{lat}_{lon}.png")
 
         # Sauvegarde HTML et image
         m.save(map_file)
@@ -205,8 +205,8 @@ async def verif_qpv(address_coords, request: Request):
         ).add_to(m)
 
         # Définir les chemins des fichiers
-        map_file = os.path.join(config.STATIC_MAPS_DIR, f"map_{lat}_{lon}.html")
-        image_file = os.path.join(config.STATIC_IMAGES_DIR, f"map_{lat}_{lon}.png")
+        map_file = os.path.join(STATIC_MAPS_DIR, f"map_{lat}_{lon}.html")
+        image_file = os.path.join(STATIC_IMAGES_DIR, f"map_{lat}_{lon}.png")
         
         # Sauvegarde HTML et image
         m.save(map_file)

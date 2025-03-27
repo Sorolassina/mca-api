@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    
+        <script>
+            L_NO_TOUCH = false;
+            L_DISABLE_3D = false;
+        </script>
+    
+    <style>html, body {width: 100%;height: 100%;margin: 0;padding: 0;}</style>
+    <style>#map {position:absolute;top:0;bottom:0;right:0;left:0;}</style>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_9e23b18736122547617205fb2be5fcb3 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+        
+</head>
+<body>
+    
+    
+            <div class="folium-map" id="map_9e23b18736122547617205fb2be5fcb3" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_9e23b18736122547617205fb2be5fcb3 = L.map(
+                "map_9e23b18736122547617205fb2be5fcb3",
+                {
+                    center: [48.898711, 2.216709],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 14,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_3bb4ee5b3bccfb62f4c2718387f1dced = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 19,
+  "maxNativeZoom": 19,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_3bb4ee5b3bccfb62f4c2718387f1dced.addTo(map_9e23b18736122547617205fb2be5fcb3);
+        
+    
+            var poly_line_96118ac9fb4ae3b8d78a8697c12434e4 = L.polyline(
+                [[48.895423395450955, 2.210009493575972], [48.896597676044884, 2.210004147084729], [48.8965999108313, 2.209510363993742], [48.89678380871519, 2.209519692246821], [48.896774134137466, 2.210504631860547], [48.89728502824194, 2.21051871116341], [48.897323629073306, 2.210508566741358], [48.89742641989686, 2.210411548182677], [48.897466450603986, 2.210344109353652], [48.8974821674583, 2.210274297560751], [48.89748260067086, 2.210203342655004], [48.89747490659751, 2.210125710034785], [48.8974510064101, 2.210046972963125], [48.89728986813193, 2.209779055878613], [48.89744239199016, 2.209578823729626], [48.89719090287438, 2.209145136531193], [48.897178624403374, 2.209157820169677], [48.89700079624495, 2.20885426550241], [48.89703743882524, 2.208787041188322], [48.897036902041336, 2.208705797856617], [48.8969088609088, 2.208453571838079], [48.896768637321074, 2.208228621484462], [48.89667133325087, 2.208055102494148], [48.896453766115776, 2.208389666992113], [48.89623466087564, 2.208066385351253], [48.896397953068416, 2.20784259037291], [48.8964956420946, 2.207659853111808], [48.89661786520665, 2.207447573867764], [48.896730721483806, 2.207272943655166], [48.896880563861764, 2.207083157206781], [48.89792388475412, 2.207075720739196], [48.897925178486624, 2.207390171331298], [48.897680680563134, 2.207391806842365], [48.89751350430857, 2.207393001698868], [48.8974750336951, 2.207423598666791], [48.89745198002435, 2.207473038119186], [48.89724509118654, 2.207468011716512], [48.89723789569346, 2.207942308414719], [48.89698099547271, 2.20835247397895], [48.89722257042118, 2.208948818060461], [48.89856807808542, 2.208952139918678], [48.898569802573924, 2.207980250793183], [48.89866040180199, 2.20797054077342], [48.898723554895604, 2.207965405939309], [48.89881020567793, 2.2079828379653], [48.89880258459571, 2.208260010613726], [48.89879707521332, 2.209467294344441], [48.89943206902566, 2.209478644691556], [48.89942278570754, 2.209627922683723], [48.899393368569356, 2.209749212622249], [48.89933384133852, 2.209887622935983], [48.89895773373444, 2.210373320300572], [48.898190427813155, 2.211439352402846], [48.89806140614456, 2.211648637895111], [48.89795963783037, 2.211901164357999], [48.8978949407219, 2.212181773526708], [48.897836437588026, 2.212312239234552], [48.89778459502743, 2.212497176051642], [48.897847217706456, 2.212751935835173], [48.89785835719016, 2.2128893601408], [48.89722464518719, 2.212911348457712], [48.8972247096288, 2.213653031467321], [48.89710936047619, 2.213658939455287], [48.8971131516091, 2.213817219610089], [48.89714485657045, 2.214043824654047], [48.89659168067411, 2.214078356471912], [48.89655919339844, 2.214059753647681], [48.89614554830393, 2.214067356728881], [48.89609285870461, 2.214074290083423], [48.89603805880715, 2.214095953586362], [48.89603816372712, 2.212648046015484], [48.896039555852035, 2.212581563400008], [48.89606652304211, 2.21258043534293], [48.89607379015973, 2.21218068010573], [48.89583459658161, 2.212185658201372], [48.89570887462325, 2.212213470765542], [48.89557137366696, 2.212267608794588], [48.89557046923811, 2.212130125779714], [48.89557025509887, 2.211888468397821], [48.89575364181892, 2.211892288492222], [48.895753553836755, 2.210312786521419], [48.895511096007034, 2.210313730764113], [48.89547133696076, 2.21028571499342], [48.89542026495376, 2.210180345559885], [48.895423395450955, 2.210009493575972]],
+                {"bubblingMouseEvents": true, "color": "blue", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "lightblue", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 2.5}
+            ).addTo(map_9e23b18736122547617205fb2be5fcb3);
+        
+    
+            var marker_b507b84eed8fb660a1f7052c5b80c55b = L.marker(
+                [48.898711, 2.216709],
+                {
+}
+            ).addTo(map_9e23b18736122547617205fb2be5fcb3);
+        
+    
+            var icon_050a379c56957312952a1ac36cd16298 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+            marker_b507b84eed8fb660a1f7052c5b80c55b.setIcon(icon_050a379c56957312952a1ac36cd16298);
+        
+    
+            var marker_1f5384b59bc4ec7d2a49860f927cc098 = L.marker(
+                [48.898711, 2.216709],
+                {
+}
+            ).addTo(map_9e23b18736122547617205fb2be5fcb3);
+        
+    
+            var div_icon_645964f998d6b3fa4d258d98e7ee01e2 = L.divIcon({
+  "html": "\n            \u003cdiv style=\"\n                background-color: rgba(255, 255, 255, 0.8);\n                padding: 10px;\n                border-radius: 5px;\n                font-size: 12px;\n                font-weight: bold;\n                text-align: left;\n                width: 400px;\"\u003e\n                \ud83d\udcc5 Aujourd\u0027hui : 26/03/2025\u003cbr\u003e\n                \ud83d\udccd \u003cb\u003e219 terrasse L\u0027universit\u00e9 92000 NANTERRE\u003c/b\u003e\u003cbr\u003e\n                \u2705 QPV limit : Universit\u00e9 II\u003cbr\u003e\n                \ud83d\udccf Distance : 262 m\u00e8tres \u003cbr\u003e\n                \ud83d\udd17 \u003ca href=\"https://public.opendatasoft.com/api/explore/v2.1/console\" target=\"_blank\" style=\"color:blue; text-decoration:none;\"\u003e\n                    Source OpenDataSoft\n                    \u003c/a\u003e\n            \u003c/div\u003e\n        ",
+  "iconSize": [350, 50],
+  "iconAnchor": [0, 0],
+  "className": "empty",
+});
+            marker_1f5384b59bc4ec7d2a49860f927cc098.setIcon(div_icon_645964f998d6b3fa4d258d98e7ee01e2);
+        
+</script>
+</html>

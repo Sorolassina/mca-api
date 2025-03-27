@@ -9,21 +9,22 @@ print("✅ [DEBUG] Fichier config.py chargé !")
 
 # 📌 Définir le chemin absolu du projet
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-
 # 📁 Définir le dossier "fichiers/" pour stocker les PDFs
-FICHIERS_DIR = os.path.join(BASE_DIR, "..", "fichiers")
-
+FICHIERS_DIR = os.path.join(BASE_DIR, "static", "fichiers")
 # 📌 S'assurer que le dossier existe
 os.makedirs(FICHIERS_DIR, exist_ok=True)
-
+STATIC_DIR = os.path.join(BASE_DIR, "static")
+os.makedirs(STATIC_DIR, exist_ok=True)
 
 # Dossiers pour stocker les cartes et images
-STATIC_MAPS_DIR = "app/static/maps/"
-
-STATIC_IMAGES_DIR = "app/static/images/"
+STATIC_MAPS_DIR = os.path.join(BASE_DIR, "static", "maps") 
+STATIC_IMAGES_DIR = os.path.join(BASE_DIR, "static", "images") 
 # Créer les dossiers s'ils n'existent pas
 os.makedirs(STATIC_MAPS_DIR, exist_ok=True)
 os.makedirs(STATIC_IMAGES_DIR, exist_ok=True)
+
+TEMPLATE_DIR = os.path.join(BASE_DIR, "templates") 
+os.makedirs(TEMPLATE_DIR, exist_ok=True)
 
 # Clés API  
 PAPPERS_API_KEY = os.getenv("PAPPERS_API_KEY")

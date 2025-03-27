@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    
+        <script>
+            L_NO_TOUCH = false;
+            L_DISABLE_3D = false;
+        </script>
+    
+    <style>html, body {width: 100%;height: 100%;margin: 0;padding: 0;}</style>
+    <style>#map {position:absolute;top:0;bottom:0;right:0;left:0;}</style>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_0bb87fc69bf777749a7c3169e35de967 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+        
+</head>
+<body>
+    
+    
+            <div class="folium-map" id="map_0bb87fc69bf777749a7c3169e35de967" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_0bb87fc69bf777749a7c3169e35de967 = L.map(
+                "map_0bb87fc69bf777749a7c3169e35de967",
+                {
+                    center: [44.853576, -0.587842],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 14,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_f5fa0f70c42aae52d7effe0b2f9792da = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 19,
+  "maxNativeZoom": 19,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_f5fa0f70c42aae52d7effe0b2f9792da.addTo(map_0bb87fc69bf777749a7c3169e35de967);
+        
+    
+            var poly_line_2cb5314ad6172dd865839c943c114099 = L.polyline(
+                [[44.85596032020865, -0.584806834805641], [44.85599249831835, -0.584757207676128], [44.856453499782575, -0.58549014780711], [44.85719204998077, -0.5866764726745], [44.85727684533628, -0.586339789920745], [44.85739855391879, -0.586059923445796], [44.85753844728322, -0.585774876890547], [44.85847469395363, -0.586672278363983], [44.85917810212376, -0.585237189433557], [44.858259449458906, -0.584324441973951], [44.85884870673754, -0.583074649585625], [44.8591609835349, -0.582447053703193], [44.85893165912081, -0.58223167425518], [44.85891293090072, -0.58218717996711], [44.85893181013088, -0.58210423529858], [44.85921836846289, -0.581478808930607], [44.85901747126716, -0.581280977862246], [44.85912100750551, -0.581060764583658], [44.85996221419384, -0.579263070125734], [44.86004617835643, -0.579202536507916], [44.8602971945324, -0.578545674804969], [44.86041408252653, -0.578078964917007], [44.860441053709906, -0.577916539931559], [44.860478671322085, -0.577624178820798], [44.86052495521568, -0.576988874017339], [44.86057231248249, -0.57591097285518], [44.860658465636696, -0.575306930901013], [44.86053521280851, -0.575220287407811], [44.860524887541345, -0.575033580425744], [44.859752811871665, -0.574995826227228], [44.85973486614385, -0.575329202023552], [44.85970749897188, -0.575926844788364], [44.85963364736031, -0.577574515934763], [44.85962039831236, -0.577621821441749], [44.85953238824597, -0.577668162633913], [44.85872279711596, -0.57761524646845], [44.85860147326912, -0.578630962922014], [44.85860741741508, -0.5787182660266], [44.85862622054935, -0.578748242037992], [44.85883818573822, -0.578960826022965], [44.858646552032276, -0.579345181516602], [44.858683492269456, -0.579586330097621], [44.857920570374965, -0.578852847127573], [44.85788706425082, -0.578914057210426], [44.85782226769716, -0.578966953941644], [44.857766960707735, -0.579033114356608], [44.85771525086915, -0.579127398682449], [44.857405316103936, -0.579738639462992], [44.858034199579144, -0.580331219192656], [44.857485944675446, -0.581456959428912], [44.85741415111732, -0.581380151866817], [44.857108295324075, -0.581091620345383], [44.85639720707785, -0.582557894789523], [44.856564209999625, -0.582715947398906], [44.85659277556027, -0.582797575938789], [44.85608165470805, -0.583833104833101], [44.856018200874544, -0.583927886682416], [44.85597805148459, -0.583943059760111], [44.85594481741301, -0.583939683167276], [44.85576597042868, -0.583840818380627], [44.85565575611101, -0.583932621412498], [44.85561694559602, -0.583989709000748], [44.85558559532631, -0.584095404489633], [44.85501318383676, -0.583150352140952], [44.85501134856291, -0.583235131472827], [44.85500231247014, -0.583821212434932], [44.85499292636082, -0.583916913281588], [44.854970809353766, -0.583987716628184], [44.854387371072676, -0.585554332915792], [44.85513859010276, -0.585581522716304], [44.855148761633025, -0.585703827292871], [44.855495558740934, -0.585730665964927], [44.8554967857575, -0.585684338566448], [44.855687487786994, -0.585647926273591], [44.85576101676934, -0.585674967616555], [44.85576101676934, -0.585674967616555], [44.85596032020865, -0.584806834805641]],
+                {"bubblingMouseEvents": true, "color": "blue", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "lightblue", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 2.5}
+            ).addTo(map_0bb87fc69bf777749a7c3169e35de967);
+        
+    
+            var marker_78b44893206a93214d49a40f44ac1ba4 = L.marker(
+                [44.853576, -0.587842],
+                {
+}
+            ).addTo(map_0bb87fc69bf777749a7c3169e35de967);
+        
+    
+            var icon_479071fd4e26df247cf3e345a8e83388 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+            marker_78b44893206a93214d49a40f44ac1ba4.setIcon(icon_479071fd4e26df247cf3e345a8e83388);
+        
+    
+            var marker_acde1a3d74e1cea1d101b8a1a64bfc6f = L.marker(
+                [44.853576, -0.587842],
+                {
+}
+            ).addTo(map_0bb87fc69bf777749a7c3169e35de967);
+        
+    
+            var div_icon_70494765698ffc6c2b9525320b75a710 = L.divIcon({
+  "html": "\n            \u003cdiv style=\"\n                background-color: rgba(255, 255, 255, 0.8);\n                padding: 10px;\n                border-radius: 5px;\n                font-size: 12px;\n                font-weight: bold;\n                text-align: left;\n                width: 400px;\"\u003e\n                \ud83d\udcc5 Aujourd\u0027hui : 26/03/2025\u003cbr\u003e\n                \ud83d\udccd \u003cb\u003e257 r Camille Godard 33000 BORDEAUX\u003c/b\u003e\u003cbr\u003e\n                \u2705 QPV limit : Grand-Parc\u003cbr\u003e\n                \ud83d\udccf Distance : 202 m\u00e8tres \u003cbr\u003e\n                \ud83d\udd17 \u003ca href=\"https://public.opendatasoft.com/api/explore/v2.1/console\" target=\"_blank\" style=\"color:blue; text-decoration:none;\"\u003e\n                    Source OpenDataSoft\n                    \u003c/a\u003e\n            \u003c/div\u003e\n        ",
+  "iconSize": [350, 50],
+  "iconAnchor": [0, 0],
+  "className": "empty",
+});
+            marker_acde1a3d74e1cea1d101b8a1a64bfc6f.setIcon(div_icon_70494765698ffc6c2b9525320b75a710);
+        
+</script>
+</html>

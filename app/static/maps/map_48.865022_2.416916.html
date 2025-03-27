@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    
+        <script>
+            L_NO_TOUCH = false;
+            L_DISABLE_3D = false;
+        </script>
+    
+    <style>html, body {width: 100%;height: 100%;margin: 0;padding: 0;}</style>
+    <style>#map {position:absolute;top:0;bottom:0;right:0;left:0;}</style>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_fbb964cf12abdb0964bed0e14bfc5226 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+        
+</head>
+<body>
+    
+    
+            <div class="folium-map" id="map_fbb964cf12abdb0964bed0e14bfc5226" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_fbb964cf12abdb0964bed0e14bfc5226 = L.map(
+                "map_fbb964cf12abdb0964bed0e14bfc5226",
+                {
+                    center: [48.865022, 2.416916],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 14,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_9c5d15bf592ce35b339a2d0a38ad7421 = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 19,
+  "maxNativeZoom": 19,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_9c5d15bf592ce35b339a2d0a38ad7421.addTo(map_fbb964cf12abdb0964bed0e14bfc5226);
+        
+    
+            var poly_line_f9ffb58db6b322a9c5969dcbfd3bd295 = L.polyline(
+                [[48.86329383718402, 2.416831090642374], [48.86347319530519, 2.416726833870162], [48.86352464506411, 2.416763069815417], [48.864198938960364, 2.417090848611245], [48.86436727935447, 2.417123037700855], [48.86463362823061, 2.417338153381559], [48.864761511037926, 2.417377404496713], [48.864747183442404, 2.417889501204639], [48.86464322617713, 2.418534988423326], [48.86460576743892, 2.418529542328776], [48.86452430929735, 2.418569603345646], [48.864630451217685, 2.419940026977611], [48.86449451778575, 2.419966338575089], [48.86454203114839, 2.42058932697123], [48.86428531473867, 2.420718600950433], [48.863968160225596, 2.42085297021604], [48.863642266400554, 2.421001240514076], [48.86364367784424, 2.420901502697948], [48.863633060567814, 2.420383618612897], [48.86304522085598, 2.420659846252705], [48.86293625313354, 2.419814392349408], [48.86270701010678, 2.419882782190304], [48.862459722197165, 2.419980029636177], [48.862363797202235, 2.419395897667487], [48.86279152792208, 2.419136231293744], [48.86355950847746, 2.418752801149887], [48.86335188604295, 2.41729934422183], [48.86330383869016, 2.417035427013497], [48.86329383718402, 2.416831090642374]],
+                {"bubblingMouseEvents": true, "color": "blue", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "lightblue", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 2.5}
+            ).addTo(map_fbb964cf12abdb0964bed0e14bfc5226);
+        
+    
+            var marker_29f6541c1a80e2150d573408a140ee1d = L.marker(
+                [48.865022, 2.416916],
+                {
+}
+            ).addTo(map_fbb964cf12abdb0964bed0e14bfc5226);
+        
+    
+            var icon_94737099d814a37f9abce5d462fa046d = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+            marker_29f6541c1a80e2150d573408a140ee1d.setIcon(icon_94737099d814a37f9abce5d462fa046d);
+        
+    
+            var marker_acb575788d3927c799e7499b10dc0016 = L.marker(
+                [48.865022, 2.416916],
+                {
+}
+            ).addTo(map_fbb964cf12abdb0964bed0e14bfc5226);
+        
+    
+            var div_icon_a3d97856735e2872dd1ff1b6ad0e41a7 = L.divIcon({
+  "html": "\n            \u003cdiv style=\"\n                background-color: rgba(255, 255, 255, 0.8);\n                padding: 10px;\n                border-radius: 5px;\n                font-size: 12px;\n                font-weight: bold;\n                text-align: left;\n                width: 400px;\"\u003e\n                \ud83d\udcc5 Aujourd\u0027hui : 26/03/2025\u003cbr\u003e\n                \ud83d\udccd \u003cb\u003eCtre Cial Auchan Bel Est 28 av G\u00e9n de Gaulle 93170 BAGNOLET\u003c/b\u003e\u003cbr\u003e\n                \u2705 QPV limit : La Capsulerie\u003cbr\u003e\n                \ud83d\udccf Distance : 45 m\u00e8tres \u003cbr\u003e\n                \ud83d\udd17 \u003ca href=\"https://public.opendatasoft.com/api/explore/v2.1/console\" target=\"_blank\" style=\"color:blue; text-decoration:none;\"\u003e\n                    Source OpenDataSoft\n                    \u003c/a\u003e\n            \u003c/div\u003e\n        ",
+  "iconSize": [350, 50],
+  "iconAnchor": [0, 0],
+  "className": "empty",
+});
+            marker_acb575788d3927c799e7499b10dc0016.setIcon(div_icon_a3d97856735e2872dd1ff1b6ad0e41a7);
+        
+</script>
+</html>

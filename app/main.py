@@ -4,12 +4,11 @@ import os
 import asyncio
 import uvicorn
 from fastapi.templating import Jinja2Templates
-from app.config import BASE_DIR
 from contextlib import asynccontextmanager
 from app.utils.cleanup_scheduler import start_cleanup_scheduler, stop_cleanup_scheduler
 from starlette.middleware.sessions import SessionMiddleware
 from app.routes import route_rdv, route_generate_pdf_from_html, route_qpv, route_siret_pappers, route_digiformat, route_service_interface
-from fastapi.responses import FileResponse
+from app.config import BASE_DIR,FICHIERS_DIR,STATIC_IMAGES_DIR, STATIC_MAPS_DIR,STATIC_DIR, TEMPLATE_DIR
 
 os.environ["HF_HUB_DISABLE_SYMLINKS_WARNING"] = "1"
 
@@ -33,22 +32,13 @@ app = FastAPI(
 # ✅ Middleware pour les sessions (affichage résultat après redirection)
 app.add_middleware(SessionMiddleware, secret_key="une-cle-secrete-tres-longue")
 
-
 # ✅ Définition d'un groupe de routes sécurisé
 api_router = APIRouter(prefix="/api-mca/v1")
-
 # ✅ Monter le dossier "templates" pour qu'il soit accessible via "/templates/"
-templates_path = os.path.join(os.getcwd(), "app/templates")
-templates = Jinja2Templates(directory=templates_path)
-
+templates = Jinja2Templates(directory=TEMPLATE_DIR)
 # ✅ Monter le dossier "static" et fichier pour qu'il soit accessible via "/static/"
-static_path = os.path.join(os.getcwd(), "app/static")
-app.mount("/static", StaticFiles(directory=static_path), name="static")
-app.mount("/fichiers", StaticFiles(directory=os.path.join(BASE_DIR, "..", "fichiers")), name="fichiers")
-
-@app.get("/favicon.ico")
-async def favicon():
-    return FileResponse(os.path.join("static", "favicon.ico"))
+app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
+app.mount("/fichiers", StaticFiles(directory=FICHIERS_DIR), name="static")
 
 # ✅ Redirection de la racine vers la documentation
 @app.get("/", tags=["Root"])

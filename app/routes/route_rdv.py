@@ -8,6 +8,8 @@ from app.utils import gr_code
 import os
 import base64
 from app.config import get_base_url
+from pathlib import Path
+from app.config import STATIC_DIR
 
 router = APIRouter()
 
@@ -32,9 +34,9 @@ async def generer_compte_rendu(data: CompteRenduRdvInput, request: Request):
     resume = await generer_resume(data.contenu_aborde)
     conclusion = await generer_conclusion(data.titre, data.objectif, resume)
 
-    base_dir =  "file://" +os.path.abspath("app").replace("\\", "/")  # ← ✅ à utiliser ici
+    base_dir =  Path("app").resolve().as_uri() #"file://" +os.path.abspath("app").replace("\\", "/")  # ← ✅ à utiliser ici
 
-    logo_path = os.path.join("app", "static", "logo.png")
+    logo_path = os.path.join(STATIC_DIR, "logo.png")
     logo_base64 = encode_image_to_base64(logo_path)
 
     base_url = get_base_url(request)

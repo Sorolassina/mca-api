@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    
+        <script>
+            L_NO_TOUCH = false;
+            L_DISABLE_3D = false;
+        </script>
+    
+    <style>html, body {width: 100%;height: 100%;margin: 0;padding: 0;}</style>
+    <style>#map {position:absolute;top:0;bottom:0;right:0;left:0;}</style>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_f6ab6dc1a89f8d6c61de2f5af9904b0c {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+        
+</head>
+<body>
+    
+    
+            <div class="folium-map" id="map_f6ab6dc1a89f8d6c61de2f5af9904b0c" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_f6ab6dc1a89f8d6c61de2f5af9904b0c = L.map(
+                "map_f6ab6dc1a89f8d6c61de2f5af9904b0c",
+                {
+                    center: [43.579784, 1.446542],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 14,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_d067483d4c26f2def6f451131cb8bd51 = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 19,
+  "maxNativeZoom": 19,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_d067483d4c26f2def6f451131cb8bd51.addTo(map_f6ab6dc1a89f8d6c61de2f5af9904b0c);
+        
+    
+            var poly_line_10794893eaf067cdc16e766e529198ac = L.polyline(
+                [[43.58217253868179, 1.43895611249769], [43.582483193905354, 1.439221472770997], [43.58322144823125, 1.439488104292192], [43.58408090284352, 1.439680436355637], [43.58399576170236, 1.441522418713911], [43.58388577746664, 1.443768635912932], [43.58390516961272, 1.444180360785117], [43.583942034365215, 1.444404034484806], [43.5833863493657, 1.444407114757828], [43.58337264964102, 1.444581223973452], [43.583248252175636, 1.444578430164278], [43.5832365453451, 1.444559539005255], [43.583119870576695, 1.444570032334827], [43.58293886526146, 1.444582402743968], [43.58295215664429, 1.44440165058849], [43.582855821773585, 1.444427956349891], [43.58280612438781, 1.444507896851863], [43.58278945187308, 1.44447519103556], [43.582629566602705, 1.444496392831199], [43.58261346239212, 1.444313742125269], [43.582487868074566, 1.444319367312685], [43.582506052675484, 1.44467367615536], [43.58246316761642, 1.444675818767295], [43.58243007057912, 1.4443389313675], [43.58223765215271, 1.444345372420097], [43.58224709286008, 1.444467673997742], [43.582151734057064, 1.444494643649828], [43.58210655396287, 1.444550305788731], [43.581909829228735, 1.444627425773851], [43.58168584565058, 1.444693860167978], [43.581425998935075, 1.44479616821122], [43.58130565819594, 1.444827037421639], [43.58125674345709, 1.444373467079904], [43.5807934510515, 1.444826692308151], [43.58037783767603, 1.445251055276298], [43.58031236994962, 1.444942687086558], [43.580258478866774, 1.44463815038984], [43.58038378704034, 1.444599362725477], [43.58038678656952, 1.444338680722993], [43.58069029137516, 1.444304450710931], [43.58068438732888, 1.444065697020888], [43.580674509055456, 1.443635926098272], [43.580001000416765, 1.443532304807622], [43.57963203082715, 1.443469269495292], [43.57876470415477, 1.443294734298351], [43.57847897664499, 1.443200982961226], [43.57803232105376, 1.44299274786811], [43.57783041861508, 1.443192571137657], [43.57773520335188, 1.443512040142522], [43.57716358225703, 1.444152008703198], [43.57659195738322, 1.444695428472], [43.57600771617336, 1.444086670033188], [43.576056535674994, 1.443902926576765], [43.57614667585027, 1.443097125917982], [43.576188101058264, 1.443035353887225], [43.57632060265854, 1.442988430902065], [43.577444288064704, 1.442873711285309], [43.57744183763842, 1.442616970698286], [43.5777531967261, 1.440885892054184], [43.577207220361664, 1.440876814514786], [43.57690419721823, 1.441891825235656], [43.576621046906844, 1.44169815788993], [43.57660411011982, 1.441555284018202], [43.57647546677924, 1.44140861059813], [43.57623870620099, 1.441162493281198], [43.57616465969035, 1.441362447110736], [43.57561550440475, 1.440786959434883], [43.575452860687875, 1.440676870221201], [43.57515288673817, 1.440233424265893], [43.57428840788492, 1.438757017326582], [43.57444993845433, 1.43809600465959], [43.574693831547044, 1.437457633186044], [43.57508744379632, 1.437734707394809], [43.57557457041655, 1.436380044167243], [43.577139610400685, 1.436355369153352], [43.57853113217069, 1.436639387960945], [43.5792408188125, 1.436971044590973], [43.580210116696044, 1.437600746875393], [43.58135076799937, 1.438508057234096], [43.58217253868179, 1.43895611249769]],
+                {"bubblingMouseEvents": true, "color": "blue", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "lightblue", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 2.5}
+            ).addTo(map_f6ab6dc1a89f8d6c61de2f5af9904b0c);
+        
+    
+            var marker_88e9b1f98876a6a51360a965ca63be74 = L.marker(
+                [43.579784, 1.446542],
+                {
+}
+            ).addTo(map_f6ab6dc1a89f8d6c61de2f5af9904b0c);
+        
+    
+            var icon_7fd86b710d9990d0277fdd54f5bc9113 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+            marker_88e9b1f98876a6a51360a965ca63be74.setIcon(icon_7fd86b710d9990d0277fdd54f5bc9113);
+        
+    
+            var marker_26aff2863a104e6dcf8dabad54546e1e = L.marker(
+                [43.579784, 1.446542],
+                {
+}
+            ).addTo(map_f6ab6dc1a89f8d6c61de2f5af9904b0c);
+        
+    
+            var div_icon_8e59b4fd4b5a4058cc7b47b74f3f86b6 = L.divIcon({
+  "html": "\n            \u003cdiv style=\"\n                background-color: rgba(255, 255, 255, 0.8);\n                padding: 10px;\n                border-radius: 5px;\n                font-size: 12px;\n                font-weight: bold;\n                text-align: left;\n                width: 400px;\"\u003e\n                \ud83d\udcc5 Aujourd\u0027hui : 26/03/2025\u003cbr\u003e\n                \ud83d\udccd \u003cb\u003e8 r St Thomas d\u0027Aquin 31400 TOULOUSE\u003c/b\u003e\u003cbr\u003e\n                \u2705 QPV limit : Empalot\u003cbr\u003e\n                \ud83d\udccf Distance : 123 m\u00e8tres \u003cbr\u003e\n                \ud83d\udd17 \u003ca href=\"https://public.opendatasoft.com/api/explore/v2.1/console\" target=\"_blank\" style=\"color:blue; text-decoration:none;\"\u003e\n                    Source OpenDataSoft\n                    \u003c/a\u003e\n            \u003c/div\u003e\n        ",
+  "iconSize": [350, 50],
+  "iconAnchor": [0, 0],
+  "className": "empty",
+});
+            marker_26aff2863a104e6dcf8dabad54546e1e.setIcon(div_icon_8e59b4fd4b5a4058cc7b47b74f3f86b6);
+        
+</script>
+</html>

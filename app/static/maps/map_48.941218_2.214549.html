@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    
+        <script>
+            L_NO_TOUCH = false;
+            L_DISABLE_3D = false;
+        </script>
+    
+    <style>html, body {width: 100%;height: 100%;margin: 0;padding: 0;}</style>
+    <style>#map {position:absolute;top:0;bottom:0;right:0;left:0;}</style>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_a9cc049167145b70b5b0c578f1b629c6 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+        
+</head>
+<body>
+    
+    
+            <div class="folium-map" id="map_a9cc049167145b70b5b0c578f1b629c6" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_a9cc049167145b70b5b0c578f1b629c6 = L.map(
+                "map_a9cc049167145b70b5b0c578f1b629c6",
+                {
+                    center: [48.941218, 2.214549],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 14,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_5c0a2962eb1c7b468c9c3c9755a6d5da = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 19,
+  "maxNativeZoom": 19,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_5c0a2962eb1c7b468c9c3c9755a6d5da.addTo(map_a9cc049167145b70b5b0c578f1b629c6);
+        
+    
+            var poly_line_feffb4dc848cd0f49d43bd5856f0914d = L.polyline(
+                [[48.93787032139351, 2.213783368957538], [48.937728680493386, 2.21393535443086], [48.938076733027735, 2.215110636132363], [48.9380488592848, 2.215210481437915], [48.93836174874192, 2.21620965425968], [48.93854894859033, 2.216773999637593], [48.93910169838487, 2.216497448213296], [48.939197257183785, 2.216599727672548], [48.93941556288642, 2.216625795421869], [48.939413683425975, 2.21680552841248], [48.93949448790371, 2.216814189796474], [48.939489149359595, 2.217073204192505], [48.93969813981616, 2.217094016555929], [48.93975476405314, 2.21708919994605], [48.939746824973554, 2.21738304918417], [48.93940395083216, 2.217366641755383], [48.939400952255795, 2.217463558640732], [48.939095174665276, 2.217490224460546], [48.93912020285157, 2.216643094769413], [48.93908848531757, 2.216555416117419], [48.93853573538251, 2.216831966855502], [48.93848195107592, 2.216827149697473], [48.93834356185005, 2.216901768927559], [48.93783195089342, 2.217155586786941], [48.93771731965336, 2.217204685584362], [48.9376278262822, 2.21721974314496], [48.93741070822012, 2.216408522482654], [48.93729957081717, 2.216472861383476], [48.93718076284065, 2.216074608096244], [48.937137541156986, 2.216095022828106], [48.93712708717883, 2.215938760606925], [48.93727636266745, 2.215914969866143], [48.937284616710734, 2.215933707939334], [48.93734636830412, 2.215910114304017], [48.93734527837082, 2.215850733891659], [48.93767152578234, 2.215712434209661], [48.937580745616685, 2.215540730614407], [48.9373969680927, 2.215042608917405], [48.93719250555166, 2.214455445934645], [48.937494927776264, 2.214182797869799], [48.9373733436308, 2.213832176472911], [48.93766816175793, 2.213566109242826], [48.937732450480425, 2.213521375601679], [48.93776181928705, 2.213521300134493], [48.937808046309875, 2.21359550318163], [48.93784002240176, 2.213406474717501], [48.93751376608602, 2.213025130793958], [48.93738636480915, 2.212895946016854], [48.9370734018121, 2.213198147518585], [48.93696405242455, 2.212943664614697], [48.937226737403115, 2.212708090364006], [48.937160664718995, 2.21253789498624], [48.93728923778123, 2.212412560205036], [48.937274662044004, 2.212256303281037], [48.9375915244854, 2.212013293746368], [48.93788686875627, 2.211867230612024], [48.93781836763414, 2.212331579750339], [48.93816662378407, 2.212569860252572], [48.93788500693996, 2.21362928853518], [48.93787032139351, 2.213783368957538]],
+                {"bubblingMouseEvents": true, "color": "blue", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "lightblue", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 2.5}
+            ).addTo(map_a9cc049167145b70b5b0c578f1b629c6);
+        
+    
+            var marker_eb2b7945c73c7dd6d8e61849790293f6 = L.marker(
+                [48.941218, 2.214549],
+                {
+}
+            ).addTo(map_a9cc049167145b70b5b0c578f1b629c6);
+        
+    
+            var icon_80c7c17c84767ceaaaf82b1026fa4ae4 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+            marker_eb2b7945c73c7dd6d8e61849790293f6.setIcon(icon_80c7c17c84767ceaaaf82b1026fa4ae4);
+        
+    
+            var marker_e745051d0a77c61522d21e40f05049c8 = L.marker(
+                [48.941218, 2.214549],
+                {
+}
+            ).addTo(map_a9cc049167145b70b5b0c578f1b629c6);
+        
+    
+            var div_icon_22d79b7d9c86d3a7f60e08cae43b8a6e = L.divIcon({
+  "html": "\n            \u003cdiv style=\"\n                background-color: rgba(255, 255, 255, 0.8);\n                padding: 10px;\n                border-radius: 5px;\n                font-size: 12px;\n                font-weight: bold;\n                text-align: left;\n                width: 400px;\"\u003e\n                \ud83d\udcc5 Aujourd\u0027hui : 26/03/2025\u003cbr\u003e\n                \ud83d\udccd \u003cb\u003e274 av Jean Jaur\u00e8s 95100 ARGENTEUIL\u003c/b\u003e\u003cbr\u003e\n                \u2705 QPV limit : Justice - Butte Blanche\u003cbr\u003e\n                \ud83d\udccf Distance : 252 m\u00e8tres \u003cbr\u003e\n                \ud83d\udd17 \u003ca href=\"https://public.opendatasoft.com/api/explore/v2.1/console\" target=\"_blank\" style=\"color:blue; text-decoration:none;\"\u003e\n                    Source OpenDataSoft\n                    \u003c/a\u003e\n            \u003c/div\u003e\n        ",
+  "iconSize": [350, 50],
+  "iconAnchor": [0, 0],
+  "className": "empty",
+});
+            marker_e745051d0a77c61522d21e40f05049c8.setIcon(div_icon_22d79b7d9c86d3a7f60e08cae43b8a6e);
+        
+</script>
+</html>

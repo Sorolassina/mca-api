@@ -25,6 +25,7 @@ async def recherche_groupqpv(input_path: str, output_path: str, file_type:str , 
     # Ajouter les colonnes de résultat
     df["nom_qpv"] = ""
     df["carte_qpv"] = ""
+    df["distance_qpv_en_metre"] = ""
 
     # Traiter chaque ligne
     for index, row in df.iterrows():
@@ -36,6 +37,7 @@ async def recherche_groupqpv(input_path: str, output_path: str, file_type:str , 
             result = await verif_qpv(payload, request)  # appel direct à la fonction
             df.at[index, "nom_qpv"] = result.get("nom_qp", "")
             df.at[index, "carte_qpv"] = result.get("carte", "")
+            df.at[index, "distance_qpv_en_metre"] = result.get("distance_m", "")
         except Exception as e:
             print(f"❌ Erreur ligne {index+1} : {e}")
             break  

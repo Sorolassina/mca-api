@@ -7,7 +7,7 @@ from datetime import date
 import zipfile
 import os
 
-from app.config import get_base_url
+from app.config import get_base_url, FICHIERS_DIR
 from app import config
 from app.schemas.schema_digiforma import DigiformaInput
 from app.utils.file_encoded import encode_file_to_base64
@@ -181,7 +181,7 @@ async def extract_digiforma_data(data: DigiformaInput,request:Request):
         df_sessions.to_csv(session_file, index=False)
 
         # ✅ Création du ZIP
-        zip_url = os.path.join(config.FICHIERS_DIR, "exported_files.zip")
+        zip_url = os.path.join(FICHIERS_DIR, "exported_files.zip")
 
         with zipfile.ZipFile(zip_url, 'w', zipfile.ZIP_DEFLATED) as zipf:
             zipf.write(customer_file)

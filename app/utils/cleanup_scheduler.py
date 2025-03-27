@@ -1,31 +1,23 @@
 import os
 import time
 from apscheduler.schedulers.background import BackgroundScheduler
-
-# Récupère le chemin du dossier projet (racine)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-BASE_DIR_FILE = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from app.config import STATIC_IMAGES_DIR, STATIC_MAPS_DIR, FICHIERS_DIR
 
 # === Paramètres === 10080=Une semaine
 CLEANUP_CONFIG = [
     {
-        "folder": os.path.join(BASE_DIR, "static", "images"),
+        "folder": STATIC_IMAGES_DIR ,
         "extensions": (".png", ".jpg", ".jpeg"),
         "age_limit_minutes": 1440
     },
     {
-        "folder": os.path.join(BASE_DIR, "static", "fichiers"),
-        "extensions": (".png", ".jpg", ".jpeg",".zip"),
+        "folder": FICHIERS_DIR,
+        "extensions": (".png", ".jpg", ".jpeg",".zip",".html", ".pdf", ".csv"),
         "age_limit_minutes": 1440
     },
     {
-        "folder": os.path.join(BASE_DIR,  "static", "maps"),
+        "folder": STATIC_MAPS_DIR,
         "extensions": (".html",),
-        "age_limit_minutes": 1440
-    },
-    {
-        "folder": os.path.join(BASE_DIR_FILE,  "fichiers"),
-        "extensions": (".html", ".pdf", ".csv", ".zip"),
         "age_limit_minutes": 1440
     }
 ]
@@ -60,9 +52,12 @@ def cleanup_temp_files():
             print(f"🧹 {len(deleted_files)} fichiers supprimés de {folder} :", deleted_files)
 
 def start_cleanup_scheduler():
-    scheduler.add_job(cleanup_temp_files, "interval", minutes=2)
-    scheduler.start()
-    print("✅ Scheduler de nettoyage lancé.")
+    if not scheduler.running:
+        scheduler.add_job(cleanup_temp_files, "interval", minutes=2)
+        scheduler.start()
+        print("✅ Scheduler de nettoyage lancé.")
+    else:
+        print("🔁 Scheduler déjà actif.")
 
 def stop_cleanup_scheduler():
     scheduler.shutdown()

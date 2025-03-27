@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    
+        <script>
+            L_NO_TOUCH = false;
+            L_DISABLE_3D = false;
+        </script>
+    
+    <style>html, body {width: 100%;height: 100%;margin: 0;padding: 0;}</style>
+    <style>#map {position:absolute;top:0;bottom:0;right:0;left:0;}</style>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_0c3f93b7aded28f3cdf9a6a95805a136 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+        
+</head>
+<body>
+    
+    
+            <div class="folium-map" id="map_0c3f93b7aded28f3cdf9a6a95805a136" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_0c3f93b7aded28f3cdf9a6a95805a136 = L.map(
+                "map_0c3f93b7aded28f3cdf9a6a95805a136",
+                {
+                    center: [47.365219, 0.712709],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 14,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_bcf22a348d9e92c5a12b0ee671536df3 = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 19,
+  "maxNativeZoom": 19,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_bcf22a348d9e92c5a12b0ee671536df3.addTo(map_0c3f93b7aded28f3cdf9a6a95805a136);
+        
+    
+            var poly_line_7e8bce2e01575d86e8cdb2bbda2f6757 = L.polyline(
+                [[47.366327397618534, 0.713766466334338], [47.36615414435564, 0.713578127442921], [47.365841428787085, 0.713229360228639], [47.36560862666202, 0.712886979708561], [47.365395654926175, 0.712538857146782], [47.36530658657451, 0.712259663711927], [47.365275822949705, 0.711932228900373], [47.36520813616195, 0.711375734166372], [47.36485379052027, 0.708886946995009], [47.36613858222767, 0.708458261598171], [47.36666237905843, 0.70830332101446], [47.3670635161559, 0.70818543310281], [47.36709594009796, 0.708368298732608], [47.367908944680394, 0.708128092782144], [47.367965837969216, 0.708136271644443], [47.36800859350682, 0.708201056362114], [47.36833139878398, 0.710278742388837], [47.36853718348043, 0.711765240543372], [47.36868965438866, 0.712831169923594], [47.36868484108736, 0.712952025476807], [47.368633676085665, 0.713052292829311], [47.36789763442243, 0.713278662553378], [47.367523476509696, 0.713384650266768], [47.367260936772354, 0.713451502641946], [47.36720046316586, 0.713491192019265], [47.366327397618534, 0.713766466334338]],
+                {"bubblingMouseEvents": true, "color": "blue", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "lightblue", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 2.5}
+            ).addTo(map_0c3f93b7aded28f3cdf9a6a95805a136);
+        
+    
+            var marker_8fbb601ed167415990910f053869a716 = L.marker(
+                [47.365219, 0.712709],
+                {
+}
+            ).addTo(map_0c3f93b7aded28f3cdf9a6a95805a136);
+        
+    
+            var icon_ff46fef7bd3a58ef8cbbca7e1dc7baa7 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+            marker_8fbb601ed167415990910f053869a716.setIcon(icon_ff46fef7bd3a58ef8cbbca7e1dc7baa7);
+        
+    
+            var marker_5c3d2b2875936eecc54cd9b87f6b2ca1 = L.marker(
+                [47.365219, 0.712709],
+                {
+}
+            ).addTo(map_0c3f93b7aded28f3cdf9a6a95805a136);
+        
+    
+            var div_icon_898bc8a7cdc3f44858784314fd5fa1b4 = L.divIcon({
+  "html": "\n            \u003cdiv style=\"\n                background-color: rgba(255, 255, 255, 0.8);\n                padding: 10px;\n                border-radius: 5px;\n                font-size: 12px;\n                font-weight: bold;\n                text-align: left;\n                width: 400px;\"\u003e\n                \ud83d\udcc5 Aujourd\u0027hui : 27/03/2025\u003cbr\u003e\n                \ud83d\udccd \u003cb\u003e55 rte St Avertin 37200 TOURS\u003c/b\u003e\u003cbr\u003e\n                \u2705 QPV limit : Fontaines\u003cbr\u003e\n                \ud83d\udccf Distance : 25 m\u00e8tres \u003cbr\u003e\n                \ud83d\udd17 \u003ca href=\"https://public.opendatasoft.com/api/explore/v2.1/console\" target=\"_blank\" style=\"color:blue; text-decoration:none;\"\u003e\n                    Source OpenDataSoft\n                    \u003c/a\u003e\n            \u003c/div\u003e\n        ",
+  "iconSize": [350, 50],
+  "iconAnchor": [0, 0],
+  "className": "empty",
+});
+            marker_5c3d2b2875936eecc54cd9b87f6b2ca1.setIcon(div_icon_898bc8a7cdc3f44858784314fd5fa1b4);
+        
+</script>
+</html>

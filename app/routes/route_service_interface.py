@@ -4,7 +4,7 @@ from app.schemas.schema_qpv import Adresse  # Validation des données d'adresse
 from app.schemas.schema_siret import SiretRequest  # Validation des données d'adresse
 from app.schemas.schema_digiforma import DigiformaInput
 from app.schemas.schema_Html import HTMLFileInput
-from logs.errors import get_result_template
+from app.logs.errors import get_result_template
 from pydantic import ValidationError
 from datetime import date
 import os
@@ -12,15 +12,16 @@ from fastapi.templating import Jinja2Templates
 from app.services import service_digiforma,service_qpv,service_generate_pdf_from_file,service_siret_pappers
 from app.utils.template import build_success_result_html
 from fastapi import UploadFile
-import tempfile
 import aiofiles
-from app.config import BASE_DIR
-from traiter_zip_excel import traiter_zip_entier  # ajuste selon ton arborescence
+from app.config import  FICHIERS_DIR,  TEMPLATE_DIR
+from app.utils.traiter_zip_excel import traiter_zip_entier  # ajuste selon ton arborescence
 import shutil
+from app.utils.temp_dir import create_temp_file, delete_temp_dir
+from app.services.service_QPV_QueryGroup import recherche_groupqpv
 
 # ✅ Monter le dossier "templates" pour qu'il soit accessible via "/templates/"
-templates_path = os.path.join(os.getcwd(), "app/templates")
-templates = Jinja2Templates(directory=templates_path)
+
+templates = Jinja2Templates(directory=TEMPLATE_DIR)
 
 router = APIRouter()
 
@@ -44,7 +45,11 @@ async def process_service(
             filename= file_infos.get("filename",None)
             download_url=file_infos.get("file_url",None)
             message=f"Votre fichier {filename} est pêt."
-            result = build_success_result_html(message=message, download_url=download_url, filename=filename)
+            result = build_success_result_html(
+                                                message=message,
+                                                download_url=download_url,
+                                                filename=filename
+                                            )
 
             request.session["result"] = result
             request.session["download_url"] = download_url
@@ -122,8 +127,7 @@ async def process_service(
             replacements = {word: new_word for word in old_words_list}
 
             # Enregistrer temporairement le fichier reçu
-            temp_dir = tempfile.mkdtemp()
-            input_path = os.path.join(temp_dir, custom_file.filename)
+            temp_dir, input_path=create_temp_file(custom_file.filename)
 
             async with aiofiles.open(input_path, "wb") as out_file:
                 content = await custom_file.read()
@@ -136,25 +140,28 @@ async def process_service(
             except Exception as e:
                 msg = f"❌ Erreur pendant le traitement du fichier : {str(e)}"
                 request.session["result"] = get_result_template(msg, type_="error")
+                delete_temp_dir(temp_dir)
                 return RedirectResponse(url="/", status_code=303)
 
-            # 📁 Copier le fichier dans le dossier static
-            STATIC_FOLDER = os.path.join(BASE_DIR, "static", "fichiers")
-            os.makedirs(STATIC_FOLDER, exist_ok=True)
-
-            filename = os.path.basename(final_zip)
-            final_path = os.path.join(STATIC_FOLDER, filename)
-            shutil.copy(final_zip, final_path)
-            download_url = f"/static/fichiers/{filename}"
+            filename = os.path.basename(final_zip)  # ✅ Extrait uniquement "monfichier.zip"
+            final_path = os.path.join(FICHIERS_DIR, filename)  # ✅ Construit le chemin final dans ton dossier static
+            shutil.copy(final_zip, final_path)  # ✅ Copie le fichier vers static/fichiers/
+            download_url = f"/static/fichiers/{filename}"  # ✅ URL publique à retourner pour téléchargement
 
             # ✅ Message HTML final
             message = f"✅ Le fichier personnalisé <b>{filename}</b> est prêt au téléchargement."
 
             # Tu peux ajouter ici la gestion des fichiers ignorés si tu veux
-            result = build_success_result_html(message=message, download_url=download_url, filename=filename)
+            result = build_success_result_html(
+                                                message=message,
+                                                download_url=download_url,
+                                                filename=filename,
+                                                ignored_list=ignored  # si cette variable existe
+                                            )
+            
             request.session["result"] = result
             request.session["download_url"] = download_url
-
+            delete_temp_dir(temp_dir)
             return RedirectResponse(url="/", status_code=303)
 
         elif service == "check_qpv":
@@ -202,20 +209,20 @@ async def process_service(
                 return RedirectResponse(url="/", status_code=303)
     
             # Enregistrer le fichier temporairement
-            temp_dir = tempfile.mkdtemp()
-            input_path = os.path.join(temp_dir, html_file.filename)
+            temp_dir, input_path=create_temp_file(html_file.filename)
 
+            print(f"✅ DEBUG Input path : {input_path}")
             async with aiofiles.open(input_path, "wb") as f:
                 content = await html_file.read()
                 await f.write(content)
 
-            from app.services.service_QPV_QueryGroup import recherche_groupqpv
+            
 
             if filename.lower().endswith(".xlsx"):
-                output_path = os.path.join("app", "static", "fichiers", "resultats_qpv.xlsx")
+                output_path = os.path.join(FICHIERS_DIR, "resultats_qpv.xlsx")
                 type="xlsx"
             else :
-                output_path = os.path.join("app", "static", "fichiers", "resultats_qpv.csv")
+                output_path = os.path.join(FICHIERS_DIR, "resultats_qpv.xlsx")
                 type="csv"
 
             await recherche_groupqpv(input_path, output_path, type, request)
@@ -223,6 +230,8 @@ async def process_service(
             message = "✅ Le fichier avec les résultats QPV est prêt."
             result = build_success_result_html(message, download_url="/static/fichiers/resultats_qpv.xlsx", filename="resultats_qpv.xlsx")
             request.session["result"] = result
+
+            delete_temp_dir(temp_dir)
             return RedirectResponse(url="/", status_code=303)
         
     except ValidationError as ve:
