@@ -1,4 +1,3 @@
-
 document.addEventListener("DOMContentLoaded", () => {
     const service = document.getElementById("service");
     const htmlContainer = document.getElementById("html_upload_container"); 
@@ -12,6 +11,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const htmlContentContainer = document.getElementById("html_content_container");
     const btn = document.getElementById("submitBtn");
     const form = document.querySelector("form"); 
+
+    // Désactiver par défaut
+    inputData.disabled = true;
+    btn.disabled = true;
 
     // 🔁 Fonction pour adapter les champs selon le service choisi
     function toggleHtmlInput() {
@@ -29,32 +32,37 @@ document.addEventListener("DOMContentLoaded", () => {
         document.getElementById("custom_file").removeAttribute("required");
         document.getElementById("new_word").removeAttribute("required");
 
+        // Désactiver les champs par défaut
+        inputData.disabled = true;
+        btn.disabled = true;
+
         if (selectedService === "pdf_from_html") {
             htmlContainer.style.display = "block";
             htmlFile.setAttribute("accept", ".html");
             htmlContentContainer.style.display="block";
-            inputData.style.display = "none";
-            inputLabel.style.display = "none";
-            inputData.removeAttribute("required");
-            
+            btn.disabled = false;
+
         } else if (selectedService === "customize_folder") {
             customizeContainer.style.display = "block";
             htmlFile.setAttribute("accept", ".zip");
             document.getElementById("custom_file").setAttribute("required", "true");
             document.getElementById("new_word").setAttribute("required", "true");
-        }
-        else if (selectedService === "check_groupeqpv") {
-            htmlContainer.style.display = "block";  // <--- manquant ! 
+            btn.disabled = false;
+
+        } else if (selectedService === "check_groupeqpv") {
+            htmlContainer.style.display = "block";
             htmlFile.setAttribute("accept", ".csv, .xlsx");
-            htmlContentContainer.style.display = "None";
+            htmlContentContainer.style.display = "none";
             document.getElementById("html_file").setAttribute("required", "true");
-        }
-        else {
-            htmlContainer.style.display = "none";
-            htmlFile.removeAttribute("accept"); // Optionnel : autorise tout
+            btn.disabled = false;
+
+        } else if (selectedService !== "place_holder") {
+            htmlFile.removeAttribute("accept");
             inputData.style.display = "block";
             inputLabel.style.display = "block";
             inputData.setAttribute("required", "true");
+            inputData.disabled = false;
+            btn.disabled = false;
         }
 
         // Adapter le label et le placeholder
@@ -77,10 +85,9 @@ document.addEventListener("DOMContentLoaded", () => {
             case "pdf_from_html":
                 Labelhtmlfile.innerText = "Sélectionner un fichier (.html)";
                 break;
-
             default:
                 inputLabel.innerText = "Données";
-                inputData.placeholder = "Entrez les informations..."; 
+                inputData.placeholder = "Entrez les informations...";
         }
     }
 
@@ -114,8 +121,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 btn.disabled = true;
                 btn.innerText = "Traitement en cours...";
             }
-
         });
     }
 });
-
