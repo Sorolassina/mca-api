@@ -75,7 +75,7 @@ async def generer_compte_rendu(data: CompteRenduRdvInput, request: Request):
         "message": "✅ Compte rendu généré avec succès.",
         "filename": file_infos.get("filename"),
         "file_url": file_infos.get("file_url"),
-        "file_encoded": file_infos.get("file_encoded")
+        "file_encoded": f"data:application/pdf;base64,{file_infos.get("file_encoded")}"
     }
 
 

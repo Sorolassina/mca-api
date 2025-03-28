@@ -159,14 +159,14 @@ async def verif_qpv(address_coords, request: Request):
         else:
             encoded_image = None  # Si l’image n’existe pas
 
-        return {
-            "address": address,
-            "nom_qp": f'{etat_qpv}:{qpv_name}',
-            "distance_m": distance_m,
-            "carte": f"{base_url.strip()}{maps_url.strip()}",
-            "image_url": f"{base_url.strip()}{img_url.strip()}",
-            "image_encoded": f"{encoded_image}"
-        }
+            return {
+                "address": address,
+                "nom_qp": f'{etat_qpv}:{qpv_name}',
+                "distance_m": distance_m,
+                "carte": f"{base_url.strip()}{maps_url.strip()}",
+                "image_url": f"{base_url.strip()}{img_url.strip()}",
+                "image_encoded": f"data:image/png;base64,{encoded_image}"
+            }
     
     else:
         
@@ -228,7 +228,7 @@ async def verif_qpv(address_coords, request: Request):
             "distance_m": "N/A",
             "carte": f"{base_url.strip()}{maps_url.strip()}",
             "image_url": f"{base_url.strip()}{img_url.strip()}",
-            "image_encoded": f"{encoded_image}"
+            "image_encoded": f"data:image/png;base64,{encoded_image}"
         }
 
 def save_map_as_image(map_path, image_path):
@@ -265,6 +265,5 @@ def save_map_as_image(map_path, image_path):
 
     except Exception as e:
         print(f"❌ Erreur lors de la capture : {e}")
-    
     finally:
         driver.quit()  # Fermer le navigateur
