@@ -16,9 +16,13 @@ router = APIRouter()
 # Configurer un environnement Jinja pour génération hors navigateur
 env = Environment(loader=FileSystemLoader("app/templates"))
 
-def encode_image_to_base64(image_path):   
+"""def encode_image_to_base64(image_path):   
     with open(image_path, "rb") as img_file:
-        return f"data:image/png;base64,{base64.b64encode(img_file.read()).decode('utf-8')}"
+        return f"data:image/png;base64,{base64.b64encode(img_file.read()).decode('utf-8')}"""
+    
+def encode_image_to_base64(image_path):
+    with open(image_path, "rb") as img_file:
+        return f"data:image/svg+xml;base64,{base64.b64encode(img_file.read()).decode('utf-8')}"
 
 def render_template(template_name: str, **context):
     template = env.get_template(template_name)
@@ -31,12 +35,12 @@ async def generer_compte_rendu(data: CompteRenduRdvInput, request: Request):
     # 📄 Nom du fichier PDF final
     filename = f"compte_rendu_{data.nom_participant.replace(' ', '_')}.pdf"
 
-    resume = await generer_resume(data.contenu_aborde)
-    conclusion = await generer_conclusion(data.titre, data.objectif, resume)
+    #resume = await generer_resume(data.contenu_aborde)
+    #conclusion = await generer_conclusion(data.titre, data.objectif, resume)
 
     base_dir =  Path("app").resolve().as_uri() #"file://" +os.path.abspath("app").replace("\\", "/")  # ← ✅ à utiliser ici
 
-    logo_path = os.path.join(STATIC_DIR, "logo.png")
+    logo_path = os.path.join(STATIC_DIR, "Banniere.svg")
     logo_base64 = encode_image_to_base64(logo_path)
 
     base_url = get_base_url(request)
@@ -44,27 +48,25 @@ async def generer_compte_rendu(data: CompteRenduRdvInput, request: Request):
 
     qr_image = gr_code.generate_qr_base64(file_url)
 
-    date_rdv_obj = datetime.strptime(data.date_rdv, "%Y-%m-%d")
+    date_rdv_obj = datetime.strptime(data.date_rdv, "%d/%m/%Y")
     # 📝 Rendu HTML avec les données fusionnées
-    rendered_html = render_template("compte_rendu_template.html",
-    titre=data.titre,
-    nom=data.nom_participant,
-    lieu=data.lieu,
-    date=date_rdv_obj.strftime("%d/%m/%Y"),
-    objectif=data.objectif,
-    resume=resume,
-    conclusion=conclusion,
-    coach=data.informations_coach,
+    rendered_html = render_template("compte_rendu_new.html",
+    titre_rdv=data.titre_rdv,
+    nom_participant=data.nom_participant,
+    prenom_participant=data.prenom_participant,
+    nom_coach=data.nom_coach,
+    prenom_coach=data.prenom_coach,
+    evaluateur=data.evaluateur,
+    date_rdv=date_rdv_obj.strftime("%d/%m/%Y"),
+    activite=data.activite,
+    attentes_generales=data.attentes_generales,
+    liste_observations=data.liste_observations,
+    liste_preconisations=data.liste_preconisations,
     annee=date.today().year,
     base_url=base_dir,  # <-- C’est important pour le chemin absolu
     logo_base64=logo_base64,  # ✅ nouveau
     qr_code=qr_image
 )   
-
-    # 💾 Sauvegarder le HTML pour déboguer
-    """debug_html_path = os.path.join("app", "temp_rendered_debug.html")
-    with open(debug_html_path, "w", encoding="utf-8") as f:
-        f.write(rendered_html)"""
 
     # 🖨️ Génération du PDF avec ta fonction existante
     file_infos = await generate_pdf_from_html(rendered_html, filename, request)

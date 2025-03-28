@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Compte Rendu - Amina ASSOUMANI</title>
+  <style>
+    @page {
+      margin-top: 20px;
+      margin-bottom: 20px;
+      margin-left: 30px;
+      margin-right: 30px;
+      @bottom-center {
+    content: "Page " counter(page) " sur " counter(pages);
+  }
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      font-size: 14px;
+      color: #333;
+      background-color: #ffffff;
+      margin: 0;
+      padding: 0;
+    }
+
+    h1, h2, h3 {
+      color: #003366;
+    }
+    p{
+      font-size: small;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+      border-bottom: 2px solid #003366;
+      padding-bottom: 5px;
+      margin-top: 0;
+    }
+
+    .header, .footer {
+      position: fixed;
+      left: 0;
+      right: 0;
+      height: 40px;
+      background-color: #e6f0ff;
+      z-index: 1000;
+      text-align: center;
+    }
+
+    .header {
+      top: 0;
+      padding-top: 10px;
+    }
+
+    .footer {
+      bottom: 0;
+      padding-top: 10px;
+      font-size: 12px;
+      color: #555;
+      border-top: 1px solid #ccc;
+      height: 20px;
+    }
+
+    .content {
+      background-color: #ffffff;
+      margin-top: 80px;
+      margin-bottom: 80px;
+      padding-top: 5px; /* espace réservé à l'en-tête */
+      padding-bottom: 40px; /* espace réservé à l'en-tête */
+    }
+
+    .header p {
+      margin: 5px;
+      font-weight: bold;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 5px;
+      page-break-inside: avoid;
+    }
+
+    td, th {
+      padding: 10px;
+      border: 1px solid #ccc;
+      vertical-align: top;
+      box-decoration-break: clone;
+      font-size: smaller;
+    }
+
+    thead {
+      display: table-header-group;
+    }
+
+    th {
+      background-color: #f2f2f2;
+      color: #003366;
+      text-align: left;
+    }
+
+    ul {
+      padding-left: 20px;
+    }
+
+    .highlight {
+      color: #cc0000;
+      font-weight: bold;
+    }
+
+    .signature-block {
+      padding-top: 50px;
+      display: flex;
+      justify-content: space-between;
+      text-align: center;
+      page-break-inside: avoid;
+      background-color: #ffffff;
+    }
+
+    .signature-section {
+      width: 48%;
+    }
+
+    .signature-section p {
+      margin-bottom: 5px;
+    }
+
+    .pagination::after {
+      content: "Page " counter(page);
+      font-size: 11px;
+      color: #888;
+    }
+
+    .logo-container {
+      display: flex;
+      justify-content: center; /* Centre horizontalement */
+      align-items: center;     /* Centre verticalement */
+      height: 40px;            /* même hauteur que l'en-tête */
+    }
+
+    .logo-container img {
+      max-width: 100%;
+      max-height: 30px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- En-tête -->
+  <div class="header">
+    <header>
+      <div class="logo-container">
+        <img src="{{ logo_base64 }}" alt="Logo">
+      </div>
+    </header>
+  </div>
+
+  <!-- Contenu principal -->
+  <div class="content">
+
+    <!-- Titre -->
+    <h1>{{ titre_rdv }}</h1>
+
+    <!-- Informations générales -->
+    <table>
+      <tr>
+        <td><strong>Nom / Prénom(s) :</strong> {{ nom_participant }} {{ prenom_participant }}</td>
+        <td style="text-align:right;"><strong>Date :</strong> {{ date_rdv }}</td>
+      </tr>
+      <tr>
+        <td colspan="2"><strong>{{ evaluateur }} :</strong> {{ nom_coach }} {{ prenom_coach }}</td>
+      </tr>
+    </table>
+
+    <!-- Présentation -->
+    <h3>Présentation de l’activité</h3>
+    <p style="font-size: small;">{{ activite }}</p>
+
+    <!-- Attentes -->
+    <h3>Attentes générales</h3>
+    <p style="font-size: small;">{{ attentes_generales }}</p>
+
+    <!-- Observations -->
+    <h3>Observations / Préconisations / Accompagnement</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Observations</th>
+          <th>Préconisations</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <ul>
+              {% for observation in liste_observations %}
+                <li>{{ observation }}</li>
+              {% endfor %}
+            </ul>
+          </td>
+          <td>
+            <ul>
+              {% for preconisation in liste_preconisations %}
+                <li><span class="highlight">⚠️ {{ preconisation }}</span></li>
+              {% endfor %}
+            </ul>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  
+    <!-- Signatures -->
+    <div class="signature-block">
+      <div class="signature-section">
+        <p><strong>Signature du Bénéficiaire :</strong></p>
+        {% raw %}
+        <p>{{Sig_es_:signer1:signature}}</p>
+        <p>{{Dte_es_:signer1:date}}</p>
+        {% endraw %}
+      </div>
+
+      <div class="signature-section">
+        <p><strong>Signature du Coach :</strong></p>
+        {% raw %}
+        <p>{{Sig_es_:signer2:signature}}</p>
+        <p>{{Dte_es_:signer2:date}}</p>
+        {% endraw %}
+      </div>
+    </div>
+
+  </div>
+  <!-- Pied de page -->
+  <div class="footer">
+      Ce programme est co-financé par le <strong>Fonds Social Européen</strong>.<br>
+  </div>
+
+</body>
+</html>
