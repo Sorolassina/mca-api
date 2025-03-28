@@ -45,7 +45,14 @@ async def verif_qpv(address_coords, request: Request):
         len(address) < 5 or
         len(address.split()) < 3
     ) :
-        return {"addresse non correcte ou pas au bon format"}
+        return {
+            "address": f"Adresse incorrecte{address}",
+            "nom_qp": "",
+            "distance_m": "",
+            "carte": "",
+            "image_url": "",
+            "image_encoded": ""
+        }
 
     url = f"https://api-adresse.data.gouv.fr/search/?q={address.replace(' ', '+')}" 
     
