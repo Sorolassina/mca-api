@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    
+        <script>
+            L_NO_TOUCH = false;
+            L_DISABLE_3D = false;
+        </script>
+    
+    <style>html, body {width: 100%;height: 100%;margin: 0;padding: 0;}</style>
+    <style>#map {position:absolute;top:0;bottom:0;right:0;left:0;}</style>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_c0b88995ce3689ab623f105667e4b4e1 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+        
+</head>
+<body>
+    
+    
+            <div class="folium-map" id="map_c0b88995ce3689ab623f105667e4b4e1" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_c0b88995ce3689ab623f105667e4b4e1 = L.map(
+                "map_c0b88995ce3689ab623f105667e4b4e1",
+                {
+                    center: [48.898561, 2.376504],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 14,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_6d236bd84964cd8475a74c8610c4fdaa = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 19,
+  "maxNativeZoom": 19,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_6d236bd84964cd8475a74c8610c4fdaa.addTo(map_c0b88995ce3689ab623f105667e4b4e1);
+        
+    
+            var poly_line_389bd1da25af6291e5d3c57e149f3ffd = L.polyline(
+                [[48.89875531077733, 2.374102570955366], [48.89870245700202, 2.371739344185498], [48.898412578966706, 2.36154737273657], [48.89828445950714, 2.355152236356803], [48.89852485790454, 2.355125221697579], [48.898611507447136, 2.357208348753542], [48.89884637892104, 2.358175000364254], [48.898942244431055, 2.358445273105975], [48.899219011626606, 2.359018853805321], [48.89934656059217, 2.359015982034811], [48.899601054676744, 2.35942080491624], [48.900626132119285, 2.359804034266789], [48.90149138531455, 2.359733645472174], [48.90154852087212, 2.362299285916172], [48.901687346450174, 2.362293271955314], [48.90171591257445, 2.363557313669495], [48.901140185065394, 2.363588194135609], [48.901020938358435, 2.364682216405187], [48.90099114817837, 2.370209514968966], [48.90036484385909, 2.370285644890059], [48.89970382556577, 2.370281372449013], [48.89980103010064, 2.374066820166741], [48.89875531077733, 2.374102570955366]],
+                {"bubblingMouseEvents": true, "color": "blue", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "lightblue", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 2.5}
+            ).addTo(map_c0b88995ce3689ab623f105667e4b4e1);
+        
+    
+            var marker_217e72986646d0660fc26aa130824a6f = L.marker(
+                [48.898561, 2.376504],
+                {
+}
+            ).addTo(map_c0b88995ce3689ab623f105667e4b4e1);
+        
+    
+            var icon_d9d0122260db0a4396b1a9a14018e43c = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+            marker_217e72986646d0660fc26aa130824a6f.setIcon(icon_d9d0122260db0a4396b1a9a14018e43c);
+        
+    
+            var marker_1cbd41abd9f3b6d9b3c515e75e604dbd = L.marker(
+                [48.898561, 2.376504],
+                {
+}
+            ).addTo(map_c0b88995ce3689ab623f105667e4b4e1);
+        
+    
+            var div_icon_194bb35f70ec6153690b99d379f5d020 = L.divIcon({
+  "html": "\n            \u003cdiv style=\"\n                background-color: rgba(255, 255, 255, 0.8);\n                padding: 10px;\n                border-radius: 5px;\n                font-size: 12px;\n                font-weight: bold;\n                text-align: left;\n                width: 400px;\"\u003e\n                \ud83d\udcc5 Aujourd\u0027hui : 28/03/2025\u003cbr\u003e\n                \ud83d\udccd \u003cb\u003e173 boulevard Macdonald 75019\u003c/b\u003e\u003cbr\u003e\n                \u2705 QPV limit : Porte De La Chapelle - Charles Hermite\u003cbr\u003e\n                \ud83d\udccf Distance : 177 m\u00e8tres \u003cbr\u003e\n                \ud83d\udd17 \u003ca href=\"https://public.opendatasoft.com/api/explore/v2.1/console\" target=\"_blank\" style=\"color:blue; text-decoration:none;\"\u003e\n                    Source OpenDataSoft\n                    \u003c/a\u003e\n            \u003c/div\u003e\n        ",
+  "iconSize": [350, 50],
+  "iconAnchor": [0, 0],
+  "className": "empty",
+});
+            marker_1cbd41abd9f3b6d9b3c515e75e604dbd.setIcon(div_icon_194bb35f70ec6153690b99d379f5d020);
+        
+</script>
+</html>

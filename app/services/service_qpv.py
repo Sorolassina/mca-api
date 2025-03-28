@@ -159,14 +159,14 @@ async def verif_qpv(address_coords, request: Request):
         else:
             encoded_image = None  # Si l’image n’existe pas
 
-            return {
-                "address": address,
-                "nom_qp": f'{etat_qpv}:{qpv_name}',
-                "distance_m": distance_m,
-                "carte": f"{base_url.strip()}{maps_url.strip()}",
-                "image_url": f"{base_url.strip()}{img_url.strip()}",
-                "image_encoded": f"data:image/png;base64,{encoded_image}"
-            }
+        return {
+            "address": address,
+            "nom_qp": f'{etat_qpv}:{qpv_name}',
+            "distance_m": distance_m,
+            "carte": f"{base_url.strip()}{maps_url.strip()}",
+            "image_url": f"{base_url.strip()}{img_url.strip()}",
+            "image_encoded": f"data:image/png;base64,{encoded_image}"
+        }
     
     else:
         

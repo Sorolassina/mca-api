@@ -32,12 +32,28 @@ async def recherche_groupqpv(input_path: str, output_path: str, file_type:str , 
         payload = {
             "address": row["Adresse complete"]
         }
-
+        address = str(payload.get("address")) if payload.get("address") is not None else ""
         try:
+            print(f"🔍 Envoi du payload à verif_qpv : {payload}")
+
+            # 🔒 Vérification de la qualité du champ avant appel API
+            if (
+                not address or
+                len(address) < 5 or
+                len(address.split()) < 3
+            ) :
+                continue
+                
             result = await verif_qpv(payload, request)  # appel direct à la fonction
+            
+
+            if result is None:
+                raise ValueError(f"⚠️ Aucun résultat pour l'adresse : {payload['address']}")
+            
             df.at[index, "nom_qpv"] = result.get("nom_qp", "")
             df.at[index, "carte_qpv"] = result.get("carte", "")
             df.at[index, "distance_qpv_en_metre"] = result.get("distance_m", "")
+
         except Exception as e:
             print(f"❌ Erreur ligne {index+1} : {e}")
             break  
