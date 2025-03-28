@@ -31,8 +31,22 @@ async def verif_qpv(address_coords, request: Request):
     else:
         raise ValueError("❌ Format non reconnu pour address_coords")
     
+    
 
     address=address_dict.get("address")
+
+    address = str(address) if address is not None else ""
+    
+    print(f"🔍 Envoi du payload à verif_qpv : {address}")
+
+    # 🔒 Vérification de la qualité du champ avant appel API
+    if (
+        not address or
+        len(address) < 5 or
+        len(address.split()) < 3
+    ) :
+        return {"addresse non correcte ou pas au bon format"}
+
     url = f"https://api-adresse.data.gouv.fr/search/?q={address.replace(' ', '+')}" 
     
     try:
