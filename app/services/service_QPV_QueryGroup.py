@@ -21,7 +21,6 @@ async def recherche_groupqpv(input_path: str, output_path: str, file_type:str , 
     if not adresse_col:
         raise ValueError("❌ Le fichier doit contenir une colonne intitulée 'Adresse' ou 'Adresse complete'.")
 
-
     # Ajouter les colonnes de résultat
     df["nom_qpv"] = ""
     df["carte_qpv"] = ""

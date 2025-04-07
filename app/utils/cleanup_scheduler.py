@@ -13,7 +13,7 @@ CLEANUP_CONFIG = [
     {
         "folder": FICHIERS_DIR,
         "extensions": (".png", ".jpg", ".jpeg",".zip",".html", ".pdf", ".csv"),
-        "age_limit_minutes": 1440
+        "age_limit_minutes": 3360
     },
     {
         "folder": STATIC_MAPS_DIR,

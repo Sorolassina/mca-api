@@ -161,10 +161,11 @@ async def verif_qpv(address_coords, request: Request):
                 html=info_text,  # Contenu HTML
             ),
         ).add_to(m)
-           
+        
+        nouvel_adre=address.replace(" ", "_").replace(",", "_").replace(".", "_").replace("-", "_").replace("'", "_")
         # Définir les chemins des fichiers
-        map_file = os.path.join(STATIC_MAPS_DIR, f"map_{lat}_{lon}.html")
-        image_file = os.path.join(STATIC_IMAGES_DIR, f"map_{lat}_{lon}.png")
+        map_file = os.path.join(STATIC_MAPS_DIR, f"map_{nouvel_adre}.html")
+        image_file = os.path.join(STATIC_IMAGES_DIR, f"map_{nouvel_adre}.png")
 
         # Sauvegarde HTML et image
         m.save(map_file)

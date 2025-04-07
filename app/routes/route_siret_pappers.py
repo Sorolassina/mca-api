@@ -20,7 +20,7 @@ async def get_entreprise(siret_request: SiretRequest, request: Request):
                 "csv_file": "",
                 "entreprise_data": ""
             }
-        
+    
     numero_siret = siret_request.numero_siret[:9]
 
     infosentreprise=await get_entreprise_process(numero_siret, request)
