@@ -56,6 +56,8 @@ async def verif_qpv(address_coords, request: Request):
 
     url = f"https://api-adresse.data.gouv.fr/search/?q={address.replace(' ', '+')}" 
     
+    nouvel_adre=address.replace(" ", "_").replace(",", "_").replace(".", "_").replace("-", "_").replace("'", "_")
+        
     try:
         response = requests.get(url)
         response.raise_for_status()  # Lève une erreur si la requête échoue
@@ -162,7 +164,6 @@ async def verif_qpv(address_coords, request: Request):
             ),
         ).add_to(m)
         
-        nouvel_adre=address.replace(" ", "_").replace(",", "_").replace(".", "_").replace("-", "_").replace("'", "_")
         # Définir les chemins des fichiers
         map_file = os.path.join(STATIC_MAPS_DIR, f"map_{nouvel_adre}.html")
         image_file = os.path.join(STATIC_IMAGES_DIR, f"map_{nouvel_adre}.png")
@@ -172,8 +173,8 @@ async def verif_qpv(address_coords, request: Request):
         # Sauvegarde en image avec `selenium headless`
         save_map_as_image(map_file, image_file)
 
-        maps_url=f"/static/maps/map_{lat}_{lon}.html"
-        img_url=f"/static/images/map_{lat}_{lon}.png"
+        maps_url=f"/static/maps/map_{nouvel_adre}.html"
+        img_url=f"/static/images/map_{nouvel_adre}.png"
 
         # Vérifie si l’image existe avant d’essayer de l’encoder
         if os.path.exists(image_file):
@@ -227,15 +228,15 @@ async def verif_qpv(address_coords, request: Request):
         ).add_to(m)
 
         # Définir les chemins des fichiers
-        map_file = os.path.join(STATIC_MAPS_DIR, f"map_{lat}_{lon}.html")
-        image_file = os.path.join(STATIC_IMAGES_DIR, f"map_{lat}_{lon}.png")
+        map_file = os.path.join(STATIC_MAPS_DIR, f"map_{nouvel_adre}.html")
+        image_file = os.path.join(STATIC_IMAGES_DIR, f"map_{nouvel_adre}.png")
         
         # Sauvegarde HTML et image
         m.save(map_file)
         save_map_as_image(map_file, image_file)
 
-        maps_url=f"/static/maps/map_{lat}_{lon}.html"
-        img_url=f"/static/images/map_{lat}_{lon}.png"
+        maps_url=f"/static/maps/map_{nouvel_adre}.html"
+        img_url=f"/static/images/map_{nouvel_adre}.png"
 
 
         # Vérifie si l’image existe avant d’essayer de l’encoder
