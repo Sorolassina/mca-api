@@ -1,0 +1,179 @@
+{% extends "base.html" %}
+
+{% block title %}Enquête de satisfaction{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', path='css/forms.css') }}">
+<style>
+    .error-message {
+        background-color: #fff3f3;
+        border: 1px solid #ffcdd2;
+        color: #d32f2f;
+        padding: 1rem;
+        margin: 1rem 0;
+        border-radius: 4px;
+        text-align: center;
+    }
+    .form-disabled {
+        opacity: 0.7;
+        pointer-events: none;
+    }
+    .form-disabled input,
+    .form-disabled select,
+    .form-disabled textarea {
+        background-color: #f5f5f5;
+    }
+    .form-disabled .btn-primary {
+        background-color: #cccccc;
+        cursor: not-allowed;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <div class="form-header">
+        <img src="/static/logo.png" alt="Logo MCA" class="logo">
+        <h1>Enquête de satisfaction</h1>
+        {% if error_message %}
+        <div class="error-message">
+            <p>⚠️ {{ error_message }}</p>
+            <p>Si vous pensez qu'il s'agit d'une erreur, veuillez contacter le support à <a href="mailto:contact@lesentrepreneursaffranchis.fr">contact@lesentrepreneursaffranchis.fr</a></p>
+        </div>
+        {% else %}
+        <p class="programme-description">Merci de prendre quelques instants pour nous faire part de votre retour sur l'événement.</p>
+        {% endif %}
+    </div>
+    <form id="satisfactionForm" class="form-content {% if not is_valid %}form-disabled{% endif %}" method="POST" action="/api-mca/v1/satisfaction/submit/{{ event_id }}" data-is-valid="{{ is_valid|lower }}">
+        <!-- Infos participant -->
+        <div class="form-section">
+            <h2>Vos informations</h2>
+            <div class="form-group">
+                <label for="nom">Nom</label>
+                <input type="text" id="nom" name="nom" class="form-control" minlength="2" maxlength="50" value="{{ nom }}" {% if not is_valid %}readonly{% endif %}>
+            </div>
+            <div class="form-group">
+                <label for="prenom">Prénom</label>
+                <input type="text" id="prenom" name="prenom" class="form-control" minlength="2" maxlength="50" value="{{ prenom }}" {% if not is_valid %}readonly{% endif %}>
+            </div>
+            <div class="form-group">
+                <label for="email">Email *</label>
+                <input type="email" id="email" name="email" class="form-control required" required value="{{ email }}" {% if email %}readonly{% endif %}>
+            </div>
+        </div>
+        <!-- Satisfaction -->
+        <div class="form-section">
+            <h2>Votre avis sur l'événement</h2>
+            <div class="form-group">
+                <label for="note_globale">Note globale *</label>
+                <select id="note_globale" name="note_globale" class="form-control" required {% if not is_valid %}disabled{% endif %}>
+                    <option value="">Sélectionnez une note</option>
+                    {% for i in range(1,6) %}
+                    <option value="{{ i }}">{{ i }} / 5</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="points_positifs">Points positifs</label>
+                <textarea id="points_positifs" name="points_positifs" class="form-control" rows="2" maxlength="1000" {% if not is_valid %}readonly{% endif %}></textarea>
+            </div>
+            <div class="form-group">
+                <label for="points_amelioration">Points à améliorer</label>
+                <textarea id="points_amelioration" name="points_amelioration" class="form-control" rows="2" maxlength="1000" {% if not is_valid %}readonly{% endif %}></textarea>
+            </div>
+            <div class="form-group">
+                <label for="recommander">Recommanderiez-vous cet événement ? *</label>
+                <select id="recommander" name="recommander" class="form-control" required {% if not is_valid %}disabled{% endif %}>
+                    <option value="">Sélectionnez</option>
+                    <option value="true">Oui</option>
+                    <option value="false">Non</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="commentaires">Commentaires libres</label>
+                <textarea id="commentaires" name="commentaires" class="form-control" rows="2" maxlength="1000" {% if not is_valid %}readonly{% endif %}></textarea>
+            </div>
+            <div class="form-group">
+                <label for="opinion_evaluateur">Votre opinion sur l'évaluateur</label>
+                <textarea id="opinion_evaluateur" name="opinion_evaluateur" class="form-control" rows="2" maxlength="1000" {% if not is_valid %}readonly{% endif %}></textarea>
+            </div>
+        </div>
+        <!-- Consentement RGPD -->
+        <div class="form-section">
+            <h2>Protection des données personnelles (RGPD)</h2>
+            <div class="form-group rgpd-notice">
+                <p>En soumettant ce formulaire, vous acceptez que les données personnelles saisies soient utilisées exclusivement dans le cadre de l'amélioration de nos événements.</p>
+                <p>Conformément à la loi "Informatique et Libertés" du 6 janvier 1978 modifiée et au Règlement Général sur la Protection des Données (RGPD) du 27 avril 2016, vous disposez des droits suivants :</p>
+                <ul>
+                    <li>Droit d'accès à vos données personnelles</li>
+                    <li>Droit de rectification de vos données personnelles</li>
+                    <li>Droit à l'effacement de vos données personnelles</li>
+                    <li>Droit à la limitation du traitement de vos données</li>
+                    <li>Droit à la portabilité de vos données</li>
+                    <li>Droit d'opposition au traitement de vos données</li>
+                </ul>
+                <p>Pour exercer ces droits, vous pouvez nous contacter à l'adresse email : <a href="mailto:contact@lesentrepreneursaffranchis.fr">contact@lesentrepreneursaffranchis.fr</a></p>
+                <p>Vos données sont conservées pendant une durée maximale de 3 ans à compter de votre dernière interaction avec nous.</p>
+            </div>
+            <div class="form-group">
+                <div class="checkbox-group">
+                    <input type="checkbox" id="rgpd_consent" name="rgpd_consent" class="form-control" required {% if not is_valid %}disabled{% endif %}>
+                    <label for="rgpd_consent">J'ai lu et j'accepte la politique de protection des données personnelles *</label>
+                </div>
+            </div>
+        </div>
+        <div class="form-actions">
+            <button type="submit" class="btn-primary" {% if not is_valid %}disabled{% endif %}>Soumettre mon avis</button>
+        </div>
+    </form>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.getElementById('satisfactionForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const isValid = form.dataset.isValid === 'true';
+    
+    if (!isValid) {
+        alert('Le formulaire n\'est pas accessible car vous n\'êtes pas inscrit à cet événement ou l\'événement n\'existe pas.');
+        return;
+    }
+    
+    try {
+        const formData = new FormData(form);
+        const data = Object.fromEntries(formData.entries());
+        // Convertir recommander en booléen
+        if (data.recommander === 'true') data.recommander = true;
+        if (data.recommander === 'false') data.recommander = false;
+        const response = await fetch(form.action, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data)
+        });
+        const result = await response.json();
+        if (response.ok) {
+            alert('Merci pour votre retour ! Vous allez être redirigé vers le site de My Creo Academy.');
+            setTimeout(() => {
+                window.location.href = 'https://mycreoacademy.fr';
+            }, 2000);
+            form.reset();
+        } else {
+            let errorMessage = result.detail;
+            if (result.errors) {
+                errorMessage = Object.entries(result.errors)
+                    .map(([field, errors]) => `${field}: ${errors.join(', ')}`)
+                    .join('\n');
+            }
+            alert('Erreur : ' + errorMessage);
+        }
+    } catch (error) {
+        alert('Une erreur est survenue lors de l\'envoi du formulaire.');
+        console.error('Erreur:', error);
+    }
+});
+</script>
+{% endblock %} 

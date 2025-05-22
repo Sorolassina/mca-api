@@ -6,11 +6,11 @@ from app.config import FICHIERS_DIR
 import os
 import requests
 from fastapi import HTTPException
-from app.config import PAPPERS_API_KEY
+from app.config import settings
       
 async def get_entreprise_process(numero_siret: str, request: Request):
  
-    url = f"https://api.pappers.fr/v2/entreprise?siren={numero_siret}&api_token={PAPPERS_API_KEY}"
+    url = f"https://api.pappers.fr/v2/entreprise?siren={numero_siret}&api_token={settings.PAPPERS_API_KEY}"
 
     try:
         response = requests.get(url)

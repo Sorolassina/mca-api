@@ -119,47 +119,66 @@
         <p>Utilisez cette interface pour interagir avec nos services</p>
         
 
-        <form action="{{ url_process }}" method="post" enctype="multipart/form-data">
-            <label for="service">Services</label>
-            <select name="service" id="service" onchange="toggleHtmlInput()">
-                <option value="place_holder">Veuillez sélectionner un service...</option>
-                <option value="company_info">🔍 Rechercher une entreprise via SIRET/SIREN</option>
-                <option value="pdf_from_html">📝 Générer un PDF à partir de contenu HTML</option>
-                <option value="check_qpv">🏘️ Vérifier si une adresse est en QPV</option>
-                <option value="check_groupeqpv">📄 Vérifier un lot d’adresses QPV (fichier)</option>
-                <option value="digiformat_data">📥 Extraire les données d’un bénéficiaire (Digiformat)</option>
-                <option value="customize_folder">🛠️ Personnaliser un fichier ou dossier (recherche/remplacement)</option>
-            </select>
 
-            <div id="html_upload_container">
-                <div id="qpvblock_upload_container">
-                    <label for="html_file">Charger un fichier HTML</label>
-                    <input type="file" name="html_file" id="html_file" accept=".html">
+        <!-- Ajouter après la ligne <p>Utilisez cette interface pour interagir avec nos services</p> -->
+        <div class="services-section">
+            <h2>Nos Services</h2>
+            <div class="services-grid">
+                <div class="service-card">
+                    <h3>Services API</h3>
+                    <p>Accédez à nos services d'API pour la recherche d'entreprises, la génération de PDF, et plus encore.</p>
+                    <form action="{{ url_process }}" method="post" enctype="multipart/form-data">
+                        <label for="service">Services</label>
+                        <select name="service" id="service" onchange="toggleHtmlInput()">
+                            <option value="place_holder">Veuillez sélectionner un service...</option>
+                            <option value="company_info">🔍 Rechercher une entreprise via SIRET/SIREN</option>
+                            <option value="pdf_from_html">📝 Générer un PDF à partir de contenu HTML</option>
+                            <option value="check_qpv">🏘️ Vérifier si une adresse est en QPV</option>
+                            <option value="check_groupeqpv">📄 Vérifier un lot d’adresses QPV (fichier)</option>
+                            <option value="digiformat_data">📥 Extraire les données d’un bénéficiaire (Digiformat)</option>
+                            <option value="customize_folder">🛠️ Personnaliser un fichier ou dossier (recherche/remplacement)</option>
+                        </select>
+            
+                        <div id="html_upload_container">
+                            <div id="qpvblock_upload_container">
+                                <label for="html_file">Charger un fichier HTML</label>
+                                <input type="file" name="html_file" id="html_file" accept=".html">
+                            </div>
+            
+                            <div id="html_content_container">
+                                <label for="html_content">Ou entrer du code HTML</label>
+                                <textarea name="html_content" id="html_content" rows="6" placeholder="Collez votre code HTML ici..."></textarea>
+                            </div>
+                        </div>
+            
+                        <div id="customize_container" style="display: none;">
+                            <label for="custom_file">Charger un fichier ou un dossier zip</label>
+                            <input type="file" name="custom_file" id="custom_file" required>
+                        
+                            <label for="old_words">Mots à remplacer (séparés par des virgules)</label>
+                            <input type="text" name="old_words" id="old_words" placeholder="Ex: NOM_CLIENT, DATE, VILLE">
+                        
+                            <label for="new_word">Nouveau mot</label>
+                            <input type="text" name="new_word" id="new_word" placeholder="Ex: Koroba S.A" required>
+                        </div>
+            
+                        <label for="input_data">Données</label>
+                        <input type="text" name="input_data" id="input_data" placeholder="Entrez les informations..." required>
+            
+                        <button id="submitBtn" type="submit">Envoyer</button>
+                        
+                    </form>
                 </div>
-
-                <div id="html_content_container">
-                    <label for="html_content">Ou entrer du code HTML</label>
-                    <textarea name="html_content" id="html_content" rows="6" placeholder="Collez votre code HTML ici..."></textarea>
+                
+                <div class="service-card">
+                    <h3>Programmes de Formation</h3>
+                    <p>Découvrez nos programmes de formation et inscrivez-vous en ligne.</p>
+                    <a href="/api-mca/v1/programmes/liste" class="btn-primary">Voir les programmes</a>
                 </div>
             </div>
+        </div>
 
-            <div id="customize_container" style="display: none;">
-                <label for="custom_file">Charger un fichier ou un dossier zip</label>
-                <input type="file" name="custom_file" id="custom_file" required>
-            
-                <label for="old_words">Mots à remplacer (séparés par des virgules)</label>
-                <input type="text" name="old_words" id="old_words" placeholder="Ex: NOM_CLIENT, DATE, VILLE">
-            
-                <label for="new_word">Nouveau mot</label>
-                <input type="text" name="new_word" id="new_word" placeholder="Ex: Koroba S.A" required>
-            </div>
-
-            <label for="input_data">Données</label>
-            <input type="text" name="input_data" id="input_data" placeholder="Entrez les informations..." required>
-
-            <button id="submitBtn" type="submit">Envoyer</button>
-            
-        </form>
+        
 
         {% if result %}
             <div class="result">

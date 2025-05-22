@@ -1,0 +1,399 @@
+{% extends "base.html" %}
+
+{% block title %}Inscription - {{ programme_id }}{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', path='css/forms.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <div class="form-header">
+        <img src="/static/logo.png" alt="Logo MCA" class="logo">
+        <h1>Inscription - {{ programme_info.nom }}</h1>
+        <p class="programme-description">{{ programme_info.description }}</p>
+    </div>
+    <form id="inscriptionForm" class="form-content" method="POST" action="/api-mca/v1/inscription/submit/{{ programme_id }}">
+        <!-- Champs cachés pour les IDs -->
+        <input type="hidden" name="programme_id" value="{{ programme_id }}">
+        <!-- event_id peut être ajouté dynamiquement si besoin -->
+
+        <!-- Informations personnelles -->
+        <div class="form-section">
+            <h2>Informations personnelles</h2>
+            <div class="form-group">
+                <label for="nom">Nom *</label>
+                <input type="text" id="nom" name="nom" class="form-control required" minlength="2" maxlength="50" placeholder="Minimum 2 caractères, maximum 50" required value="{{ preinscription.nom if preinscription else '' }}" onchange="validateNom(this)">
+                <div id="nom_error" class="error-message" style="display: none;"></div>
+            </div>
+            <div class="form-group">
+                <label for="prenom">Prénom *</label>
+                <input type="text" id="prenom" name="prenom" class="form-control required" minlength="2" maxlength="50" placeholder="Minimum 2 caractères, maximum 50" required value="{{ preinscription.prenom if preinscription else '' }}" onchange="validatePrenom(this)">
+                <div id="prenom_error" class="error-message" style="display: none;"></div>
+            </div>
+            <div class="form-group">
+                <label for="email">Email *</label>
+                <input type="email" id="email" name="email" class="form-control required" placeholder="exemple@email.com" required value="{{ preinscription.email if preinscription else '' }}" readonly onchange="validateEmail(this)">
+                <div id="email_error" class="error-message" style="display: none;"></div>
+            </div>
+            <div class="form-group">
+                <label for="telephone">Téléphone *</label>
+                <input type="tel" id="telephone" name="telephone" class="form-control" pattern="(\+33|0)[1-9](\d{2}){4}" placeholder="+33612345678 ou 0612345678" required value="{{ preinscription.telephone if preinscription else '' }}" onchange="validateTelephone(this)">
+                <small class="form-text">Format attendu : +33612345678 (format international) ou 0612345678 (format national)</small>
+                <div id="telephone_error" class="error-message" style="display: none;"></div>
+            </div>
+            <div class="form-group">
+                <label for="date_naissance">Date de naissance *</label>
+                <input type="date" id="date_naissance" name="date_naissance" class="form-control" required placeholder="JJ/MM/AAAA (vous devez être majeur)" value="{{ preinscription.date_naissance if preinscription else '' }}" onchange="validateDateNaissance(this)">
+                <small class="form-text">Vous devez être majeur pour vous inscrire</small>
+                <div id="date_naissance_error" class="error-message" style="display: none;"></div>
+            </div>
+        </div>
+
+        <!-- Adresse -->
+        <div class="form-section">
+            <h2>Adresse</h2>
+            <div class="form-group">
+                <label for="adresse">Adresse *</label>
+                <input type="text" id="adresse" name="adresse" class="form-control" minlength="5" maxlength="200" placeholder="Minimum 5 caractères, maximum 200" required value="{{ preinscription.adresse if preinscription else '' }}" onchange="validateAdresse(this)">
+                <div id="adresse_error" class="error-message" style="display: none;"></div>
+            </div>
+            <div class="form-group">
+                <label for="code_postal">Code postal *</label>
+                <input type="text" id="code_postal" name="code_postal" class="form-control" pattern="\d{5}" placeholder="5 chiffres (ex: 75001)" required value="{{ preinscription.code_postal if preinscription else '' }}" onchange="validateCodePostal(this)">
+                <small class="form-text">Format attendu : 5 chiffres</small>
+                <div id="code_postal_error" class="error-message" style="display: none;"></div>
+            </div>
+            <div class="form-group">
+                <label for="ville">Ville *</label>
+                <input type="text" id="ville" name="ville" class="form-control" minlength="2" maxlength="100" placeholder="Minimum 2 caractères, maximum 100" required value="{{ preinscription.ville if preinscription else '' }}" onchange="validateVille(this)">
+                <div id="ville_error" class="error-message" style="display: none;"></div>
+            </div>
+        </div>
+
+        <!-- Informations professionnelles -->
+        <div class="form-section">
+            <h2>Informations professionnelles</h2>
+            <div class="form-group">
+                <label for="situation_professionnelle">Situation professionnelle *</label>
+                <select id="situation_professionnelle" name="situation_professionnelle" class="form-control" required onchange="validateSituationProfessionnelle(this)">
+                    <option value="">Sélectionnez votre situation</option>
+                    {% for value, label in situation_choices %}
+                    <option value="{{ value }}" {% if preinscription and preinscription.situation_professionnelle == value %}selected{% endif %}>{{ label }}</option>
+                    {% endfor %}
+                </select>
+                <div id="situation_professionnelle_error" class="error-message" style="display: none;"></div>
+            </div>
+            <div class="form-group">
+                <label for="niveau_etude">Niveau d'études *</label>
+                <select id="niveau_etude" name="niveau_etude" class="form-control" required onchange="validateNiveauEtude(this)">
+                    <option value="">Sélectionnez votre niveau</option>
+                    {% for value, label in niveau_choices %}
+                    <option value="{{ value }}" {% if preinscription and preinscription.niveau_etude == value %}selected{% endif %}>{{ label }}</option>
+                    {% endfor %}
+                </select>
+                <div id="niveau_etude_error" class="error-message" style="display: none;"></div>
+            </div>
+            <div class="form-group">
+                <label for="projet_entrepreneurial">Votre projet entrepreneurial</label>
+                <textarea id="projet_entrepreneurial" name="projet_entrepreneurial" class="form-control" rows="4" maxlength="500">{{ preinscription.projet_entrepreneurial if preinscription else '' }}</textarea>
+                <small class="form-text">Maximum 500 caractères</small>
+            </div>
+        </div>
+
+        <!-- Validation et soumission -->
+        <div class="form-section">
+            <h2>Protection des données personnelles (RGPD)</h2>
+            <div class="form-group rgpd-notice">
+                <p>En soumettant ce formulaire, vous acceptez que les données personnelles saisies soient utilisées exclusivement dans le cadre de votre inscription et de la relation commerciale qui pourrait en découler.</p>
+                <p>Conformément à la loi "Informatique et Libertés" du 6 janvier 1978 modifiée et au Règlement Général sur la Protection des Données (RGPD) du 27 avril 2016, vous disposez des droits suivants :</p>
+                <ul>
+                    <li>Droit d'accès à vos données personnelles</li>
+                    <li>Droit de rectification de vos données personnelles</li>
+                    <li>Droit à l'effacement de vos données personnelles</li>
+                    <li>Droit à la limitation du traitement de vos données</li>
+                    <li>Droit à la portabilité de vos données</li>
+                    <li>Droit d'opposition au traitement de vos données</li>
+                </ul>
+                <p>Pour exercer ces droits, vous pouvez nous contacter à l'adresse email : <a href="mailto:contact@lesentrepreneursaffranchis.fr">contact@lesentrepreneursaffranchis.fr</a></p>
+                <p>Vos données sont conservées pendant une durée maximale de 3 ans à compter de votre dernière interaction avec nous.</p>
+            </div>
+            <div class="form-group">
+                <div class="checkbox-group">
+                    <input type="checkbox" id="rgpd_consent" name="rgpd_consent" class="form-control" required onchange="validateRgpdConsent(this)">
+                    <label for="rgpd_consent">J'ai lu et j'accepte la politique de protection des données personnelles *</label>
+                </div>
+                <div id="rgpd_consent_error" class="error-message" style="display: none;"></div>
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn-primary">Soumettre mon inscription</button>
+        </div>
+    </form>
+</div>
+
+<style>
+.is-invalid {
+    border-color: #dc3545 !important;
+    padding-right: calc(1.5em + 0.75rem) !important;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' width='12' height='12' fill='none' stroke='%23dc3545'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23dc3545' stroke='none'/%3e%3c/svg%3e") !important;
+    background-repeat: no-repeat !important;
+    background-position: right calc(0.375em + 0.1875rem) center !important;
+    background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem) !important;
+}
+
+.error-message {
+    font-size: 0.875em;
+    margin-top: 0.25rem;
+    color: #dc3545;
+}
+
+/* Style spécifique pour les selects invalides */
+select.is-invalid {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' width='12' height='12' fill='none' stroke='%23dc3545'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23dc3545' stroke='none'/%3e%3c/svg%3e") !important;
+    padding-right: 2.25rem !important;
+}
+
+/* Style pour la checkbox RGPD */
+.checkbox-group input[type="checkbox"].is-invalid {
+    border-color: #dc3545;
+    background-color: #fff;
+}
+</style>
+
+{% block scripts %}
+<script>
+// Fonctions de validation pour chaque champ
+function validateNom(input) {
+    const errorDiv = document.getElementById('nom_error');
+    if (input.value.length < 2) {
+        input.classList.add('is-invalid');
+        errorDiv.textContent = "Le nom doit contenir au moins 2 caractères";
+        errorDiv.style.display = 'block';
+        input.setCustomValidity("Le nom doit contenir au moins 2 caractères");
+    } else {
+        input.classList.remove('is-invalid');
+        errorDiv.style.display = 'none';
+        input.setCustomValidity("");
+    }
+}
+
+function validatePrenom(input) {
+    const errorDiv = document.getElementById('prenom_error');
+    if (input.value.length < 2) {
+        input.classList.add('is-invalid');
+        errorDiv.textContent = "Le prénom doit contenir au moins 2 caractères";
+        errorDiv.style.display = 'block';
+        input.setCustomValidity("Le prénom doit contenir au moins 2 caractères");
+    } else {
+        input.classList.remove('is-invalid');
+        errorDiv.style.display = 'none';
+        input.setCustomValidity("");
+    }
+}
+
+function validateEmail(input) {
+    const errorDiv = document.getElementById('email_error');
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(input.value)) {
+        input.classList.add('is-invalid');
+        errorDiv.textContent = "Veuillez entrer une adresse email valide";
+        errorDiv.style.display = 'block';
+        input.setCustomValidity("Veuillez entrer une adresse email valide");
+    } else {
+        input.classList.remove('is-invalid');
+        errorDiv.style.display = 'none';
+        input.setCustomValidity("");
+    }
+}
+
+function validateTelephone(input) {
+    const errorDiv = document.getElementById('telephone_error');
+    const phoneRegex = /^(\+33|0)[1-9](\d{2}){4}$/;
+    if (!phoneRegex.test(input.value)) {
+        input.classList.add('is-invalid');
+        errorDiv.textContent = "Le numéro de téléphone doit être au format français (+33612345678 ou 0612345678)";
+        errorDiv.style.display = 'block';
+        input.setCustomValidity("Le numéro de téléphone doit être au format français");
+    } else {
+        input.classList.remove('is-invalid');
+        errorDiv.style.display = 'none';
+        input.setCustomValidity("");
+    }
+}
+
+function validateDateNaissance(input) {
+    const errorDiv = document.getElementById('date_naissance_error');
+    const dateValue = new Date(input.value);
+    const today = new Date();
+    const age = today.getFullYear() - dateValue.getFullYear() - 
+                ((today.getMonth(), today.getDate()) < (dateValue.getMonth(), dateValue.getDate()));
+    
+    if (age < 18) {
+        input.classList.add('is-invalid');
+        errorDiv.textContent = "Vous devez être majeur (18 ans ou plus) pour vous inscrire";
+        errorDiv.style.display = 'block';
+        input.setCustomValidity("Vous devez être majeur pour vous inscrire");
+    } else {
+        input.classList.remove('is-invalid');
+        errorDiv.style.display = 'none';
+        input.setCustomValidity("");
+    }
+}
+
+function validateAdresse(input) {
+    const errorDiv = document.getElementById('adresse_error');
+    if (input.value.length < 5) {
+        input.classList.add('is-invalid');
+        errorDiv.textContent = "L'adresse doit contenir au moins 5 caractères";
+        errorDiv.style.display = 'block';
+        input.setCustomValidity("L'adresse doit contenir au moins 5 caractères");
+    } else {
+        input.classList.remove('is-invalid');
+        errorDiv.style.display = 'none';
+        input.setCustomValidity("");
+    }
+}
+
+function validateCodePostal(input) {
+    const errorDiv = document.getElementById('code_postal_error');
+    const codePostalRegex = /^\d{5}$/;
+    if (!codePostalRegex.test(input.value)) {
+        input.classList.add('is-invalid');
+        errorDiv.textContent = "Le code postal doit contenir exactement 5 chiffres";
+        errorDiv.style.display = 'block';
+        input.setCustomValidity("Le code postal doit contenir exactement 5 chiffres");
+    } else {
+        input.classList.remove('is-invalid');
+        errorDiv.style.display = 'none';
+        input.setCustomValidity("");
+    }
+}
+
+function validateVille(input) {
+    const errorDiv = document.getElementById('ville_error');
+    if (input.value.length < 2) {
+        input.classList.add('is-invalid');
+        errorDiv.textContent = "La ville doit contenir au moins 2 caractères";
+        errorDiv.style.display = 'block';
+        input.setCustomValidity("La ville doit contenir au moins 2 caractères");
+    } else {
+        input.classList.remove('is-invalid');
+        errorDiv.style.display = 'none';
+        input.setCustomValidity("");
+    }
+}
+
+function validateSituationProfessionnelle(input) {
+    const errorDiv = document.getElementById('situation_professionnelle_error');
+    if (!input.value) {
+        input.classList.add('is-invalid');
+        errorDiv.textContent = "Veuillez sélectionner votre situation professionnelle";
+        errorDiv.style.display = 'block';
+        input.setCustomValidity("Veuillez sélectionner votre situation professionnelle");
+    } else {
+        input.classList.remove('is-invalid');
+        errorDiv.style.display = 'none';
+        input.setCustomValidity("");
+    }
+}
+
+function validateNiveauEtude(input) {
+    const errorDiv = document.getElementById('niveau_etude_error');
+    if (!input.value) {
+        input.classList.add('is-invalid');
+        errorDiv.textContent = "Veuillez sélectionner votre niveau d'études";
+        errorDiv.style.display = 'block';
+        input.setCustomValidity("Veuillez sélectionner votre niveau d'études");
+    } else {
+        input.classList.remove('is-invalid');
+        errorDiv.style.display = 'none';
+        input.setCustomValidity("");
+    }
+}
+
+function validateRgpdConsent(input) {
+    const errorDiv = document.getElementById('rgpd_consent_error');
+    if (!input.checked) {
+        input.classList.add('is-invalid');
+        errorDiv.textContent = "Vous devez accepter la politique de protection des données personnelles";
+        errorDiv.style.display = 'block';
+        input.setCustomValidity("Vous devez accepter la politique de protection des données personnelles");
+    } else {
+        input.classList.remove('is-invalid');
+        errorDiv.style.display = 'none';
+        input.setCustomValidity("");
+    }
+}
+
+// Ajouter la validation au chargement de la page pour tous les champs
+document.addEventListener('DOMContentLoaded', function() {
+    const inputs = document.querySelectorAll('input, select');
+    inputs.forEach(input => {
+        if (input.value) {
+            const validateFunction = window['validate' + input.id.charAt(0).toUpperCase() + input.id.slice(1)];
+            if (typeof validateFunction === 'function') {
+                validateFunction(input);
+            }
+        }
+    });
+});
+
+// Modifier le gestionnaire de soumission du formulaire pour valider tous les champs
+document.getElementById('inscriptionForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    // Valider tous les champs avant l'envoi
+    const inputs = document.querySelectorAll('input, select');
+    inputs.forEach(input => {
+        const validateFunction = window['validate' + input.id.charAt(0).toUpperCase() + input.id.slice(1)];
+        if (typeof validateFunction === 'function') {
+            validateFunction(input);
+        }
+    });
+    
+    // Si le formulaire n'est pas valide, ne pas l'envoyer
+    if (!e.target.checkValidity()) {
+        e.target.reportValidity();
+        return;
+    }
+    
+    try {
+        const formData = new FormData(e.target);
+        const data = Object.fromEntries(formData.entries());
+        
+        // Conversion des dates en format ISO
+        if (data.date_naissance) {
+            data.date_naissance = new Date(data.date_naissance).toISOString().split('T')[0];
+        }
+        
+        const response = await fetch(e.target.action, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data)
+        });
+        
+        const result = await response.json();
+        
+        if (response.ok) {
+            alert('Votre inscription a été enregistrée avec succès !');
+            window.location.href = '{{ config.MCA_WEBSITE_URL }}';
+        } else {
+            let errorMessage = result.detail;
+            if (result.errors) {
+                errorMessage = Object.entries(result.errors)
+                    .map(([field, errors]) => `${field}: ${errors.join(', ')}`)
+                    .join('\n');
+            }
+            alert('Erreur : ' + errorMessage);
+        }
+    } catch (error) {
+        alert('Une erreur est survenue lors de l\'envoi du formulaire.');
+        console.error('Erreur:', error);
+    }
+});
+</script>
+{% endblock %}

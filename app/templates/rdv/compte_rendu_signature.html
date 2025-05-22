@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compte Rendu Signé</title>
+    <style>
+        /* Styles de base */
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .logo {
+            max-width: 200px;
+            margin-bottom: 20px;
+        }
+        
+        .title {
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+        
+        .section {
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+        }
+        
+        .section-title {
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 5px;
+            margin-bottom: 15px;
+        }
+        
+        /* Styles pour les signatures */
+        .signature-section {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            gap: 40px;
+            margin: 30px 0 10px 0;
+            page-break-inside: avoid;
+        }
+        
+        .signature-col {
+            width: 220px;
+            min-width: 180px;
+            text-align: center;
+        }
+        
+        .signature-title {
+            font-size: 1.1em;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        
+        .signature-image {
+            width: 150px;
+            height: 60px;
+            object-fit: contain;
+            margin: 0 auto 5px auto;
+            display: block;
+            border-bottom: 1px solid #000;
+        }
+        
+        .signature-name {
+            margin-top: 2px;
+            font-size: 0.95em;
+        }
+        
+        .signature-date {
+            font-size: 0.85em;
+            color: #666;
+            margin-top: 2px;
+        }
+        
+        /* Styles pour les listes */
+        .list-item {
+            margin-bottom: 10px;
+            padding-left: 20px;
+            position: relative;
+        }
+        
+        .list-item:before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: #3498db;
+        }
+        
+        /* Styles pour le footer */
+        .footer {
+            margin-top: 40px;
+            text-align: center;
+            font-size: 0.9em;
+            color: #666;
+            border-top: 1px solid #ddd;
+            padding-top: 20px;
+        }
+        
+        /* Styles spécifiques pour le PDF */
+        @media print {
+            .signature-section {
+                margin-top: 20px;
+                page-break-inside: avoid;
+            }
+            
+            .signature-box {
+                border: 1px solid #000;
+                padding: 10px;
+                margin: 0;
+            }
+            
+            .signature-pad {
+                border: 1px solid #000;
+                margin: 5px 0;
+            }
+            
+            canvas {
+                border: none;
+            }
+            
+            .signature-image {
+                max-height: 100px; /* Légèrement plus petit pour le PDF */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- En-tête -->
+        <div class="header">
+            <!--<img src="{{ logo_base64 }}" alt="Logo" class="logo">-->
+            <h1 class="title">Compte Rendu</h1>
+        </div>
+        
+        <!-- Informations générales -->
+        <div class="section">
+            <h2 class="section-title">Informations Générales</h2>
+            <p><strong>Titre :</strong> {{ titre_rdv }}</p>
+            <p><strong>Date :</strong> {{ date_rdv }}</p>
+            <p><strong>Participant :</strong> {{ prenom_participant }} {{ nom_participant }}</p>
+            <p><strong>Coach :</strong> {{ prenom_coach }} {{ nom_coach }}</p>
+        </div>
+        
+        <!-- Activité -->
+        <div class="section">
+            <h2 class="section-title">Activité</h2>
+            <p>{{ activite }}</p>
+        </div>
+        
+        <!-- Attentes -->
+        <div class="section">
+            <h2 class="section-title">Attentes Générales</h2>
+            <p>{{ attentes_generales }}</p>
+        </div>
+        
+        <!-- Observations -->
+        <div class="section">
+            <h2 class="section-title">Observations</h2>
+            {% for observation in liste_observations %}
+            <div class="list-item">{{ observation }}</div>
+            {% endfor %}
+        </div>
+        
+        <!-- Préconisations -->
+        <div class="section">
+            <h2 class="section-title">Préconisations</h2>
+            {% for preconisation in liste_preconisations %}
+            <div class="list-item">{{ preconisation }}</div>
+            {% endfor %}
+        </div>
+        
+        <!-- Signatures -->
+        <div class="signature-section">
+            <div class="signature-col">
+                <div class="signature-title">Signature du Coach</div>
+                {% if signature_coach %}
+                    <img src="{{ signature_coach }}" alt="Signature Coach" class="signature-image">
+                    {% if date_signature_coach %}
+                        <div class="signature-date">Signé le {{ date_signature_coach }}</div>
+                    {% endif %}
+                    <div class="signature-name">{{ prenom_coach }} {{ nom_coach }}</div>
+                {% else %}
+                    <canvas id="coachSignaturePad" class="signature-pad"></canvas>
+                    <button type="button" onclick="clearCoachSignature()" class="clear-signature-btn" style="margin-top: 10px; padding: 5px 10px; background-color: #e74c3c; color: white; border: none; border-radius: 3px; cursor: pointer;">Effacer la signature</button>
+                {% endif %}
+            </div>
+            <div class="signature-col">
+                <div class="signature-title">Signature du Participant</div>
+                {% if signature_participant %}
+                    <img src="{{ signature_participant }}" alt="Signature Participant" class="signature-image">
+                    {% if date_signature_participant %}
+                        <div class="signature-date">Signé le {{ date_signature_participant }}</div>
+                    {% endif %}
+                    <div class="signature-name">{{ prenom_participant }} {{ nom_participant }}</div>
+                {% else %}
+                    <canvas id="participantSignaturePad" class="signature-pad"></canvas>
+                    <button type="button" onclick="clearParticipantSignature()" class="clear-signature-btn" style="margin-top: 10px; padding: 5px 10px; background-color: #e74c3c; color: white; border: none; border-radius: 3px; cursor: pointer;">Effacer la signature</button>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Formulaire de soumission -->
+        <form id="signatureForm" method="post" action="/api-mca/v1/rdv/process-signatures" 
+              data-observations='{{ liste_observations|tojson|safe }}'
+              data-preconisations='{{ liste_preconisations|tojson|safe }}'
+              style="margin-top: 30px;">
+            <!-- Champs cachés pour les données -->
+            <input type="hidden" name="signature_participant" id="signature_participant">
+            <input type="hidden" name="signature_coach" id="signature_coach">
+            <input type="hidden" name="date_rdv" value="{{ date_rdv }}">
+            <input type="hidden" name="nom_participant" value="{{ nom_participant }}">
+            <input type="hidden" name="prenom_participant" value="{{ prenom_participant }}">
+            <input type="hidden" name="nom_coach" value="{{ nom_coach }}">
+            <input type="hidden" name="prenom_coach" value="{{ prenom_coach }}">
+            <input type="hidden" name="titre_rdv" value="{{ titre_rdv }}">
+            <input type="hidden" name="activite" value="{{ activite }}">
+            <input type="hidden" name="attentes_generales" value="{{ attentes_generales }}">
+            
+            <!-- Zones de signature pour la saisie -->
+            <div style="display: flex; justify-content: space-between; gap: 40px; margin-bottom: 20px;">
+                <div style="flex: 1; max-width: 300px;">
+                    <h3>Signature du Participant</h3>
+                    <canvas id="participantSignaturePad" class="signature-pad"></canvas>
+                    <button type="button" onclick="clearParticipantSignature()" style="margin-top: 10px; padding: 5px 10px; background-color: #e74c3c; color: white; border: none; border-radius: 3px; cursor: pointer;">
+                        Effacer la signature
+                    </button>
+                </div>
+                <div style="flex: 1; max-width: 300px;">
+                    <h3>Signature du Coach</h3>
+                    <canvas id="coachSignaturePad" class="signature-pad"></canvas>
+                    <button type="button" onclick="clearCoachSignature()" style="margin-top: 10px; padding: 5px 10px; background-color: #e74c3c; color: white; border: none; border-radius: 3px; cursor: pointer;">
+                        Effacer la signature
+                    </button>
+                </div>
+            </div>
+            
+            <button type="submit" style="padding: 10px 20px; background-color: #3498db; color: white; border: none; border-radius: 5px; cursor: pointer;">
+                Générer le PDF
+            </button>
+        </form>
+        
+        <!-- Pied de page -->
+        <div class="footer">
+            <p>Document généré le <span id="generationDate"></span></p>
+            <p>&copy; {{ annee }} My Creo Academy - Tous droits réservés</p>
+        </div>
+    </div>
+    
+    <!-- Scripts pour la signature -->
+    <script>
+        // Affichage de la date de génération
+        function formatDate(date) {
+            const day = String(date.getDate()).padStart(2, '0');
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const year = date.getFullYear();
+            const hours = String(date.getHours()).padStart(2, '0');
+            const minutes = String(date.getMinutes()).padStart(2, '0');
+            return `${day}/${month}/${year} à ${hours}:${minutes}`;
+        }
+        
+        // Mise à jour de la date de génération
+        document.getElementById('generationDate').textContent = formatDate(new Date());
+
+        // Log de l'URL de base pour déboguer
+        console.log('URL de base:', '{{ base_url }}');
+        console.log('URL complète du formulaire:', document.getElementById('signatureForm').action);
+
+        // Intercepter toutes les requêtes AJAX pour le débogage
+        const originalFetch = window.fetch;
+        window.fetch = function() {
+            console.log('Fetch request:', arguments[0]);
+            return originalFetch.apply(this, arguments);
+        };
+
+        const originalXHR = window.XMLHttpRequest.prototype.open;
+        window.XMLHttpRequest.prototype.open = function() {
+            console.log('XHR request:', arguments[1]);
+            return originalXHR.apply(this, arguments);
+        };
+    </script>
+    <script src="/static/js/signature_pad.js"></script>
+    <script>
+        // Test de chargement de SignaturePad
+        if (typeof SignaturePad === 'undefined') {
+            console.error('SignaturePad n\'est pas chargé !');
+            alert('Erreur: La bibliothèque de signature n\'est pas chargée correctement');
+        } else {
+            console.log('SignaturePad est chargé avec succès');
+        }
+
+        // Variables globales pour les pads de signature
+        let participantPad = null;
+        let coachPad = null;
+
+        // Fonctions globales pour effacer les signatures
+        function clearParticipantSignature() {
+            if (participantPad) {
+                participantPad.clear();
+                console.log('Signature participant effacée');
+            }
+        }
+
+        function clearCoachSignature() {
+            if (coachPad) {
+                coachPad.clear();
+                console.log('Signature coach effacée');
+            }
+        }
+
+        // Initialisation au chargement de la page
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM chargé, initialisation des pads...');
+            
+            // Initialisation des pads de signature
+            const participantCanvas = document.getElementById('participantSignaturePad');
+            const coachCanvas = document.getElementById('coachSignaturePad');
+
+            console.log('Canvas participant:', participantCanvas);
+            console.log('Canvas coach:', coachCanvas);
+
+            if (participantCanvas) {
+                try {
+                    // Vérification que c'est bien un élément canvas
+                    if (!(participantCanvas instanceof HTMLCanvasElement)) {
+                        throw new Error('L\'élément n\'est pas un canvas HTML');
+                    }
+
+                    // Configuration explicite du canvas
+                    participantCanvas.width = participantCanvas.offsetWidth || 300;
+                    participantCanvas.height = participantCanvas.offsetHeight || 150;
+                    participantCanvas.style.border = '1px solid #000';
+                    participantCanvas.style.backgroundColor = '#fff';
+                    
+                    // Test du contexte 2D
+                    const ctx = participantCanvas.getContext('2d');
+                    if (!ctx) {
+                        throw new Error('Impossible d\'obtenir le contexte 2D');
+                    }
+                    
+                    // Initialisation du pad
+                    participantPad = new SignaturePad(participantCanvas, {
+                        backgroundColor: 'rgb(255, 255, 255)',
+                        penColor: 'rgb(0, 0, 0)',
+                        minWidth: 0.5,
+                        maxWidth: 2.5,
+                        throttle: 16
+                    });
+
+                    console.log('Pad participant initialisé avec succès');
+                } catch (error) {
+                    console.error('Erreur lors de l\'initialisation du pad participant:', error);
+                }
+            }
+            
+            if (coachCanvas) {
+                try {
+                    // Vérification que c'est bien un élément canvas
+                    if (!(coachCanvas instanceof HTMLCanvasElement)) {
+                        throw new Error('L\'élément n\'est pas un canvas HTML');
+                    }
+
+                    // Configuration explicite du canvas
+                    coachCanvas.width = coachCanvas.offsetWidth || 300;
+                    coachCanvas.height = coachCanvas.offsetHeight || 150;
+                    coachCanvas.style.border = '1px solid #000';
+                    coachCanvas.style.backgroundColor = '#fff';
+                    
+                    // Test du contexte 2D
+                    const ctx = coachCanvas.getContext('2d');
+                    if (!ctx) {
+                        throw new Error('Impossible d\'obtenir le contexte 2D');
+                    }
+                    
+                    // Initialisation du pad
+                    coachPad = new SignaturePad(coachCanvas, {
+                        backgroundColor: 'rgb(255, 255, 255)',
+                        penColor: 'rgb(0, 0, 0)',
+                        minWidth: 0.5,
+                        maxWidth: 2.5,
+                        throttle: 16
+                    });
+
+                    console.log('Pad coach initialisé avec succès');
+                } catch (error) {
+                    console.error('Erreur lors de l\'initialisation du pad coach:', error);
+                }
+            }
+
+            // Gestion du formulaire
+            const form = document.getElementById('signatureForm');
+            if (form) {
+                form.addEventListener('submit', async function(e) {
+                    e.preventDefault();
+                    console.log('Tentative de soumission du formulaire...');
+                    
+                    if (!participantPad || !coachPad) {
+                        console.error('Les pads de signature ne sont pas initialisés');
+                        alert('Erreur: Les pads de signature ne sont pas initialisés');
+                        return;
+                    }
+                    
+                    if (participantPad.isEmpty() || coachPad.isEmpty()) {
+                        console.error('Une ou les deux signatures sont vides');
+                        alert('Veuillez signer dans les deux zones de signature');
+                        return;
+                    }
+                    
+                    console.log('Signatures validées, préparation des données...');
+                    
+                    // Fonction pour convertir la date du format français vers ISO
+                    function convertDateToISO(dateStr) {
+                        const [day, month, year] = dateStr.split('/');
+                        return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+                    }
+                    
+                    // Récupération des données depuis les attributs data
+                    const observations = JSON.parse(form.dataset.observations);
+                    const preconisations = JSON.parse(form.dataset.preconisations);
+                    
+                    // Conversion de la date au format ISO
+                    const dateRdv = convertDateToISO(document.querySelector('input[name="date_rdv"]').value);
+                    
+                    const formData = {
+                        date_rdv: dateRdv,
+                        nom_participant: document.querySelector('input[name="nom_participant"]').value,
+                        prenom_participant: document.querySelector('input[name="prenom_participant"]').value,
+                        nom_coach: document.querySelector('input[name="nom_coach"]').value,
+                        prenom_coach: document.querySelector('input[name="prenom_coach"]').value,
+                        titre_rdv: document.querySelector('input[name="titre_rdv"]').value,
+                        activite: document.querySelector('input[name="activite"]').value,
+                        attentes_generales: document.querySelector('input[name="attentes_generales"]').value,
+                        liste_observations: observations,
+                        liste_preconisations: preconisations,
+                        signature_participant: participantPad.toDataURL(),
+                        signature_coach: coachPad.toDataURL(),
+                        date_signature_participant: new Date().toISOString(),
+                        date_signature_coach: new Date().toISOString()
+                    };
+
+                    try {
+                        console.log('Données préparées:', formData);
+                        console.log('Envoi des données...');
+                        const response = await fetch('/api-mca/v1/rdv/process-signatures', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Accept': 'application/json'
+                            },
+                            body: JSON.stringify(formData)
+                        });
+
+                        const responseData = await response.json();
+                        console.log('Réponse du serveur:', responseData);
+
+                        if (!response.ok) {
+                            throw new Error(responseData.detail || 'Erreur lors de la soumission');
+                        }
+                        
+                        // Si un PDF est généré, on peut le télécharger
+                        if (responseData.file_url) {
+                            window.location.href = responseData.file_url;
+                        } else if (responseData.file_encoded) {
+                            // Si on a le PDF en base64, on le télécharge
+                            const link = document.createElement('a');
+                            link.href = responseData.file_encoded;
+                            link.download = responseData.filename || 'compte_rendu.pdf';
+                            document.body.appendChild(link);
+                            link.click();
+                            document.body.removeChild(link);
+                        }
+                        
+                        alert('Compte rendu généré avec succès !');
+                    } catch (error) {
+                        console.error('Erreur lors de la soumission:', error);
+                        alert('Erreur lors de la génération du compte rendu : ' + error.message);
+                    }
+                });
+            }
+
+            // Gestion du redimensionnement
+            window.addEventListener('resize', function() {
+                console.log('Redimensionnement de la fenêtre...');
+                if (participantPad) {
+                    const canvas = participantPad.canvas;
+                    const ratio = Math.max(window.devicePixelRatio || 1, 1);
+                    canvas.width = canvas.offsetWidth * ratio;
+                    canvas.height = canvas.offsetHeight * ratio;
+                    canvas.getContext("2d").scale(ratio, ratio);
+                    participantPad.clear();
+                }
+                if (coachPad) {
+                    const canvas = coachPad.canvas;
+                    const ratio = Math.max(window.devicePixelRatio || 1, 1);
+                    canvas.width = canvas.offsetWidth * ratio;
+                    canvas.height = canvas.offsetHeight * ratio;
+                    canvas.getContext("2d").scale(ratio, ratio);
+                    coachPad.clear();
+                }
+            });
+        });
+    </script>
+</body>
+</html> 

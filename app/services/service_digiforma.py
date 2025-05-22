@@ -1,14 +1,14 @@
 import requests
 from fastapi import HTTPException, Request
 import pandas as pd
-from app.config import DIGIFORMA_API_KEY 
+from app.config import settings
 import time
 from datetime import date
 import zipfile
 import os
 
 from app.config import get_base_url, FICHIERS_DIR
-from app import config
+from app.config import settings
 from app.schemas.schema_digiforma import DigiformaInput
 from app.utils.file_encoded import encode_file_to_base64
 
@@ -17,7 +17,7 @@ DIGIFORMA_GRAPHQL_URL = "https://app.digiforma.com/api/v1/graphql"
 def digiforma_graphql_post(query: str, timeout: int = 50, debug: bool = False) -> dict:
     headers = {
         "Content-Type": "application/json",
-        "Authorization": f"Bearer {DIGIFORMA_API_KEY}"
+        "Authorization": f"Bearer {settings.DIGIFORMA_API_KEY}"
     }
 
     payload = {"query": query}

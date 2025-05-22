@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Émargement - {{ evenement.titre }}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature-pad.css">
+    <style>
+        .signature-pad {
+            border: 2px solid #ccc;
+            border-radius: 4px;
+            background-color: #fff;
+        }
+        .signature-pad canvas {
+            width: 100%;
+            height: 200px;
+        }
+        .beneficiaire-list {
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+        .beneficiaire-item {
+            cursor: pointer;
+            padding: 10px;
+            border-bottom: 1px solid #dee2e6;
+        }
+        .beneficiaire-item:hover {
+            background-color: #f8f9fa;
+        }
+        .beneficiaire-item.signed {
+            background-color: #e9ecef;
+            color: #6c757d;
+        }
+        .beneficiaire-item.selected {
+            background-color: #cff4fc;
+            border-left: 4px solid #0dcaf0;
+        }
+        .signature-section {
+            position: sticky;
+            top: 20px;
+        }
+        .signature-success {
+            display: none;
+            text-align: center;
+            padding: 20px;
+            background-color: #d4edda;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid py-4">
+        <div class="row">
+            <!-- Liste des bénéficiaires -->
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        <h4 class="mb-0">Liste des bénéficiaires</h4>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="beneficiaire-list">
+                            {% for beneficiaire in evenement.beneficiaires %}
+                            <div class="beneficiaire-item {% if beneficiaire.id in emargements %}signed{% endif %}"
+                                 data-beneficiaire-id="{{ beneficiaire.id }}"
+                                 data-beneficiaire-nom="{{ beneficiaire.nom }}"
+                                 data-beneficiaire-prenom="{{ beneficiaire.prenom }}">
+                                {{ beneficiaire.nom }} {{ beneficiaire.prenom }}
+                                {% if beneficiaire.id in emargements %}
+                                <span class="badge bg-success float-end">Signé</span>
+                                {% endif %}
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section de signature -->
+            <div class="col-md-8">
+                <div class="card signature-section">
+                    <div class="card-header bg-primary text-white">
+                        <h4 class="mb-0">Signature</h4>
+                    </div>
+                    <div class="card-body">
+                        <div id="noBeneficiaireSelected" class="text-center py-5">
+                            <h5 class="text-muted">Sélectionnez un bénéficiaire pour commencer</h5>
+                        </div>
+
+                        <div id="signatureForm" style="display: none;">
+                            <div class="signature-info mb-4">
+                                <h5>Bénéficiaire sélectionné</h5>
+                                <p id="selectedBeneficiaireInfo"></p>
+                            </div>
+
+                            <div class="mb-4">
+                                <label class="form-label">Veuillez signer ci-dessous :</label>
+                                <div class="signature-pad">
+                                    <canvas id="signaturePad"></canvas>
+                                </div>
+                                <div class="signature-actions mt-3">
+                                    <button type="button" class="btn btn-secondary" id="clearBtn">Effacer</button>
+                                    <button type="button" class="btn btn-primary" id="saveBtn">Enregistrer la signature</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="signatureSuccess" class="signature-success">
+                            <h4 class="text-success">Signature enregistrée avec succès !</h4>
+                            <p>Vous pouvez sélectionner le prochain bénéficiaire.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature-pad.umd.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const canvas = document.getElementById('signaturePad');
+            const signaturePad = new SignaturePad(canvas, {
+                backgroundColor: 'rgb(255, 255, 255)',
+                penColor: 'rgb(0, 0, 0)'
+            });
+
+            let selectedBeneficiaireId = null;
+
+            // Ajuster la taille du canvas
+            function resizeCanvas() {
+                const ratio = Math.max(window.devicePixelRatio || 1, 1);
+                canvas.width = canvas.offsetWidth * ratio;
+                canvas.height = canvas.offsetHeight * ratio;
+                canvas.getContext("2d").scale(ratio, ratio);
+                signaturePad.clear();
+            }
+
+            window.addEventListener('resize', resizeCanvas);
+            resizeCanvas();
+
+            // Gestionnaire de sélection des bénéficiaires
+            document.querySelectorAll('.beneficiaire-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    if (this.classList.contains('signed')) {
+                        return; // Ne rien faire si déjà signé
+                    }
+
+                    // Mettre à jour la sélection visuelle
+                    document.querySelectorAll('.beneficiaire-item').forEach(i => i.classList.remove('selected'));
+                    this.classList.add('selected');
+
+                    // Mettre à jour les informations du bénéficiaire sélectionné
+                    selectedBeneficiaireId = this.dataset.beneficiaireId;
+                    const nom = this.dataset.beneficiaireNom;
+                    const prenom = this.dataset.beneficiairePrenom;
+                    document.getElementById('selectedBeneficiaireInfo').textContent = `${nom} ${prenom}`;
+
+                    // Afficher le formulaire de signature
+                    document.getElementById('noBeneficiaireSelected').style.display = 'none';
+                    document.getElementById('signatureForm').style.display = 'block';
+                    document.getElementById('signatureSuccess').style.display = 'none';
+                    signaturePad.clear();
+                });
+            });
+
+            // Gestionnaires d'événements pour la signature
+            document.getElementById('clearBtn').addEventListener('click', function() {
+                signaturePad.clear();
+            });
+
+            document.getElementById('saveBtn').addEventListener('click', async function() {
+                if (!selectedBeneficiaireId) {
+                    alert('Veuillez sélectionner un bénéficiaire.');
+                    return;
+                }
+
+                if (signaturePad.isEmpty()) {
+                    alert('Veuillez signer avant d\'enregistrer.');
+                    return;
+                }
+
+                const signatureData = signaturePad.toDataURL();
+                
+                try {
+                    const response = await fetch('/api-mca/v1/signature/submit', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            signature_data: signatureData,
+                            beneficiaire_id: parseInt(selectedBeneficiaireId),
+                            evenement_id: {{ evenement.id }},
+                            mode_signature: 'presentiel'
+                        })
+                    });
+
+                    if (response.ok) {
+                        const data = await response.json();
+                        
+                        // Mettre à jour l'interface
+                        const beneficiaireItem = document.querySelector(`.beneficiaire-item[data-beneficiaire-id="${selectedBeneficiaireId}"]`);
+                        beneficiaireItem.classList.add('signed');
+                        beneficiaireItem.innerHTML += '<span class="badge bg-success float-end">Signé</span>';
+
+                        // Réinitialiser le formulaire
+                        document.getElementById('signatureForm').style.display = 'none';
+                        document.getElementById('signatureSuccess').style.display = 'block';
+                        signaturePad.clear();
+                        selectedBeneficiaireId = null;
+
+                        // Valider l'émargement
+                        await fetch('/api-mca/v1/emargement/validate', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({
+                                emargement_id: data.emargement_id,
+                                is_validated: true
+                            })
+                        });
+                    } else {
+                        throw new Error('Erreur lors de l\'enregistrement de la signature');
+                    }
+                } catch (error) {
+                    alert('Erreur : ' + error.message);
+                }
+            });
+        });
+    </script>
+</body>
+</html> 

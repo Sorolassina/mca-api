@@ -1,0 +1,168 @@
+<!-- app/templates/base.html -->
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}MCA - Mon Créateur d'Activité{% endblock %}</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', path='favicon.ico') }}">
+    
+    <!-- CSS de base -->
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--background-color);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            padding-top: 80px;
+            padding-bottom: 80px;
+        }
+
+        /* Header */
+        .header {
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            padding: 1rem 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            height: 80px;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            
+        }
+
+        .logo {
+            max-height: 60px;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+            display: block;
+            margin: 0 auto;
+        }
+
+        /* Main content */
+        .main-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+            flex: 1;
+            width: 100%;
+            min-height: calc(100vh - 160px);
+        }
+
+        /* Footer */
+        .footer {
+            background-color: white;
+            color: var(--secondary-color);
+            padding: 0.5rem 0;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 40px;
+            z-index: 1000;
+            min-height: 10px;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 -2px 4px rgba(0,0,0,0.1);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            text-align: center;
+            width: 100%;
+            
+        }
+        
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            body {
+                padding-top: 120px;
+                padding-bottom: 120px;
+            }
+
+            .header {
+                height: 120px;
+            }
+
+            .footer {
+                min-height: 20px;
+            }
+
+            .main-content {
+                min-height: calc(100vh - 240px);
+            }
+
+            .form-container {
+                margin: 1rem;
+                padding: 1.5rem;
+                margin-bottom: 140px;
+            }
+
+            h1 {
+                font-size: 1.75rem;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+
+    <!-- CSS spécifique à la page -->
+    {% block styles %}{% endblock %}
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <a href="/">
+                <img src="{{ url_for('static', path='Banniere.svg') }}" alt="Logo MCA" class="logo">
+            </a>
+        </div>
+    </header>
+
+    <!-- Main content -->
+    <main class="main-content">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; {{ now.year }} MCA - Mon Créateur d'Activité. Tous droits réservés.</p>
+        </div>
+    </footer>
+
+    {% block scripts %}{% endblock %}
+</body>
+</html>

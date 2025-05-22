@@ -1,0 +1,56 @@
+version: '3.9'
+
+services:
+  # Service FastAPI
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: mca_api
+    ports:
+      - "8080:8080"
+    volumes:
+      - .:/app
+      - ./app:/app/app
+    env_file:
+      - .env  # Utilise DB_USER, DB_PASSWORD, DB_NAME directement
+    environment:
+      # Configuration de l'environnement
+      - ENVIRONMENT=development
+      - DEBUG=true  # Active le mode debug pour le développement (désactiver en production)
+    depends_on:
+      - db
+    networks:
+      - mca_network
+    restart: unless-stopped
+
+  # Service PostgreSQL
+  db:
+    image: postgres:15-alpine
+    container_name: mca_db
+    env_file:
+      - .env
+    environment:
+      # Mapping des variables de l'application vers les variables PostgreSQL
+      # DB_USER     -> POSTGRES_USER
+      # DB_PASSWORD -> POSTGRES_PASSWORD
+      # DB_NAME     -> POSTGRES_DB
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - mca_network
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+    name: mca_postgres_data
+
+networks:
+  mca_network:
+    name: mca_network
+    driver: bridge 

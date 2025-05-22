@@ -1,0 +1,19 @@
+{
+  "id": "preins_2_20250521_215541",
+  "programme_id": 2,
+  "event_id": null,
+  "nom": "Traoré",
+  "prenom": "Aminata",
+  "email": "aminata.traore@example.com",
+  "telephone": "+33611223344",
+  "date_naissance": "1994-03-15",
+  "adresse": "12 rue des Lilas",
+  "code_postal": "75020",
+  "ville": "Paris",
+  "situation_professionnelle": "demandeur_emploi",
+  "niveau_etude": "sans_diplome",
+  "projet_entrepreneurial": "Créer une boutique de cosmétiques naturels en ligne",
+  "rgpd_consent": true,
+  "date_soumission": "2025-05-21",
+  "source": "formulaire_web"
+}

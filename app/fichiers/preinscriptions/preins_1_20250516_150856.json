@@ -1,0 +1,19 @@
+{
+  "id": "preins_1_20250516_150856",
+  "programme_id": "1",
+  "event_id": null,
+  "nom": "SORO",
+  "prenom": "Wangboho Lassina",
+  "email": "sorolassina58@gmail.com",
+  "telephone": "+33612345678",
+  "date_naissance": "2004-02-04",
+  "adresse": "9 rue Marlène Dietrich",
+  "code_postal": "95220",
+  "ville": "Herblay sur seine",
+  "situation_professionnelle": "demandeur_emploi",
+  "niveau_etude": "bac_plus_2",
+  "projet_entrepreneurial": "Mon projet",
+  "rgpd_consent": true,
+  "date_soumission": "2025-05-16",
+  "source": "formulaire_web"
+}

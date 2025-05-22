@@ -1,0 +1,19 @@
+{
+  "id": "preins_1_20250521_150211",
+  "programme_id": 1,
+  "event_id": null,
+  "nom": "SORO",
+  "prenom": "WANGBOHO",
+  "email": "lassina.soro.edu@groupe-gema.com",
+  "telephone": "+33612345678",
+  "date_naissance": "2005-11-10",
+  "adresse": "9 rue marlène dietrich",
+  "code_postal": "95220",
+  "ville": "Herblay",
+  "situation_professionnelle": "salarie",
+  "niveau_etude": "bac",
+  "projet_entrepreneurial": "dddddddddddddddddddddddddd",
+  "rgpd_consent": true,
+  "date_soumission": "2025-05-21",
+  "source": "formulaire_web"
+}

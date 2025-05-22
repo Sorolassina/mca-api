@@ -1,0 +1,19 @@
+{
+  "id": "preins_2_20250521_215806",
+  "programme_id": 1,
+  "event_id": 31,
+  "nom": "Nguyen",
+  "prenom": "Minh",
+  "email": "minh.nguyen@etu.univ-lille.fr",
+  "telephone": "+33677889900",
+  "date_naissance": "2001-05-27",
+  "adresse": "5 rue des Universités",
+  "code_postal": "59800",
+  "ville": "Lille",
+  "situation_professionnelle": "etudiant",
+  "niveau_etude": "bac_plus_3",
+  "projet_entrepreneurial": "Lancer une application mobile de mentorat entre étudiants",
+  "rgpd_consent": true,
+  "date_soumission": "2025-05-21",
+  "source": "formulaire_web"
+}

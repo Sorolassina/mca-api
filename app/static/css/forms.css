@@ -1,0 +1,169 @@
+/* app/static/css/forms.css */
+:root {
+    --primary-color: black;  /* À adapter selon votre charte graphique */
+    --secondary-color: white;
+    --accent-color: #E74C3C;
+    --text-color: black;
+    --background-color: #F8F9FA;
+    --border-color: #DEE2E6;
+    --success-color: #28A745;
+    --error-color: #DC3545;
+}
+
+.form-container {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px var(--text-color);
+}
+
+.form-header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 2px solid var(--border-color);
+    background-color: var(--primary-color);
+}
+
+.form-header .logo {
+    max-width: 200px;
+    margin-bottom: 1.5rem;
+}
+
+.form-header h1 {
+    color: white;
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+}
+
+
+
+.programme-description {
+    color: white;
+    font-size: 1.1rem;
+    line-height: 1.5;
+}
+
+.form-section {
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    background: var(--background-color);
+    border-radius: 8px;
+}
+
+.form-section h2 {
+    color: var(--primary-color);
+    font-size: 1.4rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.form-group {
+    margin-bottom: 1.25rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--text-color);
+    font-weight: 500;
+}
+
+.form-control {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    font-size: 1rem;
+    transition: all 0.2s ease;
+}
+
+.form-control:focus {
+    border-color: var(--background-color);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+}
+
+.form-control::placeholder {
+    color: #ADB5BD;
+}
+
+.form-text {
+    display: block;
+    margin-top: 0.25rem;
+    font-size: 0.875rem;
+    color: #6C757D;
+}
+
+.btn-primary {
+    display: inline-block;
+    padding: 0.875rem 2rem;
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 1.1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center;
+    width: 100%;
+}
+
+.btn-primary:hover {
+    background: #EDD213;
+    transform: translateY(-1px);
+}
+
+.btn-primary:active {
+    transform: translateY(0);
+}
+
+/* Styles pour les messages d'erreur */
+.error-message {
+    color: var(--error-color);
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+}
+
+/* Styles pour les champs invalides */
+.form-control.is-invalid {
+    border-color: var(--error-color);
+}
+
+ /* Responsive design */
+ @media (max-width: 768px) {
+    body {
+        padding-top: 120px;
+        padding-bottom: 120px;
+    }
+
+    .header {
+        height: 120px;
+    }
+
+    .footer {
+        min-height: 20px;
+    }
+
+    .main-content {
+        min-height: calc(100vh - 240px);
+    }
+
+    .form-container {
+        margin: 1rem;
+        padding: 1.5rem;
+        margin-bottom: 140px;
+    }
+
+    h1 {
+        font-size: 1.75rem;
+    }
+
+    h2 {
+        font-size: 1.5rem;
+    }
+}

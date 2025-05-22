@@ -1,0 +1,19 @@
+{
+  "id": "preins_2_20250521_215714",
+  "programme_id": 2,
+  "event_id": 2,
+  "nom": "Dupont",
+  "prenom": "Lucas",
+  "email": "lucas.dupont@outlook.fr",
+  "telephone": "+33765432109",
+  "date_naissance": "1987-11-08",
+  "adresse": "42 avenue des Champs",
+  "code_postal": "69007",
+  "ville": "Lyon",
+  "situation_professionnelle": "salarie",
+  "niveau_etude": "bac_plus_2",
+  "projet_entrepreneurial": "Ouvrir une franchise de salle de sport connectée",
+  "rgpd_consent": true,
+  "date_soumission": "2025-05-21",
+  "source": "formulaire_web"
+}

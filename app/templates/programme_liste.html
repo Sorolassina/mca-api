@@ -1,0 +1,156 @@
+{% extends "base.html" %}
+
+{% block title %}Liste des Programmes - MCA{% endblock %}
+
+{% block content %}
+<div class="programmes-liste">
+    <h1>Nos Programmes de Formation</h1>
+    
+    <div class="programmes-grid">
+        {% for programme in programmes %}
+        <div class="programme-card">
+            <div class="programme-header">
+                <h2>{{ programme.nom }}</h2>
+                <span class="statut-badge {{ programme.statut }}">{{ programme.statut }}</span>
+            </div>
+            
+            <div class="programme-info">
+                <p class="description">{{ programme.description }}</p>
+                <ul class="details">
+                    <li><strong>Dates :</strong> du {{ programme.date_debut }} au {{ programme.date_fin }}</li>
+                    <li><strong>Lieu :</strong> {{ programme.lieu }}</li>
+                    <li><strong>Places :</strong> {{ programme.places_disponibles }} / {{ programme.places_totales }}</li>
+                </ul>
+            </div>
+            
+            <div class="programme-actions">
+                <a href="/api-mca/v1/programmes/{{ programme.id }}/details" class="btn-secondary">Voir les détails</a>
+                <a href="/api-mca/v1/forms/preinscription/{{ programme.id }}" class="btn-primary">S'inscrire</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
+
+{% block styles %}
+<style>
+.programmes-liste {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.programmes-liste h1 {
+    text-align: center;
+    margin-bottom: 2rem;
+    color: var(--secondary-color);
+}
+
+.programmes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.programme-card {
+    background: white;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.programme-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.programme-header {
+    padding: 1.5rem;
+    background: var(--primary-color);
+    color: var(--secondary-color);
+}
+
+.programme-header h2 {
+    margin: 0;
+    font-size: 1.25rem;
+}
+
+.statut-badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 15px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    margin-top: 0.5rem;
+}
+
+.programme-info {
+    padding: 1.5rem;
+}
+
+.description {
+    color: #666;
+    margin-bottom: 1rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.details {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.details li {
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.programme-actions {
+    padding: 1.5rem;
+    display: flex;
+    gap: 1rem;
+    border-top: 1px solid var(--border-color);
+}
+
+.btn-primary, .btn-secondary {
+    flex: 1;
+    text-align: center;
+    padding: 0.75rem;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+}
+
+.btn-secondary {
+    background-color: var(--secondary-color);
+    color: white;
+}
+
+.btn-primary:hover, .btn-secondary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+@media (max-width: 768px) {
+    .programmes-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .programme-actions {
+        flex-direction: column;
+    }
+}
+</style>
+{% endblock %}

@@ -1,0 +1,158 @@
+{% extends "base.html" %}
+
+{% block title %}{{ programme.nom }} - MCA{% endblock %}
+
+{% block content %}
+<div class="programme-details">
+    <div class="programme-header">
+        <h1>{{ programme.nom }}</h1>
+        <span class="statut-badge {{ programme.statut }}">{{ programme.statut }}</span>
+    </div>
+
+    <div class="programme-info">
+        <div class="info-section">
+            <h2>Description</h2>
+            <p>{{ programme.description }}</p>
+        </div>
+
+        <div class="info-section">
+            <h2>Informations pratiques</h2>
+            <ul>
+                <li><strong>Dates :</strong> du {{ programme.date_debut }} au {{ programme.date_fin }}</li>
+                <li><strong>Lieu :</strong> {{ programme.lieu }}</li>
+                <li><strong>Places :</strong> {{ programme.places_disponibles }} / {{ programme.places_totales }}</li>
+                {% if programme.prix %}
+                <li><strong>Prix :</strong> {{ programme.prix }}€</li>
+                {% endif %}
+            </ul>
+        </div>
+
+        <div class="info-section">
+            <h2>Objectifs</h2>
+            <ul>
+                {% for objectif in programme.objectifs %}
+                <li>{{ objectif }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        {% if programme.prerequis %}
+        <div class="info-section">
+            <h2>Prérequis</h2>
+            <ul>
+                {% for prerequis in programme.prerequis %}
+                <li>{{ prerequis }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+    </div>
+
+    <div class="programme-actions">
+        <a href="/api-mca/v1/forms/preinscription/{{ programme.id }}" class="btn-primary">
+            S'inscrire à ce programme
+        </a>
+    </div>
+</div>
+{% endblock %}
+
+{% block styles %}
+<style>
+.programme-details {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.programme-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid var(--primary-color);
+}
+
+.statut-badge {
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.875rem;
+}
+
+.statut-badge.actif {
+    background-color: var(--success-color);
+    color: white;
+}
+
+.statut-badge.planifie {
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+}
+
+.statut-badge.termine {
+    background-color: #6c757d;
+    color: white;
+}
+
+.statut-badge.inactif {
+    background-color: var(--error-color);
+    color: white;
+}
+
+.info-section {
+    background: white;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.info-section h2 {
+    color: var(--secondary-color);
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--primary-color);
+}
+
+.info-section ul {
+    list-style: none;
+    padding: 0;
+}
+
+.info-section li {
+    margin-bottom: 0.5rem;
+    padding-left: 1.5rem;
+    position: relative;
+}
+
+.info-section li:before {
+    content: "•";
+    color: var(--primary-color);
+    position: absolute;
+    left: 0;
+}
+
+.programme-actions {
+    text-align: center;
+    margin-top: 2rem;
+}
+
+.btn-primary {
+    display: inline-block;
+    padding: 1rem 2rem;
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+    text-decoration: none;
+    border-radius: 4px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: var(--hover-color);
+    transform: translateY(-1px);
+}
+</style>
+{% endblock %}
