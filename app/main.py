@@ -55,17 +55,6 @@ async def lifespan(app: FastAPI):
             print(f"📋 Traceback:\n{traceback.format_exc()}")
             raise
 
-        # Initialisation des migrations
-        print("\n🔄 Initialisation des migrations de la base de données...")
-        try:
-            alembic_cfg = Config("alembic.ini")
-            command.upgrade(alembic_cfg, "head")
-            print("✅ Migrations de la base de données terminées avec succès")
-        except Exception as e:
-            print(f"❌ Erreur lors des migrations: {str(e)}")
-            print(f"📋 Traceback:\n{traceback.format_exc()}")
-            raise
-
         # Démarrage du planificateur de nettoyage
         print("\n🧹 Démarrage du planificateur de nettoyage...")
         start_cleanup_scheduler()
@@ -74,22 +63,13 @@ async def lifespan(app: FastAPI):
         print("\n✨ Application prête à recevoir des requêtes !")
         print("=== FIN DÉMARRAGE ===\n")
         
-    except Exception as e:
-        print(f"\n💥 ERREUR CRITIQUE AU DÉMARRAGE: {str(e)}")
-        print(f"📋 Traceback complet:\n{traceback.format_exc()}")
-        raise
-    
-    yield
-    
-    print("\n🛑 === ARRÊT DE L'APPLICATION ===")
-    try:
-        print("\n🧹 Arrêt du planificateur de nettoyage...")
+        yield
+        
+    finally:
+        print("\n🛑 Arrêt de l'application...")
         stop_cleanup_scheduler()
         print("✅ Planificateur de nettoyage arrêté")
-        print("\n👋 Application arrêtée proprement")
-    except Exception as e:
-        print(f"⚠️ Erreur lors de l'arrêt: {str(e)}")
-    print("=== FIN ARRÊT ===\n")
+        print("=== FIN ARRÊT ===\n")
 
 # ✅ Création de l'application FastAPI
 print("\n🎨 Création de l'application FastAPI...")

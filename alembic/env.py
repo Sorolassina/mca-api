@@ -22,6 +22,9 @@ if config.config_file_name is not None:
 # target_metadata = mymodel.Base.metadata
 target_metadata = Base.metadata
 
+# Définir le schéma pour l'API MCA
+SCHEMA_NAME = "mca_api"
+
 # other values from the config, defined by the needs of env.py,
 # can be acquired:
 # my_important_option = config.get_main_option("my_important_option")
@@ -48,9 +51,15 @@ def run_migrations_offline() -> None:
         target_metadata=target_metadata,
         literal_binds=True,
         dialect_opts={"paramstyle": "named"},
+        version_table_schema=SCHEMA_NAME,  # Spécifier le schéma pour la table de version
+        include_schemas=True,  # Inclure les schémas dans la recherche
     )
 
     with context.begin_transaction():
+        # Créer le schéma s'il n'existe pas
+        context.execute(f"CREATE SCHEMA IF NOT EXISTS {SCHEMA_NAME}")
+        # Définir le schéma par défaut pour cette session
+        context.execute(f"SET search_path TO {SCHEMA_NAME}")
         context.run_migrations()
 
 
@@ -76,10 +85,17 @@ def run_migrations_online() -> None:
 
     with connectable.connect() as connection:
         context.configure(
-            connection=connection, target_metadata=target_metadata
+            connection=connection,
+            target_metadata=target_metadata,
+            version_table_schema=SCHEMA_NAME,  # Spécifier le schéma pour la table de version
+            include_schemas=True,  # Inclure les schémas dans la recherche
         )
 
         with context.begin_transaction():
+            # Créer le schéma s'il n'existe pas
+            connection.execute(f"CREATE SCHEMA IF NOT EXISTS {SCHEMA_NAME}")
+            # Définir le schéma par défaut pour cette session
+            connection.execute(f"SET search_path TO {SCHEMA_NAME}")
             context.run_migrations()
 
 

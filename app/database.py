@@ -12,7 +12,12 @@ DATABASE_URL = settings.DATABASE_URL.replace('postgresql://', 'postgresql+asyncp
 engine = create_async_engine(
     DATABASE_URL,
     echo=True,  # Affiche les requêtes SQL dans les logs
-    future=True
+    future=True,
+    connect_args={
+        "server_settings": {
+            "search_path": "mca_api"  # Définir le schéma par défaut
+        }
+    }
 )
 
 # Créer une factory de sessions asynchrones
@@ -32,6 +37,8 @@ async def get_db():
     """
     async with AsyncSessionLocal() as session:
         try:
+            # Définir le schéma pour cette session
+            await session.execute("SET search_path TO mca_api")
             yield session  # Fournit la session à la route
             await session.commit()  # Commit les changements si tout va bien
         except Exception:
