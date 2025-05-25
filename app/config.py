@@ -3,8 +3,19 @@ from pathlib import Path
 from typing import Optional
 from pydantic_settings import BaseSettings, SettingsConfigDict
 from fastapi import Request
+from dotenv import load_dotenv
 
 print("✅ [DEBUG] Fichier config.py chargé !")
+
+# Charger explicitement les variables d'environnement depuis .env
+env_path = Path(__file__).parent.parent / ".env"
+print(f"🔍 [DEBUG] Chargement du fichier .env depuis : {env_path}")
+if env_path.exists():
+    print("✅ [DEBUG] Fichier .env trouvé, chargement des variables...")
+    load_dotenv(env_path, override=True)  # override=True force l'écrasement des variables système
+    print("✅ [DEBUG] Variables d'environnement chargées depuis .env")
+else:
+    print("❌ [DEBUG] Fichier .env non trouvé !")
 
 # Chemins des dossiers statiques
 BASE_DIR = Path(__file__).resolve().parent
@@ -26,10 +37,12 @@ class Settings(BaseSettings):
     DB_HOST: str
     DB_PORT: str
     
-    # Construction de l'URL de la base de données
-    @property
-    def DATABASE_URL(self) -> str:
-        return f"postgresql://{self.DB_USER}:{self.DB_PASSWORD}@{self.DB_HOST}:{self.DB_PORT}/{self.DB_NAME}"
+    def __init__(self, **kwargs):
+        print("🔍 [DEBUG] Initialisation de Settings...")
+        print(f"🔍 [DEBUG] Valeur de DB_HOST dans os.environ avant initialisation : {os.environ.get('DB_HOST', 'Non définie')}")
+        super().__init__(**kwargs)
+        print(f"✅ [DEBUG] Settings initialisé avec DB_HOST={self.DB_HOST}")
+        print(f"🔍 [DEBUG] Valeur de DB_HOST dans os.environ après initialisation : {os.environ.get('DB_HOST', 'Non définie')}")
     
     # Configuration de l'API
     API_BASE_URL: str = "https://api.mycreo.com"
@@ -63,15 +76,29 @@ class Settings(BaseSettings):
     # URL du site MCA
     MCA_WEBSITE_URL: str = "https://lesentrepreneursaffranchis.fr/"
 
+    # Construction de l'URL de la base de données
+    @property
+    def DATABASE_URL(self) -> str:
+        print(f"🔄 [DEBUG] Construction de DATABASE_URL avec DB_HOST={self.DB_HOST}")
+        url = f"postgresql://{self.DB_USER}:{self.DB_PASSWORD}@{self.DB_HOST}:{self.DB_PORT}/{self.DB_NAME}"
+        print(f"📝 [DEBUG] URL de connexion (masquée): postgresql://{self.DB_USER}:****@{self.DB_HOST}:{self.DB_PORT}/{self.DB_NAME}")
+        return url
+    
+
     model_config = SettingsConfigDict(
         env_file=".env",
         env_file_encoding="utf-8",
         case_sensitive=True,
-        extra="allow"  # Permet les champs supplémentaires non définis
+        extra="allow",
+        env_prefix="",
+        validate_default=True,
+        env_nested_delimiter="__"
     )
 
-# Instance des paramètres
+# Instance des paramètres avec plus de logs
+print("🚀 [DEBUG] Création de l'instance settings...")
 settings = Settings()
+print(f"✅ [DEBUG] Instance settings créée avec DB_HOST={settings.DB_HOST}")
 
 # Créer le dossier uploads s'il n'existe pas
 os.makedirs(settings.UPLOAD_FOLDER, exist_ok=True)

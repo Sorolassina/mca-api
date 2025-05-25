@@ -5,7 +5,7 @@ import asyncio
 import uvicorn
 from fastapi.templating import Jinja2Templates
 from contextlib import asynccontextmanager
-from app.utils.cleanup_scheduler import start_cleanup_scheduler, stop_cleanup_scheduler
+from app.utils.cleanup_scheduler import start_cleanup_scheduler, stop_cleanup_scheduler, scheduler
 from starlette.middleware.sessions import SessionMiddleware
 from app.routes import route_rdv, route_generate_pdf_from_html, route_qpv, route_siret_pappers, route_digiformat, route_service_interface
 from app.config import BASE_DIR,FICHIERS_DIR,STATIC_IMAGES_DIR, STATIC_MAPS_DIR,STATIC_DIR, TEMPLATE_DIR
@@ -57,8 +57,11 @@ async def lifespan(app: FastAPI):
 
         # Démarrage du planificateur de nettoyage
         print("\n🧹 Démarrage du planificateur de nettoyage...")
-        start_cleanup_scheduler()
-        print("✅ Planificateur de nettoyage démarré")
+        if not scheduler.running:
+            start_cleanup_scheduler()
+            print("✅ Planificateur de nettoyage démarré")
+        else:
+            print("ℹ️ Planificateur de nettoyage déjà en cours d'exécution")
 
         print("\n✨ Application prête à recevoir des requêtes !")
         print("=== FIN DÉMARRAGE ===\n")
@@ -67,8 +70,11 @@ async def lifespan(app: FastAPI):
         
     finally:
         print("\n🛑 Arrêt de l'application...")
-        stop_cleanup_scheduler()
-        print("✅ Planificateur de nettoyage arrêté")
+        if scheduler.running:
+            stop_cleanup_scheduler()
+            print("✅ Planificateur de nettoyage arrêté")
+        else:
+            print("ℹ️ Planificateur de nettoyage déjà arrêté")
         print("=== FIN ARRÊT ===\n")
 
 # ✅ Création de l'application FastAPI

@@ -6,6 +6,7 @@ from app.config import settings
 # Modifier l'URL de la base de données pour utiliser asyncpg
 # Si votre DATABASE_URL est de la forme postgresql://user:pass@host:port/dbname
 # Il faut la changer en postgresql+asyncpg://user:pass@host:port/dbname
+print(f"🔄 DATABASE_URL: {settings.DATABASE_URL}")
 DATABASE_URL = settings.DATABASE_URL.replace('postgresql://', 'postgresql+asyncpg://')
 
 # Créer le moteur de base de données asynchrone
