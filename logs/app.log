@@ -39621,3 +39621,111 @@ socket.gaierror: [Errno 11001] getaddrinfo failed
 2025-05-25 15:15:44,878 - uvicorn.error - INFO - [server.py:93] - Finished server process [23372]
 2025-05-25 15:15:44,878 - uvicorn.error - INFO - [server.py:93] - Finished server process [23372]
 2025-05-25 15:15:44,878 - uvicorn.error - INFO - [server.py:93] - Finished server process [23372]
+2025-05-25 15:19:00,450 - app - DEBUG - [logging_config.py:57] - Configuration du logging initialisée avec succès
+2025-05-25 15:19:00,452 - app - DEBUG - [logging_config.py:57] - Configuration du logging initialisée avec succès
+2025-05-25 15:19:00,637 - app - DEBUG - [logging_config.py:57] - Configuration du logging initialisée avec succès
+2025-05-25 15:19:00,801 - uvicorn.error - INFO - [server.py:83] - Started server process [36168]
+2025-05-25 15:19:00,801 - uvicorn.error - INFO - [server.py:83] - Started server process [36168]
+2025-05-25 15:19:00,801 - uvicorn.error - INFO - [server.py:83] - Started server process [36168]
+2025-05-25 15:19:00,802 - uvicorn.error - INFO - [on.py:48] - Waiting for application startup.
+2025-05-25 15:19:00,802 - uvicorn.error - INFO - [on.py:48] - Waiting for application startup.
+2025-05-25 15:19:00,802 - uvicorn.error - INFO - [on.py:48] - Waiting for application startup.
+2025-05-25 15:19:00,973 - sqlalchemy.engine.Engine - INFO - [base.py:1843] - select pg_catalog.version()
+2025-05-25 15:19:00,973 - sqlalchemy.engine.Engine - INFO - [base.py:1843] - select pg_catalog.version()
+2025-05-25 15:19:00,973 - sqlalchemy.engine.Engine - INFO - [base.py:1843] - select pg_catalog.version()
+2025-05-25 15:19:00,974 - sqlalchemy.engine.Engine - INFO - [base.py:1843] - [raw sql] ()
+2025-05-25 15:19:00,974 - sqlalchemy.engine.Engine - INFO - [base.py:1843] - [raw sql] ()
+2025-05-25 15:19:00,974 - sqlalchemy.engine.Engine - INFO - [base.py:1843] - [raw sql] ()
+2025-05-25 15:19:00,980 - sqlalchemy.engine.Engine - INFO - [base.py:1843] - select current_schema()
+2025-05-25 15:19:00,980 - sqlalchemy.engine.Engine - INFO - [base.py:1843] - select current_schema()
+2025-05-25 15:19:00,980 - sqlalchemy.engine.Engine - INFO - [base.py:1843] - select current_schema()
+2025-05-25 15:19:00,981 - sqlalchemy.engine.Engine - INFO - [base.py:1843] - [raw sql] ()
+2025-05-25 15:19:00,981 - sqlalchemy.engine.Engine - INFO - [base.py:1843] - [raw sql] ()
+2025-05-25 15:19:00,981 - sqlalchemy.engine.Engine - INFO - [base.py:1843] - [raw sql] ()
+2025-05-25 15:19:00,986 - sqlalchemy.engine.Engine - INFO - [base.py:1843] - show standard_conforming_strings
+2025-05-25 15:19:00,986 - sqlalchemy.engine.Engine - INFO - [base.py:1843] - show standard_conforming_strings
+2025-05-25 15:19:00,986 - sqlalchemy.engine.Engine - INFO - [base.py:1843] - show standard_conforming_strings
+2025-05-25 15:19:00,987 - sqlalchemy.engine.Engine - INFO - [base.py:1843] - [raw sql] ()
+2025-05-25 15:19:00,987 - sqlalchemy.engine.Engine - INFO - [base.py:1843] - [raw sql] ()
+2025-05-25 15:19:00,987 - sqlalchemy.engine.Engine - INFO - [base.py:1843] - [raw sql] ()
+2025-05-25 15:19:00,990 - sqlalchemy.engine.Engine - INFO - [base.py:2699] - BEGIN (implicit)
+2025-05-25 15:19:00,990 - sqlalchemy.engine.Engine - INFO - [base.py:2699] - BEGIN (implicit)
+2025-05-25 15:19:00,990 - sqlalchemy.engine.Engine - INFO - [base.py:2699] - BEGIN (implicit)
+2025-05-25 15:19:00,992 - sqlalchemy.engine.Engine - INFO - [base.py:1843] - SELECT 1
+2025-05-25 15:19:00,992 - sqlalchemy.engine.Engine - INFO - [base.py:1843] - SELECT 1
+2025-05-25 15:19:00,992 - sqlalchemy.engine.Engine - INFO - [base.py:1843] - SELECT 1
+2025-05-25 15:19:00,992 - sqlalchemy.engine.Engine - INFO - [base.py:1843] - [generated in 0.00078s] ()
+2025-05-25 15:19:00,992 - sqlalchemy.engine.Engine - INFO - [base.py:1843] - [generated in 0.00078s] ()
+2025-05-25 15:19:00,992 - sqlalchemy.engine.Engine - INFO - [base.py:1843] - [generated in 0.00078s] ()
+2025-05-25 15:19:00,996 - sqlalchemy.engine.Engine - INFO - [base.py:2702] - ROLLBACK
+2025-05-25 15:19:00,996 - sqlalchemy.engine.Engine - INFO - [base.py:2702] - ROLLBACK
+2025-05-25 15:19:00,996 - sqlalchemy.engine.Engine - INFO - [base.py:2702] - ROLLBACK
+2025-05-25 15:19:01,006 - uvicorn.error - INFO - [on.py:62] - Application startup complete.
+2025-05-25 15:19:01,006 - uvicorn.error - INFO - [on.py:62] - Application startup complete.
+2025-05-25 15:19:01,006 - uvicorn.error - INFO - [on.py:62] - Application startup complete.
+2025-05-25 17:18:56,682 - uvicorn.error - INFO - [server.py:263] - Shutting down
+2025-05-25 17:18:56,682 - uvicorn.error - INFO - [server.py:263] - Shutting down
+2025-05-25 17:18:56,682 - uvicorn.error - INFO - [server.py:263] - Shutting down
+2025-05-25 17:18:56,806 - uvicorn.error - INFO - [on.py:67] - Waiting for application shutdown.
+2025-05-25 17:18:56,806 - uvicorn.error - INFO - [on.py:67] - Waiting for application shutdown.
+2025-05-25 17:18:56,806 - uvicorn.error - INFO - [on.py:67] - Waiting for application shutdown.
+2025-05-25 17:18:56,829 - uvicorn.error - INFO - [on.py:76] - Application shutdown complete.
+2025-05-25 17:18:56,829 - uvicorn.error - INFO - [on.py:76] - Application shutdown complete.
+2025-05-25 17:18:56,829 - uvicorn.error - INFO - [on.py:76] - Application shutdown complete.
+2025-05-25 17:18:56,830 - uvicorn.error - INFO - [server.py:93] - Finished server process [36168]
+2025-05-25 17:18:56,830 - uvicorn.error - INFO - [server.py:93] - Finished server process [36168]
+2025-05-25 17:18:56,830 - uvicorn.error - INFO - [server.py:93] - Finished server process [36168]
+2025-05-25 17:19:04,249 - app - DEBUG - [logging_config.py:57] - Configuration du logging initialisée avec succès
+2025-05-25 17:19:04,249 - app - DEBUG - [logging_config.py:57] - Configuration du logging initialisée avec succès
+2025-05-25 17:19:04,355 - app - DEBUG - [logging_config.py:57] - Configuration du logging initialisée avec succès
+2025-05-25 17:19:04,454 - uvicorn.error - INFO - [server.py:83] - Started server process [32264]
+2025-05-25 17:19:04,454 - uvicorn.error - INFO - [server.py:83] - Started server process [32264]
+2025-05-25 17:19:04,454 - uvicorn.error - INFO - [server.py:83] - Started server process [32264]
+2025-05-25 17:19:04,455 - uvicorn.error - INFO - [on.py:48] - Waiting for application startup.
+2025-05-25 17:19:04,455 - uvicorn.error - INFO - [on.py:48] - Waiting for application startup.
+2025-05-25 17:19:04,455 - uvicorn.error - INFO - [on.py:48] - Waiting for application startup.
+2025-05-25 17:19:04,570 - sqlalchemy.engine.Engine - INFO - [base.py:1843] - select pg_catalog.version()
+2025-05-25 17:19:04,570 - sqlalchemy.engine.Engine - INFO - [base.py:1843] - select pg_catalog.version()
+2025-05-25 17:19:04,570 - sqlalchemy.engine.Engine - INFO - [base.py:1843] - select pg_catalog.version()
+2025-05-25 17:19:04,571 - sqlalchemy.engine.Engine - INFO - [base.py:1843] - [raw sql] ()
+2025-05-25 17:19:04,571 - sqlalchemy.engine.Engine - INFO - [base.py:1843] - [raw sql] ()
+2025-05-25 17:19:04,571 - sqlalchemy.engine.Engine - INFO - [base.py:1843] - [raw sql] ()
+2025-05-25 17:19:04,574 - sqlalchemy.engine.Engine - INFO - [base.py:1843] - select current_schema()
+2025-05-25 17:19:04,574 - sqlalchemy.engine.Engine - INFO - [base.py:1843] - select current_schema()
+2025-05-25 17:19:04,574 - sqlalchemy.engine.Engine - INFO - [base.py:1843] - select current_schema()
+2025-05-25 17:19:04,575 - sqlalchemy.engine.Engine - INFO - [base.py:1843] - [raw sql] ()
+2025-05-25 17:19:04,575 - sqlalchemy.engine.Engine - INFO - [base.py:1843] - [raw sql] ()
+2025-05-25 17:19:04,575 - sqlalchemy.engine.Engine - INFO - [base.py:1843] - [raw sql] ()
+2025-05-25 17:19:04,577 - sqlalchemy.engine.Engine - INFO - [base.py:1843] - show standard_conforming_strings
+2025-05-25 17:19:04,577 - sqlalchemy.engine.Engine - INFO - [base.py:1843] - show standard_conforming_strings
+2025-05-25 17:19:04,577 - sqlalchemy.engine.Engine - INFO - [base.py:1843] - show standard_conforming_strings
+2025-05-25 17:19:04,577 - sqlalchemy.engine.Engine - INFO - [base.py:1843] - [raw sql] ()
+2025-05-25 17:19:04,577 - sqlalchemy.engine.Engine - INFO - [base.py:1843] - [raw sql] ()
+2025-05-25 17:19:04,577 - sqlalchemy.engine.Engine - INFO - [base.py:1843] - [raw sql] ()
+2025-05-25 17:19:04,579 - sqlalchemy.engine.Engine - INFO - [base.py:2699] - BEGIN (implicit)
+2025-05-25 17:19:04,579 - sqlalchemy.engine.Engine - INFO - [base.py:2699] - BEGIN (implicit)
+2025-05-25 17:19:04,579 - sqlalchemy.engine.Engine - INFO - [base.py:2699] - BEGIN (implicit)
+2025-05-25 17:19:04,580 - sqlalchemy.engine.Engine - INFO - [base.py:1843] - SELECT 1
+2025-05-25 17:19:04,580 - sqlalchemy.engine.Engine - INFO - [base.py:1843] - SELECT 1
+2025-05-25 17:19:04,580 - sqlalchemy.engine.Engine - INFO - [base.py:1843] - SELECT 1
+2025-05-25 17:19:04,582 - sqlalchemy.engine.Engine - INFO - [base.py:1843] - [generated in 0.00181s] ()
+2025-05-25 17:19:04,582 - sqlalchemy.engine.Engine - INFO - [base.py:1843] - [generated in 0.00181s] ()
+2025-05-25 17:19:04,582 - sqlalchemy.engine.Engine - INFO - [base.py:1843] - [generated in 0.00181s] ()
+2025-05-25 17:19:04,584 - sqlalchemy.engine.Engine - INFO - [base.py:2702] - ROLLBACK
+2025-05-25 17:19:04,584 - sqlalchemy.engine.Engine - INFO - [base.py:2702] - ROLLBACK
+2025-05-25 17:19:04,584 - sqlalchemy.engine.Engine - INFO - [base.py:2702] - ROLLBACK
+2025-05-25 17:19:04,590 - uvicorn.error - INFO - [on.py:62] - Application startup complete.
+2025-05-25 17:19:04,590 - uvicorn.error - INFO - [on.py:62] - Application startup complete.
+2025-05-25 17:19:04,590 - uvicorn.error - INFO - [on.py:62] - Application startup complete.
+2025-05-25 17:20:01,640 - uvicorn.error - INFO - [server.py:263] - Shutting down
+2025-05-25 17:20:01,640 - uvicorn.error - INFO - [server.py:263] - Shutting down
+2025-05-25 17:20:01,640 - uvicorn.error - INFO - [server.py:263] - Shutting down
+2025-05-25 17:20:01,749 - uvicorn.error - INFO - [on.py:67] - Waiting for application shutdown.
+2025-05-25 17:20:01,749 - uvicorn.error - INFO - [on.py:67] - Waiting for application shutdown.
+2025-05-25 17:20:01,749 - uvicorn.error - INFO - [on.py:67] - Waiting for application shutdown.
+2025-05-25 17:20:01,752 - uvicorn.error - INFO - [on.py:76] - Application shutdown complete.
+2025-05-25 17:20:01,752 - uvicorn.error - INFO - [on.py:76] - Application shutdown complete.
+2025-05-25 17:20:01,752 - uvicorn.error - INFO - [on.py:76] - Application shutdown complete.
+2025-05-25 17:20:01,753 - uvicorn.error - INFO - [server.py:93] - Finished server process [32264]
+2025-05-25 17:20:01,753 - uvicorn.error - INFO - [server.py:93] - Finished server process [32264]
+2025-05-25 17:20:01,753 - uvicorn.error - INFO - [server.py:93] - Finished server process [32264]

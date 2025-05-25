@@ -94,6 +94,7 @@ async def get_entreprise_process(numero_siret: str, request: Request):
         # Préparation des données essentielles de l'entreprise
         entreprise_info = {
             "siren": data.get("siren"),
+            "siren_formate": data.get("siren_formate"),
             "nom_entreprise": data.get("nom_entreprise"),
             "denomination": data.get("denomination"),
             "forme_juridique": data.get("forme_juridique"),
@@ -105,16 +106,72 @@ async def get_entreprise_process(numero_siret: str, request: Request):
             "libelle_code_naf": data.get("libelle_code_naf"),
             "activite": data.get("objet_social"),
             "effectif": data.get("effectif"),
+            "effectif_min": data.get("effectif_min"),
+            "effectif_max": data.get("effectif_max"),
+            "annee_effectif": data.get("annee_effectif"),
+            "tranche_effectif": data.get("tranche_effectif"),
+            
+            # Informations sur la radiation
+            "entreprise_cessee": data.get("entreprise_cessee"),
+            "date_cessation": data.get("date_cessation"),
+            "date_cessation_formate": data.get("date_cessation_formate"),
+            "statut_consolide": data.get("statut_consolide"),
+            
+            # Informations SIRENE
+            "derniere_mise_a_jour_sirene": data.get("derniere_mise_a_jour_sirene"),
+            "dernier_traitement": data.get("dernier_traitement"),
+            "diffusable": data.get("diffusable"),
+            "opposition_utilisation_commerciale": data.get("opposition_utilisation_commerciale"),
+            
+            # Informations RCS
+            "statut_rcs": data.get("statut_rcs"),
+            "greffe": data.get("greffe"),
+            "numero_rcs": data.get("numero_rcs"),
+            "date_immatriculation_rcs": data.get("date_immatriculation_rcs"),
+            "date_radiation_rcs": data.get("date_radiation_rcs"),
+            
+            # Informations RNE
+            "statut_rne": data.get("statut_rne"),
+            "date_immatriculation_rne": data.get("date_immatriculation_rne"),
+            "date_radiation_rne": data.get("date_radiation_rne"),
+            
+            # Informations TVA
+            "numero_tva_intracommunautaire": data.get("numero_tva_intracommunautaire"),
+            
+            # Informations du siège
             "siege": {
                 "adresse": data.get("siege", {}).get("adresse_ligne_1"),
                 "code_postal": data.get("siege", {}).get("code_postal"),
                 "ville": data.get("siege", {}).get("ville"),
-                "siret": data.get("siege", {}).get("siret")
+                "siret": data.get("siege", {}).get("siret"),
+                "siret_formate": data.get("siege", {}).get("siret_formate"),
+                "type_etablissement": data.get("siege", {}).get("type_etablissement"),
+                "date_de_creation": data.get("siege", {}).get("date_de_creation"),
+                "etablissement_cesse": data.get("siege", {}).get("etablissement_cesse"),
+                "date_cessation": data.get("siege", {}).get("date_cessation"),
+                "latitude": data.get("siege", {}).get("latitude"),
+                "longitude": data.get("siege", {}).get("longitude")
             },
+            
+            # Autres informations importantes
             "representants": data.get("representants", []),
+            "beneficiaires_effectifs": data.get("beneficiaires_effectifs", []),
             "derniers_statuts": data.get("derniers_statuts"),
+            "extrait_immatriculation": data.get("extrait_immatriculation"),
             "publications_bodacc": data.get("publications_bodacc", []),
-            "comptes": comptes_disponibles  # On garde les comptes s'il y en a
+            "depots_actes": data.get("depots_actes", []),
+            "conventions_collectives": data.get("conventions_collectives", []),
+            "comptes": comptes_disponibles,  # On garde les comptes s'il y en a
+            
+            # Informations supplémentaires
+            "economie_sociale_solidaire": data.get("economie_sociale_solidaire"),
+            "societe_a_mission": data.get("societe_a_mission"),
+            "associe_unique": data.get("associe_unique"),
+            "duree_personne_morale": data.get("duree_personne_morale"),
+            "date_debut_activite": data.get("date_debut_activite"),
+            "date_debut_premiere_activite": data.get("date_debut_premiere_activite"),
+            "prochaine_date_cloture_exercice": data.get("prochaine_date_cloture_exercice"),
+            "prochaine_date_cloture_exercice_formate": data.get("prochaine_date_cloture_exercice_formate")
         }
         
         print("📊 [SERVICE] Données de l'entreprise extraites avec succès")
