@@ -19,28 +19,49 @@ async def get_entreprise_process(numero_siret: str, request: Request):
         print("📡 [SERVICE] Envoi de la requête à l'API Pappers...")
         response = requests.get(url)
         print(f"📥 [SERVICE] Réponse reçue - Status: {response.status_code}")
+        
+        if response.status_code == 404:
+            print("❌ [SERVICE] Entreprise non trouvée (404)")
+            return {
+                "message": "Entreprise non trouvée",
+                "entreprise_data": None,
+                "status_code": 404
+            }
+            
         response.raise_for_status()
         data = response.json()
         print(f"✅ [SERVICE] Données JSON reçues: {bool(data)}")
                
         if not data.get("siren"):
             print("❌ [SERVICE] Entreprise non trouvée dans la réponse")
-            raise HTTPException(status_code=404, detail="🚨 Entreprise non trouvée")
+            return {
+                "message": "Entreprise non trouvée dans la réponse",
+                "entreprise_data": None,
+                "status_code": 404
+            }
 
     except requests.exceptions.HTTPError as e:
         print(f"❌ [SERVICE] Erreur HTTP: {str(e)}")
-        raise HTTPException(status_code=response.status_code, detail=f"❌ Erreur API Pappers : {str(e)}")
+        return {
+            "message": f"Erreur API Pappers : {str(e)}",
+            "entreprise_data": None,
+            "status_code": response.status_code
+        }
 
     except requests.exceptions.RequestException as e:
         print(f"❌ [SERVICE] Erreur de connexion: {str(e)}")
-        raise HTTPException(status_code=500, detail=f"🚨 Erreur de connexion à Pappers : {str(e)}")
-
-    base_url = get_base_url(request)
-    print(f"🌐 [SERVICE] URL de base: {base_url}")
-    csv_url = os.path.join(FICHIERS_DIR, "entreprise_data.csv")
-    print(f"📁 [SERVICE] Chemin du fichier CSV: {csv_url}")
+        return {
+            "message": f"Erreur de connexion à Pappers : {str(e)}",
+            "entreprise_data": None,
+            "status_code": 500
+        }
 
     try:
+        base_url = get_base_url(request)
+        print(f"🌐 [SERVICE] URL de base: {base_url}")
+        csv_url = os.path.join(FICHIERS_DIR, "entreprise_data.csv")
+        print(f"📁 [SERVICE] Chemin du fichier CSV: {csv_url}")
+
         print("📊 [SERVICE] Traitement des données comptables...")
         comptes = data.get("comptes", [])
         print(f"📈 [SERVICE] Nombre total de comptes trouvés: {len(comptes)}")
@@ -176,15 +197,18 @@ async def get_entreprise_process(numero_siret: str, request: Request):
         
         print("📊 [SERVICE] Données de l'entreprise extraites avec succès")
         
-        response_data = {
+        return {
             "message": "Données extraites avec succès",
-            "entreprise_data": entreprise_info  # On utilise les données complètes
+            "entreprise_data": entreprise_info,
+            "status_code": 200
         }
-        print("✅ [SERVICE] Traitement terminé avec succès")
-        return response_data
 
     except Exception as e:
         print(f"❌ [SERVICE] Erreur lors du traitement: {str(e)}")
-        raise ValueError(f"Erreur lors du traitement des données Pappers : {str(e)}")
+        return {
+            "message": f"Erreur lors du traitement des données : {str(e)}",
+            "entreprise_data": None,
+            "status_code": 500
+        }
 
 
