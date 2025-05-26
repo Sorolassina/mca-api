@@ -30,6 +30,16 @@ async def get_entreprise_process(numero_siret: str, request: Request):
             
         response.raise_for_status()
         data = response.json()
+        
+        # Ajout de logs détaillés pour la réponse
+        print("🔍 [SERVICE] Réponse brute de l'API Pappers:")
+        print(f"📄 [SERVICE] SIREN: {data.get('siren')}")
+        print(f"📄 [SERVICE] Nom entreprise: {data.get('nom_entreprise')}")
+        print(f"📄 [SERVICE] Dénomination: {data.get('denomination')}")
+        print(f"📄 [SERVICE] Forme juridique: {data.get('forme_juridique')}")
+        print(f"📄 [SERVICE] Date création: {data.get('date_creation')}")
+        print(f"📄 [SERVICE] Code NAF: {data.get('code_naf')}")
+        print(f"📄 [SERVICE] Siège: {data.get('siege')}")
         print(f"✅ [SERVICE] Données JSON reçues: {bool(data)}")
                
         if not data.get("siren"):
@@ -38,6 +48,24 @@ async def get_entreprise_process(numero_siret: str, request: Request):
                 "message": "Entreprise non trouvée dans la réponse",
                 "entreprise_data": None,
                 "status_code": 404
+            }
+
+        # Vérification de la diffusion des données
+        if not data.get("diffusable", True):
+            print("⚠️ [SERVICE] Données non diffusables")
+            return {
+                "message": "Les données de cette entreprise ne sont pas diffusables",
+                "entreprise_data": None,
+                "status_code": 403
+            }
+
+        # Vérification de l'opposition à l'utilisation commerciale
+        if data.get("opposition_utilisation_commerciale", False):
+            print("⚠️ [SERVICE] Opposition à l'utilisation commerciale")
+            return {
+                "message": "Cette entreprise s'oppose à l'utilisation commerciale de ses données",
+                "entreprise_data": None,
+                "status_code": 403
             }
 
     except requests.exceptions.HTTPError as e:
@@ -112,7 +140,11 @@ async def get_entreprise_process(numero_siret: str, request: Request):
        
         print("✨ [SERVICE] Préparation de la réponse finale...")
         
-        # Préparation des données essentielles de l'entreprise
+        # Vérification des données avant construction de la réponse
+        print("🔍 [SERVICE] Vérification des données avant construction de la réponse:")
+        for key in ["nom_entreprise", "denomination", "forme_juridique", "date_creation", "code_naf"]:
+            print(f"📊 [SERVICE] {key}: {data.get(key)}")
+        
         entreprise_info = {
             "siren": data.get("siren"),
             "siren_formate": data.get("siren_formate"),
@@ -182,7 +214,7 @@ async def get_entreprise_process(numero_siret: str, request: Request):
             "publications_bodacc": data.get("publications_bodacc", []),
             "depots_actes": data.get("depots_actes", []),
             "conventions_collectives": data.get("conventions_collectives", []),
-            "comptes": comptes_disponibles,  # On garde les comptes s'il y en a
+            "comptes": comptes_disponibles,
             
             # Informations supplémentaires
             "economie_sociale_solidaire": data.get("economie_sociale_solidaire"),
