@@ -36,6 +36,7 @@ class Settings(BaseSettings):
     DB_NAME: str
     DB_HOST: str
     DB_PORT: str
+    ENVIRONNEMENT: str
     
     def __init__(self, **kwargs):
         print("🔍 [DEBUG] Initialisation de Settings...")

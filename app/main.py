@@ -8,18 +8,17 @@ from contextlib import asynccontextmanager
 from app.utils.cleanup_scheduler import start_cleanup_scheduler, stop_cleanup_scheduler, scheduler
 from starlette.middleware.sessions import SessionMiddleware
 from app.routes import route_rdv, route_generate_pdf_from_html, route_qpv, route_siret_pappers, route_digiformat, route_service_interface
-from app.config import BASE_DIR,FICHIERS_DIR,STATIC_IMAGES_DIR, STATIC_MAPS_DIR,STATIC_DIR, TEMPLATE_DIR
+from app.config import FICHIERS_DIR,STATIC_IMAGES_DIR, STATIC_MAPS_DIR,STATIC_DIR, TEMPLATE_DIR
 # Dans app/main.py, ajouter :
 from app.routes.forms import  route_emargement,route_evenement, route_preinscription, route_inscription, route_besoins, route_satisfaction
 # Dans app/main.py, ajouter :
 from app.routes import route_programme
-from alembic.config import Config
-from alembic import command
 from fastapi.middleware.cors import CORSMiddleware
 from app.core.logging_config import setup_logging
 from sqlalchemy import text
-from app.database import AsyncSessionLocal
+from app.database import AsyncSessionLocal, init_db
 import traceback
+from app.routes import route_fiche_synthese
 
 
 # Configuration du logging
@@ -43,6 +42,16 @@ async def lifespan(app: FastAPI):
             else:
                 print(f"⚠️ Création du dossier {directory.name}")
                 directory.mkdir(parents=True, exist_ok=True)
+
+        # Initialisation de la base de données
+        print("\n🗃️ Initialisation de la base de données...")
+        try:
+            await init_db()
+            print("✅ Base de données initialisée avec succès")
+        except Exception as e:
+            print(f"❌ Erreur lors de l'initialisation de la base de données: {str(e)}")
+            print(f"📋 Traceback:\n{traceback.format_exc()}")
+            raise
 
         # Test de la connexion à la base de données
         print("\n🔌 Test de la connexion à la base de données...")
@@ -80,8 +89,8 @@ async def lifespan(app: FastAPI):
 # ✅ Création de l'application FastAPI
 print("\n🎨 Création de l'application FastAPI...")
 app = FastAPI(
-    title="Mon API FastAPI 🚀",
-    description="Gestion de candidats entrepreneurs",
+    title="MCA API",
+    description="API pour la Maison de la Création d'Entreprise",
     version="1.0.0",
     openapi_url="/api-mca/v1/mycreo.json",  # Personnalisation de l'endpoint OpenAPI
     docs_url="/api-mca/v1/recherche",  # Personnalisation de l'URL de Swagger UI
@@ -132,12 +141,12 @@ api_router.include_router(route_satisfaction.router, prefix="/satisfaction", tag
 api_router.include_router(route_evenement.router, prefix="/event", tags=["evenement"])
 api_router.include_router(route_programme.router, prefix="/programmes", tags=["Programmes"])
 api_router.include_router(route_emargement.router, prefix="/emargement", tags=["emargement"])
+api_router.include_router(route_fiche_synthese.router, tags=["Fiche Synthétique"])
 
 print("✅ Routes incluses")
 
 app.include_router(api_router)
 print("✅ Router principal inclus")
-
 
 
 # ✅ Routes de base
