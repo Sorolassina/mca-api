@@ -88,10 +88,21 @@ class FicheSynthesePDFGenerator:
         ]))
         return t
 
-    def _photo(self, photo_base64):
+    def _photo(self, photo_base64, civilite=None):
         try:
-            image_data = base64.b64decode(photo_base64)
-            image = PILImage.open(BytesIO(image_data))
+            if photo_base64:
+                image_data = base64.b64decode(photo_base64)
+                image = PILImage.open(BytesIO(image_data))
+            else:
+                # Choix de l'image par défaut selon la civilité
+                if civilite and civilite.lower().startswith('mons'):
+                    default_path = os.path.join(STATIC_DIR, "profil.png")
+                else:
+                    default_path = os.path.join(STATIC_DIR, "femelle.png")
+                image = PILImage.open(default_path)
+                with BytesIO() as output:
+                    image.save(output, format="PNG")
+                    image_data = output.getvalue()
             max_size = 3.5 * cm
             ratio = min(max_size/image.width, max_size/image.height)
             new_width = image.width * ratio
@@ -129,7 +140,7 @@ class FicheSynthesePDFGenerator:
         elements.append(BandeauLogos(self.logo_paths, height=1.2*cm, padding=0.3*cm))
         elements.append(Spacer(1, 0.05*cm))
         # Titre très proche du haut
-        elements.append(Paragraph(f"PROGRAMME {data.nom_programme}", self.styles['TitreSynthese']))
+        elements.append(Paragraph(f"{data.nom_programme}", self.styles['TitreSynthese']))
         elements.append(Paragraph("FICHE SYNTHETIQUE", self.styles['TitreSynthese']))
         elements.append(Table([['']], colWidths=[17*cm], rowHeights=[0.08*cm], style=[('LINEBELOW', (0,0), (-1,-1), 1, self.BORDER_COLOR)]))
         elements.append(Spacer(1, 0.08*cm))
@@ -168,7 +179,7 @@ class FicheSynthesePDFGenerator:
         )
         col3 = [
             Spacer(1, 0.5*cm),
-            self._photo(data.photo_base64),
+            self._photo(getattr(data, 'photo_base64', None), getattr(data, 'civilite', None)),
             Spacer(1, 0.5*cm)
         ]
         bloc_table = Table(
@@ -221,7 +232,6 @@ class FicheSynthesePDFGenerator:
         elements.append(Spacer(1, 0.8*cm))
         elements.append(Paragraph(f"2. Prix de vente unitaire : {format_milliers(data.prix_vente_unitaire)} €", self.styles['ChampLabel']))
         elements.append(Spacer(1, 0.8*cm))
-
         elements.append(Paragraph("3. Coûts (Fixes, variables, revient) :", self.styles['ChampLabel']))
         elements.append(Spacer(1, 0.4*cm))
         # Entêtes du tableau
@@ -263,18 +273,35 @@ class FicheSynthesePDFGenerator:
         elements.append(Spacer(1, 0.8*cm))
         elements.append(Paragraph(f"6. Localisation Adresse : {data.adresse}", self.styles['ChampLabel']))
         elements.append(Spacer(1, 0.8*cm))
-        # 6. Carte (si présente)
+
+        # 6. Carte (si présente ou image par défaut)
         if hasattr(data, 'carte_base64') and data.carte_base64:
             try:
                 carte_data = base64.b64decode(data.carte_base64)
                 carte_img = PILImage.open(BytesIO(carte_data))
-                max_width, max_height = 12*cm, 6*cm
+                max_width, max_height = 8*cm, 4*cm
                 ratio = min(max_width/carte_img.width, max_height/carte_img.height)
                 width, height = carte_img.width * ratio, carte_img.height * ratio
-                elements.append(Paragraph("7. Carte :", self.styles['ChampNormal']))
+                elements.append(Paragraph("7. Carte :", self.styles['ChampLabel']))
                 elements.append(Image(BytesIO(carte_data), width=width, height=height))
                 elements.append(Spacer(1, 0.15*cm))
             except Exception as e:
+                elements.append(Paragraph("Carte non disponible", self.styles['ChampNormal']))
+        else:
+            # Utiliser l'image par défaut geolocalisation.png
+            try:
+                default_path = os.path.join(STATIC_DIR, "geolocalisation.png")
+                carte_img = PILImage.open(default_path)
+                max_width, max_height = 8*cm, 4*cm
+                ratio = min(max_width/carte_img.width, max_height/carte_img.height)
+                width, height = carte_img.width * ratio, carte_img.height * ratio
+                elements.append(Paragraph("7. Carte :", self.styles['ChampLabel']))
+                with BytesIO() as output:
+                    carte_img.save(output, format="PNG")
+                    carte_data = output.getvalue()
+                elements.append(Image(BytesIO(carte_data), width=width, height=height))
+                elements.append(Spacer(1, 0.15*cm))
+            except Exception:
                 elements.append(Paragraph("Carte non disponible", self.styles['ChampNormal']))
 
         doc.build(elements, onFirstPage=self._draw_footer, onLaterPages=self._draw_footer)

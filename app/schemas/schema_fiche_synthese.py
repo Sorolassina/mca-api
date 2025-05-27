@@ -3,6 +3,7 @@ from typing import Optional
 
 class FicheSyntheseInput(BaseModel):
     nom: str = Field(..., description="Nom du bénéficiaire")
+    civilite: Optional[str] = Field(None, description="Civilité du bénéficiaire (Monsieur/Madame)")
     entreprise: str = Field(..., description="Nom de l'entreprise")
     date_creation: str = Field(..., description="Date de création de l'entreprise")
     nom_programme: str = Field(..., description="Nom du programme")
