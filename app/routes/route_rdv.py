@@ -5,7 +5,7 @@ from fastapi import APIRouter, Request, HTTPException
 from jinja2 import Environment, FileSystemLoader
 from datetime import datetime, date
 from app.utils import gr_code
-from app.utils.date_convertUTC import ensure_utc
+from app.utils.date_convertUTC import ensure_utc, parse_date_string
 import os
 import base64
 from app.config import get_base_url
@@ -63,7 +63,7 @@ async def generer_compte_rendu(data: CompteRenduRdvInput, request: Request):
         print("📅 Traitement de la date...")
         try:
             # Convertir la date en UTC
-            date_rdv_obj = await ensure_utc(datetime.fromisoformat(data.date_rdv.replace('Z', '+00:00')))
+            date_rdv_obj = await ensure_utc(parse_date_string(data.date_rdv))
             print(f"📅 Date convertie en UTC : {date_rdv_obj}")
         except ValueError as e:
             print(f"💥 ERREUR de format de date : {str(e)}")
