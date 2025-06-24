@@ -75,6 +75,13 @@ async def generer_compte_rendu(data: CompteRenduRdvInput, request: Request):
         print(f"📅 Date formatée pour l'affichage : {date_rdv_obj.strftime('%d/%m/%Y')}")
 
         print("📝 Rendu du template HTML...")
+        # 📝 Traitement des observations et préconisations (split sur '-')
+        observations_list = [obs.strip() for obs in data.liste_observations.split('-') if obs.strip()]
+        preconisations_list = [prec.strip() for prec in data.liste_preconisations.split('-') if prec.strip()]
+        
+        print(f"📋 Observations traitées: {len(observations_list)} éléments")
+        print(f"📋 Préconisations traitées: {len(preconisations_list)} éléments")
+        
         # 📝 Rendu HTML avec les données fusionnées
         rendered_html = render_template("compte_rendu_new.html",
             titre_rdv=data.titre_rdv,
@@ -86,8 +93,8 @@ async def generer_compte_rendu(data: CompteRenduRdvInput, request: Request):
             date_rdv=date_rdv_obj.strftime("%d/%m/%Y"),
             activite=data.activite,
             attentes_generales=data.attentes_generales,
-            liste_observations=data.liste_observations,
-            liste_preconisations=data.liste_preconisations,
+            liste_observations=observations_list,
+            liste_preconisations=preconisations_list,
             annee=date.today().year,
             base_url=base_dir,
             logo_base64=logo_base64,

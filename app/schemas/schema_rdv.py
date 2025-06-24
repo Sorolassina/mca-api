@@ -11,6 +11,6 @@ class CompteRenduRdvInput(BaseModel):
     activite: str
     attentes_generales: str
     date_rdv: str  # ou datetime si tu veux un format plus strict
-    liste_observations: List[str]  # Liste d’éléments à résumer
-    liste_preconisations: List[str]
+    liste_observations: str  # String à traiter en splittant sur '-'
+    liste_preconisations: str  # String à traiter en splittant sur '-'
     
