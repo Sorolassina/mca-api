@@ -14,19 +14,6 @@
         border-radius: 4px;
         text-align: center;
     }
-    .form-disabled {
-        opacity: 0.7;
-        pointer-events: none;
-    }
-    .form-disabled input,
-    .form-disabled select,
-    .form-disabled textarea {
-        background-color: #f5f5f5;
-    }
-    .form-disabled .btn-primary {
-        background-color: #cccccc;
-        cursor: not-allowed;
-    }
 </style>
 {% endblock %}
 
@@ -35,30 +22,34 @@
     <div class="form-header">
         <img src="{{ get_static_url('logo.png') }}" alt="Logo MCA" class="logo">
         <h1>Évaluation de satisfaction</h1>
-        {% if error_message %}
-        <div class="error-message">
-            <p>⚠️ {{ error_message }}</p>
-            <p>Si vous pensez qu'il s'agit d'une erreur, veuillez contacter le support à <a href="mailto:contact@lesentrepreneursaffranchis.fr">contact@lesentrepreneursaffranchis.fr</a></p>
-        </div>
-        {% else %}
         <p class="programme-description">Merci de prendre quelques instants pour nous faire part de votre retour sur l'événement.</p>
+        {% if titre %}
+        <ul class="event-infos">
+            <li style="color: white;"><strong>Événement :</strong> {{ titre }}</li>
+            {% if date_evenement %}
+            <li style="color: white;"><strong>Date :</strong> {{ date_evenement }}</li>
+            {% endif %}
+            {% if lieu %}
+            <li style="color: white;"><strong>Lieu :</strong> {{ lieu }}</li>
+            {% endif %}
+        </ul>
         {% endif %}
     </div>
-    <form id="satisfactionForm" class="form-content {% if not is_valid %}form-disabled{% endif %}" method="POST" action="/api-mca/v1/satisfaction/submit/{{ event_id }}" data-is-valid="{{ is_valid|lower }}">
+    <form id="satisfactionForm" class="form-content" method="POST" action="/api-mca/v1/satisfaction/submit/{{ event_id }}">
         <!-- Infos participant -->
         <div class="form-section">
             <h2>Vos informations</h2>
             <div class="form-group">
                 <label for="nom">Nom</label>
-                <input type="text" id="nom" name="nom" class="form-control" minlength="2" maxlength="50" value="{{ nom }}" {% if not is_valid %}readonly{% endif %}>
+                <input type="text" id="nom" name="nom" class="form-control" minlength="2" maxlength="50" value="{{ nom }}" placeholder="Votre nom">
             </div>
             <div class="form-group">
                 <label for="prenom">Prénom</label>
-                <input type="text" id="prenom" name="prenom" class="form-control" minlength="2" maxlength="50" value="{{ prenom }}" {% if not is_valid %}readonly{% endif %}>
+                <input type="text" id="prenom" name="prenom" class="form-control" minlength="2" maxlength="50" value="{{ prenom }}" placeholder="Votre prénom">
             </div>
             <div class="form-group">
                 <label for="email">Email *</label>
-                <input type="email" id="email" name="email" class="form-control required" required value="{{ email }}" {% if email %}readonly{% endif %}>
+                <input type="email" id="email" name="email" class="form-control required" required value="{{ email }}" placeholder="votre.email@example.com">
             </div>
         </div>
         <!-- Satisfaction -->
@@ -66,7 +57,7 @@
             <h2>Votre avis sur l'événement</h2>
             <div class="form-group">
                 <label for="note_globale">Note globale *</label>
-                <select id="note_globale" name="note_globale" class="form-control" required {% if not is_valid %}disabled{% endif %}>
+                <select id="note_globale" name="note_globale" class="form-control" required>
                     <option value="">Sélectionnez une note</option>
                     {% for i in range(1,6) %}
                     <option value="{{ i }}">{{ i }} / 5</option>
@@ -75,15 +66,15 @@
             </div>
             <div class="form-group">
                 <label for="points_positifs">Points positifs</label>
-                <textarea id="points_positifs" name="points_positifs" class="form-control" rows="2" maxlength="1000" {% if not is_valid %}readonly{% endif %}></textarea>
+                <textarea id="points_positifs" name="points_positifs" class="form-control" rows="2" maxlength="1000" placeholder="Qu'avez-vous apprécié ?"></textarea>
             </div>
             <div class="form-group">
                 <label for="points_amelioration">Points à améliorer</label>
-                <textarea id="points_amelioration" name="points_amelioration" class="form-control" rows="2" maxlength="1000" {% if not is_valid %}readonly{% endif %}></textarea>
+                <textarea id="points_amelioration" name="points_amelioration" class="form-control" rows="2" maxlength="1000" placeholder="Que pourrions-nous améliorer ?"></textarea>
             </div>
             <div class="form-group">
                 <label for="recommander">Recommanderiez-vous cet événement ? *</label>
-                <select id="recommander" name="recommander" class="form-control" required {% if not is_valid %}disabled{% endif %}>
+                <select id="recommander" name="recommander" class="form-control" required>
                     <option value="">Sélectionnez</option>
                     <option value="true">Oui</option>
                     <option value="false">Non</option>
@@ -91,11 +82,11 @@
             </div>
             <div class="form-group">
                 <label for="commentaires">Commentaires libres</label>
-                <textarea id="commentaires" name="commentaires" class="form-control" rows="2" maxlength="1000" {% if not is_valid %}readonly{% endif %}></textarea>
+                <textarea id="commentaires" name="commentaires" class="form-control" rows="2" maxlength="1000" placeholder="Vos commentaires supplémentaires"></textarea>
             </div>
             <div class="form-group">
                 <label for="opinion_evaluateur">Votre opinion sur l'évaluateur</label>
-                <textarea id="opinion_evaluateur" name="opinion_evaluateur" class="form-control" rows="2" maxlength="1000" {% if not is_valid %}readonly{% endif %}></textarea>
+                <textarea id="opinion_evaluateur" name="opinion_evaluateur" class="form-control" rows="2" maxlength="1000" placeholder="Votre avis sur l'évaluateur/formateur"></textarea>
             </div>
         </div>
         <!-- Consentement RGPD -->
@@ -117,13 +108,13 @@
             </div>
             <div class="form-group">
                 <div class="checkbox-group">
-                    <input type="checkbox" id="rgpd_consent" name="rgpd_consent" class="form-control" required {% if not is_valid %}disabled{% endif %}>
+                    <input type="checkbox" id="rgpd_consent" name="rgpd_consent" class="form-control" required>
                     <label for="rgpd_consent">J'ai lu et j'accepte la politique de protection des données personnelles *</label>
                 </div>
             </div>
         </div>
         <div class="form-actions">
-            <button type="submit" class="btn-primary" {% if not is_valid %}disabled{% endif %}>Soumettre mon avis</button>
+            <button type="submit" class="btn-primary">Soumettre mon avis</button>
         </div>
     </form>
 </div>
@@ -133,21 +124,14 @@
 <script>
 document.getElementById('satisfactionForm').addEventListener('submit', async (e) => {
     e.preventDefault();
-    const form = e.target;
-    const isValid = form.dataset.isValid === 'true';
-    
-    if (!isValid) {
-        alert('Le formulaire n\'est pas accessible car vous n\'êtes pas inscrit à cet événement ou l\'événement n\'existe pas.');
-        return;
-    }
     
     try {
-        const formData = new FormData(form);
+        const formData = new FormData(e.target);
         const data = Object.fromEntries(formData.entries());
         // Convertir recommander en booléen
         if (data.recommander === 'true') data.recommander = true;
         if (data.recommander === 'false') data.recommander = false;
-        const response = await fetch(form.action, {
+        const response = await fetch(e.target.action, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -160,7 +144,7 @@ document.getElementById('satisfactionForm').addEventListener('submit', async (e)
             setTimeout(() => {
                 window.location.href = 'https://mycreoacademy.fr';
             }, 2000);
-            form.reset();
+            e.target.reset();
         } else {
             let errorMessage = result.detail;
             if (result.errors) {

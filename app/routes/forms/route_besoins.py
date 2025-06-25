@@ -6,7 +6,7 @@ from app.config import TEMPLATE_DIR, settings, get_static_url
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.database import get_db
 from datetime import datetime
-from app.services.forms.service_besoins import process_besoin_evenement, get_inscription_and_event_info
+from app.services.forms.service_besoins import process_besoin_evenement
 from sqlalchemy import select
 from app.models.models import Evenement
 
@@ -18,17 +18,26 @@ templates.env.globals["get_static_url"] = get_static_url
 async def show_besoins_form(
     request: Request,
     event_id: int,
-    email: str,
     db: AsyncSession = Depends(get_db)
 ):
     """Affiche le formulaire d'évaluation des besoins avant événement."""
-    print(f"📝 [ROUTE] Affichage du formulaire de besoins pour l'événement {event_id} et l'email {email}")
+    print(f"📝 [ROUTE] Affichage du formulaire de besoins pour l'événement {event_id}")
     
     try:
-        # Récupérer les informations de l'inscription et de l'événement
-        inscription, evenement = await get_inscription_and_event_info(event_id, email, db)
+        # Récupérer les informations de l'événement
+        result_event = await db.execute(
+            select(Evenement).where(Evenement.id == event_id)
+        )
+        evenement = result_event.scalar_one_or_none()
         
-        # Préparer les données pour le template
+        if not evenement:
+            print(f"❌ [ROUTE] Événement {event_id} non trouvé")
+            raise HTTPException(
+                status_code=404,
+                detail="L'événement n'existe pas"
+            )
+        
+        # Préparer les données pour le template (sans données d'inscription)
         template_data = {
             "request": request,
             "event_id": event_id,
@@ -36,9 +45,9 @@ async def show_besoins_form(
             "description": evenement.description,
             "date_evenement": evenement.date_debut.strftime("%Y-%m-%d"),
             "lieu": evenement.lieu,
-            "nom": inscription.nom,
-            "prenom": inscription.prenom,
-            "email": inscription.email,
+            "nom": "",  # Champs vides pour que l'utilisateur les remplisse
+            "prenom": "",
+            "email": "",
             "now": datetime.now(),
             "config": {"MCA_WEBSITE_URL": settings.MCA_WEBSITE_URL}
         }

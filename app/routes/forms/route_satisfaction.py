@@ -3,7 +3,7 @@ from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.templating import Jinja2Templates
 from app.schemas.forms.schema_satisfaction import SatisfactionForm
 from app.services.forms.service_satisfaction import process_satisfaction_evenement
-from app.models.models import BesoinEvenement, Inscription, Evenement
+from app.models.models import Evenement
 from app.config import TEMPLATE_DIR, settings, get_static_url
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.database import get_db
@@ -25,92 +25,47 @@ logger = logging.getLogger(__name__)
 @router.get("/show/{event_id}", response_class=HTMLResponse)
 async def show_satisfaction(
     request: Request,
-    event_id: Optional[int] = None,
-    email: str = None,
+    event_id: int,
     db: AsyncSession = Depends(get_db)
 ):
-    """Affiche le formulaire d'enquête de satisfaction, prérempli si possible."""
-    print("\n=== 📋 DÉBUT AFFICHAGE FORMULAIRE SATISFACTION ===")
-    print(f"🔍 URL complète: {request.url}")
-    print(f"🔍 Query params: {request.query_params}")
+    """Affiche le formulaire d'enquête de satisfaction."""
+    print(f"\n=== 📋 DÉBUT AFFICHAGE FORMULAIRE SATISFACTION ===")
+    print(f"🔍 Event ID: {event_id}")
     
-    # Variables pour le template
-    error_message = None
-    is_valid = True
-    nom = prenom = titre = date_evenement = lieu = ""
-    
-    # Extraction de l'email depuis les paramètres de l'URL
-    email = request.query_params.get("email", "")
-    if not email:
-        error_message = "L'email est requis pour accéder au formulaire"
-        is_valid = False
-    
-    # Conversion de event_id en entier
     try:
-        event_id_int = int(event_id)
-    except ValueError:
-        error_message = "L'ID de l'événement doit être un nombre"
-        is_valid = False
-        event_id_int = 0
-    
-    print(f"🔍 Paramètres extraits:")
-    print(f"  - Event ID: {event_id_int}")
-    print(f"  - Email: {email}")
-    
-    if is_valid:
-        try:
-            async with transaction_manager(db) as db:
-                # Vérifier si l'événement existe
-                print("\n🔎 Vérification de l'existence de l'événement...")
-                result = await db.execute(
-                    select(Evenement).where(Evenement.id == event_id_int)
+        async with transaction_manager(db) as db:
+            # Vérifier si l'événement existe
+            print("\n🔎 Vérification de l'existence de l'événement...")
+            result = await db.execute(
+                select(Evenement).where(Evenement.id == event_id)
+            )
+            evenement = result.scalar_one_or_none()
+            
+            if not evenement:
+                print(f"❌ Événement {event_id} non trouvé")
+                raise HTTPException(
+                    status_code=404,
+                    detail="L'événement n'existe pas"
                 )
-                evenement = result.scalar_one_or_none()
-                
-                if not evenement:
-                    print(f"❌ Événement {event_id_int} non trouvé")
-                    error_message = "L'événement n'existe pas dans la base de données"
-                    is_valid = False
-                else:
-                    print(f"✅ Événement trouvé: {evenement.titre}")
-                    titre = evenement.titre
-                    date_evenement = evenement.date_debut.strftime("%d/%m/%Y")
-                    lieu = evenement.lieu
-                
-                if is_valid:
-                    # Vérifier si l'email est inscrit à l'événement
-                    print("\n🔎 Vérification de l'inscription...")
-                    result = await db.execute(
-                        select(Inscription).where(
-                            Inscription.event_id == event_id_int,
-                            Inscription.email == email
-                        )
-                    )
-                    inscription = result.scalar_one_or_none()
-                    
-                    if not inscription:
-                        print(f"❌ Aucune inscription trouvée pour l'email {email} à l'événement {event_id_int}")
-                        error_message = "Vous n'êtes pas inscrit à un programme de formation"
-                        is_valid = False
-                    else:
-                        print(f"✅ Inscription trouvée pour {inscription.nom} {inscription.prenom}")
-                        nom = inscription.nom
-                        prenom = inscription.prenom
-                
-        except Exception as e:
-            print(f"\n❌ ERREUR INATTENDUE:")
-            print(f"  - Type d'erreur: {type(e).__name__}")
-            print(f"  - Message: {str(e)}")
-            print(f"📋 Traceback complet:\n{traceback.format_exc()}")
-            error_message = f"Une erreur est survenue lors de la vérification des données: {str(e)}"
-            is_valid = False
+            
+            print(f"✅ Événement trouvé: {evenement.titre}")
+            titre = evenement.titre
+            date_evenement = evenement.date_debut.strftime("%d/%m/%Y")
+            lieu = evenement.lieu or ""
+            
+    except HTTPException:
+        raise
+    except Exception as e:
+        print(f"\n❌ ERREUR INATTENDUE:")
+        print(f"  - Type d'erreur: {type(e).__name__}")
+        print(f"  - Message: {str(e)}")
+        print(f"📋 Traceback complet:\n{traceback.format_exc()}")
+        raise HTTPException(
+            status_code=500,
+            detail=f"Erreur serveur lors de l'affichage du formulaire: {str(e)}"
+        )
     
     print(f"\n📝 Données finales pour le formulaire:")
-    print(f"  - Validité: {'✅' if is_valid else '❌'}")
-    if error_message:
-        print(f"  - Message d'erreur: {error_message}")
-    print(f"  - Nom: {nom}")
-    print(f"  - Prénom: {prenom}")
     print(f"  - Titre: {titre}")
     print(f"  - Date: {date_evenement}")
     print(f"  - Lieu: {lieu}")
@@ -120,16 +75,16 @@ async def show_satisfaction(
         "forms/satisfaction.html",
         {
             "request": request,
-            "event_id": event_id_int,
-            "email": email,
-            "nom": nom,
-            "prenom": prenom,
+            "event_id": event_id,
+            "nom": "",  # Champs vides pour que l'utilisateur les remplisse
+            "prenom": "",
+            "email": "",
             "titre": titre,
             "date_evenement": date_evenement,
             "lieu": lieu,
             "now": datetime.now(),
-            "is_valid": is_valid,
-            "error_message": error_message,
+            "is_valid": True,  # Toujours valide maintenant
+            "error_message": None,
             "config": {"MCA_WEBSITE_URL": settings.MCA_WEBSITE_URL}
         }
     )
