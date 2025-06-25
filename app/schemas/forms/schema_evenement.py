@@ -4,7 +4,7 @@ from typing import Optional, List
 from app.models.models import TypeEvenement, StatutEvenement
 
 class BesoinEvenementResponse(BaseModel):
-    id: int
+    id: str
     titre: str
     description: Optional[str]
     date_evenement: datetime

@@ -13,7 +13,7 @@ from app.services import service_digiforma,service_qpv,service_generate_pdf_from
 from app.utils.template import build_success_result_html
 from fastapi import UploadFile
 import aiofiles
-from app.config import  FICHIERS_DIR,  TEMPLATE_DIR
+from app.config import  FICHIERS_DIR,  TEMPLATE_DIR, get_static_url
 from app.utils.traiter_zip_excel import traiter_zip_entier  # ajuste selon ton arborescence
 import shutil
 from app.utils.temp_dir import create_temp_file, delete_temp_dir
@@ -22,6 +22,8 @@ from app.services.service_QPV_QueryGroup import recherche_groupqpv
 # ✅ Monter le dossier "templates" pour qu'il soit accessible via "/templates/"
 
 templates = Jinja2Templates(directory=TEMPLATE_DIR)
+# Ajouter la fonction get_static_url aux templates
+templates.env.globals["get_static_url"] = get_static_url
 
 router = APIRouter()
 
@@ -69,16 +71,12 @@ async def process_service(
             
             if not decoded_content.strip():
                 raise HTTPException(status_code=400, detail="Le fichier HTML est vide après décodage.")
-            try:
-                
-                validated_data = HTMLFileInput(
-                    filename=html_file.filename, 
-                    content=decoded_content
-                )
+            
+            validated_data = HTMLFileInput(
+                filename=html_file.filename, 
+                content=decoded_content
+            )
 
-            except ValueError as e:
-                raise HTTPException(status_code=400, detail=str(e))
-    
             file_infos = await service_generate_pdf_from_file.generate_pdf_from_html(validated_data.content,filename,request)
 
             filename= file_infos.get("filename",None)
@@ -106,7 +104,7 @@ async def process_service(
         elif service == "company_info":
             # Validation Pydantic
             siret_obj = SiretRequest(numero_siret=input_data)
-            # Extraire les 9 premiers chiffres seulement si c’est valide
+            # Extraire les 9 premiers chiffres seulement si c'est valide
             numero_siret = siret_obj.numero_siret[:9]
             etat_qpv= await service_siret_pappers.get_entreprise_process(numero_siret, request) 
   
@@ -234,6 +232,16 @@ async def process_service(
             delete_temp_dir(temp_dir)
             return RedirectResponse(url="/", status_code=303)
         
+        elif service == "check_groupeqpv" and html_file is None:
+            msg = "❌ Erreur : Un fichier Excel (.xlsx) est requis pour ce service."
+            request.session["result"] = get_result_template(msg, type_="error")
+            return RedirectResponse(url="/", status_code=303)
+        
+        else:
+            msg = f"❌ Erreur : Service '{service}' non reconnu ou non implémenté."
+            request.session["result"] = get_result_template(msg, type_="error")
+            return RedirectResponse(url="/", status_code=303)
+        
     except ValidationError as ve:
         # Extraction des messages d'erreur Pydantic
         errors = ve.errors()
@@ -242,6 +250,7 @@ async def process_service(
                 for err in errors
             ])
         request.session["result"] = get_result_template(f"❌ Erreur de validation :<br>{error_messages}", type_="error")
+        return RedirectResponse(url="/", status_code=303)
 
     except TypeError as e:
         if "argument after ** must be a mapping" in str(e):
@@ -249,11 +258,8 @@ async def process_service(
         else:
             msg = f"❌ Erreur technique : {str(e)}"
         request.session["result"] = get_result_template(msg, type_="error")
+        return RedirectResponse(url="/", status_code=303)
 
     except Exception as e:
         request.session["result"] = get_result_template(f"❌ Erreur inattendue : {str(e)}", type_="error")
-
-    return RedirectResponse(url="/", status_code=303)
-    
-
-    
+        return RedirectResponse(url="/", status_code=303)

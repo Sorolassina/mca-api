@@ -7,7 +7,7 @@
     <title>{% block title %}MCA - Mon Créateur d'Activité{% endblock %}</title>
     
     <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="{{ url_for('static', path='favicon.ico') }}">
+    <link rel="icon" type="image/x-icon" href="{{ get_static_url('favicon.ico') }}">
     
     <!-- CSS de base -->
     <style>
@@ -146,7 +146,7 @@
     <header class="header">
         <div class="header-content">
             <a href="/">
-                <img src="{{ url_for('static', path='Banniere.svg') }}" alt="Logo MCA" class="logo">
+                <img src="{{ get_static_url('Banniere.svg') }}" alt="Logo MCA" class="logo">
             </a>
         </div>
     </header>

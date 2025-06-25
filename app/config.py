@@ -108,6 +108,20 @@ def get_pdf_path(filename: str) -> str:
     """ Retourne le chemin absolu d'un fichier PDF dans le dossier fichiers/ """
     return os.path.join(FICHIERS_DIR, filename)
 
+def get_static_url(path: str) -> str:
+    """Génère une URL pour les ressources statiques selon l'environnement"""
+    # Détecter l'environnement
+    environnement = os.environ.get('ENVIRONNEMENT', 'development').lower()
+    
+    if environnement == 'production':
+        # Production : utiliser l'URL HTTPS de Render
+        base_url = "https://mca-services.onrender.com"
+    else:
+        # Développement local : utiliser l'URL locale
+        base_url = "http://localhost:8000"
+    
+    return f"{base_url}/static/{path.lstrip('/')}"
+
 def get_base_url(request: Request):
     """Détecte dynamiquement l'URL de l'API"""
     base_url = str(request.base_url).rstrip("/")

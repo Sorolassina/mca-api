@@ -90,6 +90,58 @@ async def get_evenement(
         print(f"📋 Traceback:\n{traceback.format_exc()}")
         raise HTTPException(status_code=500, detail=f"Erreur lors de la récupération de l'événement: {str(e)}")
 
+@router.get("/search/title/{titre}", response_model=EvenementResponse)
+async def get_evenement_by_title(
+    titre: str,
+    db: AsyncSession = Depends(get_db)
+):
+    """Récupère un événement par son titre (recherche insensible à la casse)"""
+    print(f"\n=== 🔍 ROUTE: RECHERCHE ÉVÉNEMENT PAR TITRE '{titre}' ===")
+    print(f"📌 État initial de la session route: {'active' if db.is_active else 'inactive'}")
+    
+    try:
+        async with route_transaction(db):
+            service = EvenementService(db)
+            result = await service.get_evenement_by_title(titre)
+            print(f"✅ Route: Événement trouvé par titre: {result.id} - {result.titre}")
+        
+        print("=== FIN ROUTE RECHERCHE PAR TITRE ===\n")
+        return result
+        
+    except NotFoundException as e:
+        print(f"❌ Route: Événement non trouvé avec le titre '{titre}': {str(e)}")
+        raise HTTPException(status_code=404, detail=f"Aucun événement trouvé avec le titre '{titre}'")
+    except Exception as e:
+        print(f"❌ Route: Erreur inattendue: {str(e)}")
+        print(f"📋 Traceback:\n{traceback.format_exc()}")
+        raise HTTPException(status_code=500, detail=f"Erreur lors de la recherche de l'événement: {str(e)}")
+
+@router.get("/search/title/{titre}/participants", response_model=List[dict])
+async def get_evenement_participants_by_title(
+    titre: str,
+    db: AsyncSession = Depends(get_db)
+):
+    """Récupère les participants d'un événement par son titre"""
+    print(f"\n=== 👥 ROUTE: RECHERCHE PARTICIPANTS PAR TITRE '{titre}' ===")
+    
+    try:
+        async with route_transaction(db):
+            service = EvenementService(db)
+            evenement = await service.get_evenement_by_title(titre)
+            participants = await service.get_participants(evenement.id)
+            print(f"✅ Route: {len(participants)} participants trouvés pour l'événement '{titre}'")
+        
+        print("=== FIN ROUTE RECHERCHE PARTICIPANTS ===\n")
+        return participants
+        
+    except NotFoundException as e:
+        print(f"❌ Route: Événement non trouvé avec le titre '{titre}': {str(e)}")
+        raise HTTPException(status_code=404, detail=f"Aucun événement trouvé avec le titre '{titre}'")
+    except Exception as e:
+        print(f"❌ Route: Erreur inattendue: {str(e)}")
+        print(f"📋 Traceback:\n{traceback.format_exc()}")
+        raise HTTPException(status_code=500, detail=f"Erreur lors de la recherche des participants: {str(e)}")
+
 @router.get("/list", response_model=List[EvenementResponse])
 async def list_evenements(
     skip: int = 0,

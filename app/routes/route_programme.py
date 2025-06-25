@@ -13,7 +13,7 @@ from app.services.service_programme import ProgrammeService
 from app.database import get_db
 from datetime import datetime
 from typing import List
-from app.config import TEMPLATE_DIR
+from app.config import TEMPLATE_DIR, get_static_url
 from app.core.logging_config import setup_logging
 import traceback
 
@@ -22,6 +22,8 @@ logger = setup_logging().getChild('routes.programme')
 
 router = APIRouter()
 templates = Jinja2Templates(directory=TEMPLATE_DIR)
+# Ajouter la fonction get_static_url aux templates
+templates.env.globals["get_static_url"] = get_static_url
 
 # Route API pour lister tous les programmes (JSON)
 @router.get("/liste", response_model=List[ProgrammeResponse])

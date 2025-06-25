@@ -299,7 +299,7 @@
             return originalXHR.apply(this, arguments);
         };
     </script>
-    <script src="/static/js/signature_pad.js"></script>
+    <script src="{{ get_static_url('js/signature_pad.js') }}"></script>
     <script>
         // Test de chargement de SignaturePad
         if (typeof SignaturePad === 'undefined') {

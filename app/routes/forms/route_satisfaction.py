@@ -4,7 +4,7 @@ from fastapi.templating import Jinja2Templates
 from app.schemas.forms.schema_satisfaction import SatisfactionForm
 from app.services.forms.service_satisfaction import process_satisfaction_evenement
 from app.models.models import BesoinEvenement, Inscription, Evenement
-from app.config import TEMPLATE_DIR, settings
+from app.config import TEMPLATE_DIR, settings, get_static_url
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.database import get_db
 from sqlalchemy import select
@@ -18,6 +18,8 @@ logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(level
 
 router = APIRouter()
 templates = Jinja2Templates(directory=TEMPLATE_DIR)
+# Ajouter la fonction get_static_url aux templates
+templates.env.globals["get_static_url"] = get_static_url
 logger = logging.getLogger(__name__)
 
 @router.get("/show/{event_id}", response_class=HTMLResponse)
@@ -163,4 +165,7 @@ async def submit_satisfaction(
         print(f"📋 Traceback complet:\n{traceback.format_exc()}")
         logger.error(f"Erreur lors de la soumission du formulaire de satisfaction: {str(e)}", exc_info=True)
         print("=== FIN SOUMISSION FORMULAIRE SATISFACTION (ERREUR) ===\n")
-        raise 
+        raise HTTPException(
+            status_code=500,
+            detail=f"Erreur serveur lors du traitement de la satisfaction: {str(e)}"
+        ) 

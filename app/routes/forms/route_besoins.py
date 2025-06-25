@@ -2,7 +2,7 @@ from fastapi import APIRouter, Request, Depends, HTTPException
 from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.templating import Jinja2Templates
 from app.schemas.forms.schema_besoins import BesoinForm
-from app.config import TEMPLATE_DIR, settings
+from app.config import TEMPLATE_DIR, settings, get_static_url
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.database import get_db
 from datetime import datetime
@@ -12,6 +12,7 @@ from app.models.models import Evenement
 
 router = APIRouter()
 templates = Jinja2Templates(directory=TEMPLATE_DIR)
+templates.env.globals["get_static_url"] = get_static_url
 
 @router.get("/show/{event_id}", response_class=HTMLResponse)
 async def show_besoins_form(

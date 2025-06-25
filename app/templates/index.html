@@ -113,7 +113,7 @@
     </div>
 
     <div class="container">
-        <img src="/static/logo.png" alt="MCA-API Logo" class="logo">
+        <img src="{{ get_static_url('logo.png') }}" alt="MCA-API Logo" class="logo">
         <h1>Bienvenue sur MCA-API Services</h1>
         <p><a href="/api-mca/v1/documentation">Cliquer pour voir la documentation.</a></p>
         <p>Utilisez cette interface pour interagir avec nos services</p>
@@ -190,7 +190,7 @@
             </div>
         {% endif %}
     </div>
-<script src="/static/js/index.js?v=3"></script>
+<script src="{{ get_static_url('js/index.js') }}?v=3"></script>
 <script>
     function toggleIgnored() {
         const el = document.getElementById("ignoredList");

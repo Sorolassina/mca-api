@@ -1,13 +1,13 @@
 # app/routes/forms/route_preinscription.py
 from fastapi import APIRouter, Request, HTTPException, Depends
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.templating import Jinja2Templates
 from app.schemas.forms.schema_preinscription import PreinscriptionForm
 from app.services.forms.service_preinscription import (
     get_programme_info,
     process_preinscription
 )
-from app.config import TEMPLATE_DIR, settings
+from app.config import TEMPLATE_DIR, settings, get_static_url
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.database import get_db
 from datetime import datetime, timedelta
@@ -15,6 +15,7 @@ from pydantic import ValidationError
 
 router = APIRouter()
 templates = Jinja2Templates(directory=TEMPLATE_DIR)
+templates.env.globals["get_static_url"] = get_static_url
 
 @router.get("/show/{programme_id}", response_class=HTMLResponse)
 async def show_preinscription(
@@ -81,4 +82,59 @@ async def submit_preinscription(
         raise HTTPException(
             status_code=500,
             detail=f"Erreur serveur lors du traitement de la préinscription: {str(e)}"
+        )
+
+@router.post("/api/{programme_id}", response_model=dict)
+async def create_preinscription_api(
+    programme_id: int,
+    form_data: PreinscriptionForm,
+    db: AsyncSession = Depends(get_db)
+):
+    """
+    Endpoint API pour créer une préinscription via JSON
+    Accepte les données JSON directement sans passer par le formulaire HTML
+    """
+    print(f"🚀 [API] Création de préinscription via API pour le programme: {programme_id}")
+    try:
+        # Vérifier que le programme_id dans les données correspond à l'URL
+        if form_data.programme_id != programme_id:
+            raise HTTPException(
+                status_code=400,
+                detail="L'ID du programme dans les données ne correspond pas à l'URL"
+            )
+        
+        # Log des données reçues
+        print(f"📋 [API] Données reçues: {form_data.model_dump()}")
+        
+        # Traiter la préinscription
+        result = await process_preinscription(form_data, programme_id, db)
+        print(f"✅ [API] Préinscription créée avec succès: {result['id']}")
+        
+        return {
+            "status": "success",
+            "message": "Préinscription créée avec succès",
+            "data": result
+        }
+        
+    except HTTPException as he:
+        print(f"💥 [API] Erreur HTTP: {str(he)}")
+        raise
+    except ValidationError as ve:
+        print(f"💥 [API] Erreur de validation: {str(ve)}")
+        raise HTTPException(
+            status_code=422,
+            detail={
+                "status": "error",
+                "message": "Erreur de validation des données",
+                "errors": ve.errors()
+            }
+        )
+    except Exception as e:
+        print(f"💥 [API] Erreur serveur: {str(e)}")
+        raise HTTPException(
+            status_code=500,
+            detail={
+                "status": "error",
+                "message": f"Erreur serveur lors de la création de la préinscription: {str(e)}"
+            }
         )

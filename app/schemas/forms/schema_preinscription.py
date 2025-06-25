@@ -25,7 +25,7 @@ class NiveauEtude(str, Enum):
 class PreinscriptionForm(BaseModel):
     # Identifiants de liaison
     programme_id: int = Field(..., title="ID du programme de formation", gt=0)
-    event_id: Optional[int] = Field(None, title="ID de l'événement", gt=0)
+    event_id: Optional[int] = Field(None, title="ID de l'événement")
     
     # Informations personnelles
     nom: str = Field(..., min_length=2, max_length=50, title="Nom")
@@ -60,6 +60,14 @@ class PreinscriptionForm(BaseModel):
     # Métadonnées
     date_soumission: date = Field(default_factory=date.today, title="Date de soumission")
     source: str = Field(default="formulaire_web", title="Source de la préinscription")
+
+    @field_validator("event_id")
+    @classmethod
+    def validate_event_id(cls, v: Optional[int]) -> Optional[int]:
+        """Valide que event_id est soit None, soit un entier positif"""
+        if v is not None and v <= 0:
+            raise ValueError("L'ID de l'événement doit être un entier positif")
+        return v
 
     @field_validator("telephone")
     @classmethod

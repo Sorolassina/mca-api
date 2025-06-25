@@ -3,13 +3,13 @@
 {% block title %}Évaluation des besoins - {{ titre }}{% endblock %}
 
 {% block styles %}
-<link rel="stylesheet" href="{{ url_for('static', path='css/forms.css') }}">
+<link rel="stylesheet" href="{{ get_static_url('css/forms.css') }}">
 {% endblock %}
 
 {% block content %}
 <div class="form-container">
     <div class="form-header">
-        <img src="/static/logo.png" alt="Logo MCA" class="logo">
+        <img src="{{ get_static_url('logo.png') }}" alt="Logo MCA" class="logo">
         <h1>Évaluation des besoins - {{ titre }}</h1>
         <p class="programme-description">{{ description }}</p>
         <ul class="event-infos">

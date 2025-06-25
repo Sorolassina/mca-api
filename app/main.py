@@ -8,7 +8,7 @@ from contextlib import asynccontextmanager
 from app.utils.cleanup_scheduler import start_cleanup_scheduler, stop_cleanup_scheduler, scheduler
 from starlette.middleware.sessions import SessionMiddleware
 from app.routes import route_rdv, route_generate_pdf_from_html, route_qpv, route_siret_pappers, route_digiformat, route_service_interface
-from app.config import FICHIERS_DIR,STATIC_IMAGES_DIR, STATIC_MAPS_DIR,STATIC_DIR, TEMPLATE_DIR
+from app.config import FICHIERS_DIR,STATIC_IMAGES_DIR, STATIC_MAPS_DIR,STATIC_DIR, TEMPLATE_DIR, get_static_url
 # Dans app/main.py, ajouter :
 from app.routes.forms import  route_emargement,route_evenement, route_preinscription, route_inscription, route_besoins, route_satisfaction
 # Dans app/main.py, ajouter :
@@ -118,6 +118,8 @@ print("✅ Middleware CORS ajouté")
 print("\n🛣️ Configuration des routes...")
 api_router = APIRouter(prefix="/api-mca/v1")
 templates = Jinja2Templates(directory=TEMPLATE_DIR)
+# Ajouter la fonction get_static_url aux templates
+templates.env.globals["get_static_url"] = get_static_url
 print("✅ Templates configurés")
 
 # ✅ Montage des dossiers statiques

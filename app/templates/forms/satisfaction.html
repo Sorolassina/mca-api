@@ -3,7 +3,7 @@
 {% block title %}Enquête de satisfaction{% endblock %}
 
 {% block styles %}
-<link rel="stylesheet" href="{{ url_for('static', path='css/forms.css') }}">
+<link rel="stylesheet" href="{{ get_static_url('css/forms.css') }}">
 <style>
     .error-message {
         background-color: #fff3f3;
@@ -33,8 +33,8 @@
 {% block content %}
 <div class="form-container">
     <div class="form-header">
-        <img src="/static/logo.png" alt="Logo MCA" class="logo">
-        <h1>Enquête de satisfaction</h1>
+        <img src="{{ get_static_url('logo.png') }}" alt="Logo MCA" class="logo">
+        <h1>Évaluation de satisfaction</h1>
         {% if error_message %}
         <div class="error-message">
             <p>⚠️ {{ error_message }}</p>

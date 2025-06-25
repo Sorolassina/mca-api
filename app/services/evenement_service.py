@@ -164,6 +164,39 @@ class EvenementService:
             print(f"📋 Traceback:\n{traceback.format_exc()}")
             raise
 
+    async def get_evenement_by_title(self, titre: str) -> Evenement:
+        """Récupère un événement par son titre (recherche insensible à la casse)"""
+        print(f"\n=== 🔍 DÉBUT RECHERCHE ÉVÉNEMENT PAR TITRE '{titre}' ===")
+        try:
+            print(f"📌 État de la session: {'active' if self.db.is_active else 'inactive'}")
+            print(f"🔎 Exécution de la requête pour le titre '{titre}'")
+            
+            async with transaction_manager(self.db) as db:
+                # Recherche insensible à la casse avec ILIKE (PostgreSQL) ou LIKE (SQLite)
+                result = await db.execute(
+                    select(Evenement).filter(func.lower(Evenement.titre) == titre.lower())
+                )
+                evenement = result.scalar_one_or_none()
+                
+                if not evenement:
+                    print(f"❌ Événement avec le titre '{titre}' non trouvé")
+                    raise NotFoundException(f"Événement avec le titre '{titre}' non trouvé")
+                
+                print(f"✅ Événement trouvé par titre: {evenement.id} - {evenement.titre}")
+                print("\n📊 Relations:")
+                print(f"  - Nombre de besoins: {len(evenement.besoins)}")
+                print(f"  - Nombre d'émargements: {len(evenement.emargements)}")
+            
+            print(f"\n=== FIN RECHERCHE ÉVÉNEMENT PAR TITRE '{titre}' ===\n")
+            return evenement
+            
+        except NotFoundException:
+            raise
+        except Exception as e:
+            print(f"❌ Erreur lors de la recherche par titre: {str(e)}")
+            print(f"📋 Traceback:\n{traceback.format_exc()}")
+            raise
+
     async def get_evenements(
         self,
         skip: int = 0,
