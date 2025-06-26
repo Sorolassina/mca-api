@@ -4,8 +4,9 @@ from sqlalchemy import and_, select, func, text
 from datetime import datetime, timezone
 import traceback
 from contextlib import asynccontextmanager
+import uuid
 
-from app.models.models import Evenement
+from app.models.models import Evenement, Inscription, BesoinEvenement, Emargement
 from app.schemas.forms.schema_evenement import EvenementCreate, EvenementUpdate, EvenementInscription
 from app.core.exceptions import NotFoundException, ValidationError
 from app.utils.sequence_utils import diagnose_sequence, reset_sequence
@@ -327,48 +328,34 @@ class EvenementService:
             raise
 
     async def add_participant(self, evenement_id: int, inscription_id: int) -> Evenement:
-        """Ajoute un participant à un événement"""
-        db_evenement = await self.get_evenement(evenement_id)
-        
-        # Vérifier si l'événement est complet
-        if db_evenement.est_complet:
-            raise ValidationError("L'événement est complet")
-        
-        # Vérifier si le participant est déjà inscrit
-        if any(ins.id == inscription_id for ins in db_evenement.inscriptions):
-            raise ValidationError("Le participant est déjà inscrit à cet événement")
-        
-        # Ajouter le participant
-        from app.models.models import Inscription
-        result = await self.db.execute(
-            select(Inscription).filter(Inscription.id == inscription_id)
-        )
-        inscription = result.scalar_one_or_none()
-        if not inscription:
-            raise NotFoundException(f"Inscription avec l'ID {inscription_id} non trouvée")
-        
-        db_evenement.inscriptions.append(inscription)
-        await self.db.commit()
-        await self.db.refresh(db_evenement)
-        return db_evenement
+        """Cette méthode n'est plus nécessaire car les participants sont automatiquement les inscrits au programme"""
+        raise ValidationError("Les participants sont automatiquement les personnes inscrites au programme associé à l'événement")
 
     async def remove_participant(self, evenement_id: int, inscription_id: int) -> Evenement:
-        """Retire un participant d'un événement"""
-        db_evenement = await self.get_evenement(evenement_id)
-        
-        # Vérifier si le participant est inscrit
-        inscription = next((ins for ins in db_evenement.inscriptions if ins.id == inscription_id), None)
-        if not inscription:
-            raise ValidationError("Le participant n'est pas inscrit à cet événement")
-        
-        db_evenement.inscriptions.remove(inscription)
-        await self.db.commit()
-        await self.db.refresh(db_evenement)
-        return db_evenement
+        """Cette méthode n'est plus nécessaire car les participants sont automatiquement les inscrits au programme"""
+        raise ValidationError("Les participants sont automatiquement les personnes inscrites au programme associé à l'événement")
 
     async def get_participants(self, evenement_id: int) -> List[dict]:
-        """Récupère la liste des participants d'un événement"""
+        """Récupère la liste des participants d'un événement (toutes les personnes inscrites au programme)"""
+        # Récupérer l'événement avec son programme
         db_evenement = await self.get_evenement(evenement_id)
+        
+        if not db_evenement.id_prog:
+            return []  # Pas de programme associé
+        
+        # Récupérer toutes les inscriptions au programme
+        result = await self.db.execute(
+            select(Inscription).filter(Inscription.programme_id == db_evenement.id_prog)
+        )
+        inscriptions = result.scalars().all()
+        
+        # Récupérer les émargements pour savoir qui a signé
+        result = await self.db.execute(
+            select(Emargement).filter(Emargement.evenement_id == evenement_id)
+        )
+        emargements = result.scalars().all()
+        emails_signes = {em.email for em in emargements}
+        
         return [
             {
                 "id": ins.id,
@@ -376,9 +363,11 @@ class EvenementService:
                 "prenom": ins.prenom,
                 "email": ins.email,
                 "telephone": ins.telephone,
-                "date_inscription": ins.date_inscription
+                "date_inscription": ins.date_inscription,
+                "a_signé": ins.email in emails_signes,
+                "type": "participant_programme"
             }
-            for ins in db_evenement.inscriptions
+            for ins in inscriptions
         ]
 
     async def update_statut(self, evenement_id: int, nouveau_statut: str) -> Evenement:

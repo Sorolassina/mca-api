@@ -27,12 +27,15 @@ from app.schemas.forms.schema_emargement import (
     EmargementCreateResponse
 )
 from app.core.exceptions import NotFoundException, ValidationError
-from app.config import settings, get_base_url
+from app.config import settings, get_base_url, get_static_url
 from app.utils.transaction_utils import transaction_manager
 
 router = APIRouter()
 
 templates = Jinja2Templates(directory="app/templates")
+
+# Ajouter la fonction get_static_url aux templates
+templates.env.globals["get_static_url"] = get_static_url
 
 @router.post("/create", response_model=EmargementCreateResponse)
 async def create_emargement_distant(

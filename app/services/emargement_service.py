@@ -35,10 +35,14 @@ class EmargementService:
             print(f"  - Email: {emargement.email}")
 
             async with transaction_manager(self.db) as db:
-                # Diagnostic de la séquence avant traitement
-                print("\n🔍 Diagnostic de la séquence avant traitement...")
-                sequence_diagnostic = await diagnose_sequence(db, "emargements")
-                print(f"📊 État de la séquence: {sequence_diagnostic}")
+                # Diagnostic de la séquence avant traitement (optionnel)
+                try:
+                    print("\n🔍 Diagnostic de la séquence avant traitement...")
+                    sequence_diagnostic = await diagnose_sequence(db, "emargements")
+                    print(f"📊 État de la séquence: {sequence_diagnostic}")
+                except Exception as e:
+                    print(f"⚠️ Diagnostic de séquence échoué (non critique): {str(e)}")
+                    # Continuer sans le diagnostic
 
                 # 1. Vérifier si l'événement existe
                 result = await db.execute(
@@ -117,13 +121,17 @@ class EmargementService:
                 await db.flush()
                 print(f"✅ Émargement créé: ID={db_emargement.id}")
 
-                # Vérification de la séquence après traitement
-                print("\n🔍 Diagnostic de la séquence après traitement...")
-                sequence_diagnostic = await diagnose_sequence(db, "emargements")
-                if not sequence_diagnostic["is_healthy"]:
-                    print("\n⚠️ Séquence désynchronisée détectée, réinitialisation...")
-                    await reset_sequence(db, "emargements")
-                    print("✅ Séquence réinitialisée")
+                # Vérification de la séquence après traitement (optionnel)
+                try:
+                    print("\n🔍 Diagnostic de la séquence après traitement...")
+                    sequence_diagnostic = await diagnose_sequence(db, "emargements")
+                    if not sequence_diagnostic["is_healthy"]:
+                        print("\n⚠️ Séquence désynchronisée détectée, réinitialisation...")
+                        await reset_sequence(db, "emargements")
+                        print("✅ Séquence réinitialisée")
+                except Exception as e:
+                    print(f"⚠️ Diagnostic de séquence après traitement échoué (non critique): {str(e)}")
+                    # Continuer sans le diagnostic
 
                 # Préparer la réponse
                 response = {
@@ -606,7 +614,7 @@ class EmargementService:
                         "est_validé": est_validé,
                         "emoji": emoji,
                         "statut": statut,
-                        "emargement_id": emargement.id,  # Maintenant toujours présent
+                        "emargement_id": emargement.id if emargement else None,
                         "date_signature": emargement.date_signature if emargement else None
                     })
                 print(f"✅ {len(participants_list)} participants inscrits listés")
