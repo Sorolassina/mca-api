@@ -19,6 +19,9 @@ static/fichiers/*
 # Ignorer le dossier des manifests JSON pour PowerApps
 Manifests json/
 
+# Ignorer les fichiers de documentation Markdown
+*.md
+
 # Garder le dossier vide dans le repo
 !static/images/.gitkeep
 !static/maps/.gitkeep
