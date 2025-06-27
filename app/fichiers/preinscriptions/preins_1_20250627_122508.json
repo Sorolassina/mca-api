@@ -1,0 +1,19 @@
+{
+  "id": "preins_1_20250627_122508",
+  "programme_id": 1,
+  "event_id": null,
+  "nom": "Martin",
+  "prenom": "Lucas",
+  "email": "lucas.martin@example.com",
+  "telephone": "+33765432109",
+  "date_naissance": "1988-11-02",
+  "adresse": "25 Avenue des Champs-Élysées",
+  "code_postal": "75008",
+  "ville": "Paris",
+  "situation_professionnelle": "demandeur_emploi",
+  "niveau_etude": "sans_diplome",
+  "projet_entrepreneurial": "Lancer une activité artisanale",
+  "rgpd_consent": true,
+  "date_soumission": "2025-06-27",
+  "source": "formulaire_web"
+}
