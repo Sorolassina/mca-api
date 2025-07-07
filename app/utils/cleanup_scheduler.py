@@ -53,12 +53,14 @@ def cleanup_temp_files():
 
 def start_cleanup_scheduler():
     if not scheduler.running:
-        scheduler.add_job(cleanup_temp_files, "interval", minutes=2)
+        # Nettoyage quotidien à 01h00 du matin
+        scheduler.add_job(cleanup_temp_files, "cron", hour=1, minute=0)
         scheduler.start()
-        print("✅ Scheduler de nettoyage lancé.")
+        #print("✅ Scheduler de nettoyage lancé (quotidien à 01h00).")
     else:
-        print("🔁 Scheduler déjà actif.")
+        pass
+        #print("🔁 Scheduler déjà actif.")
 
 def stop_cleanup_scheduler():
     scheduler.shutdown()
-    print("🛑 Scheduler arrêté proprement.")
+    #print("🛑 Scheduler arrêté proprement.")

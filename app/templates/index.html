@@ -122,13 +122,13 @@
 
         <!-- Ajouter après la ligne <p>Utilisez cette interface pour interagir avec nos services</p> -->
         <div class="services-section">
-            <h2>Nos Services</h2>
+            
             <div class="services-grid">
                 <div class="service-card">
                     <h3>Services API</h3>
                     <p>Accédez à nos services d'API pour la recherche d'entreprises, la génération de PDF, et plus encore.</p>
                     <form action="{{ url_process }}" method="post" enctype="multipart/form-data">
-                        <label for="service">Services</label>
+                        
                         <select name="service" id="service" onchange="toggleHtmlInput()">
                             <option value="place_holder">Veuillez sélectionner un service...</option>
                             <option value="company_info">🔍 Rechercher une entreprise via SIRET/SIREN</option>
@@ -173,7 +173,7 @@
                 <div class="service-card">
                     <h3>Programmes de Formation</h3>
                     <p>Découvrez nos programmes de formation et inscrivez-vous en ligne.</p>
-                    <a href="/api-mca/v1/programmes/liste" class="btn-primary">Voir les programmes</a>
+                    <a href="https://lesentrepreneursaffranchis.fr/" class="btn-primary">Voir les programmes</a>
                 </div>
             </div>
         </div>

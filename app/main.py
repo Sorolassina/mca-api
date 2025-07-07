@@ -186,7 +186,7 @@ if __name__ == "__main__":
         print("\n🚀 Démarrage du serveur...")
         port = int(os.environ.get("PORT", 8000))
         print(f"🌐 Serveur démarré sur http://localhost:{port}")
-        asyncio.run(uvicorn.run("main:app", host="0.0.0.0", port=port, reload=True, reload_dirs=["app"]))
+        asyncio.run(uvicorn.run("app.main:app", host="0.0.0.0", port=port, reload=True, reload_dirs=["app"]))
     except asyncio.CancelledError:
         print("\n❌ Interruption détectée, arrêt propre du serveur...")
     except Exception as e:
